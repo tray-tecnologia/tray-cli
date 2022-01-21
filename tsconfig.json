@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        /* Basic Options */
+        "target": "ES2016",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "dist",
+        "rootDir": "src",
+
+        /* Strict Type-Checking Options */
+        "strict": true,
+
+        /* Module Resolution Options */
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+
+        /* Advanced Options */
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "watchOptions": {
+        "watchFile": "useFsEvents",
+        "watchDirectory": "useFsEvents",
+        "fallbackPolling": "dynamicPriority",
+        "synchronousWatchDirectory": true,
+        "excludeDirectories": ["**/node_modules", "_build"],
+        "excludeFiles": []
+    },
+    "include": ["src/**/*"]
+}
