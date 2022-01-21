@@ -1,9 +1,9 @@
 #! /usr/bin/env node
-
 import { program } from 'commander';
-import configure from './commands/Configure';
 
-// import { themes } from './commands/themes';
+import configure from './commands/Configure';
+import list from './commands/List';
+
 // import { newTheme } from './commands/newTheme';
 // import { cleanCache } from './commands/cleanCache';
 // import { deleteTheme } from './commands/deleteTheme';
@@ -17,6 +17,7 @@ const pkg = require('../../package.json');
 
 export function run() {
     configure();
+    list();
     // themes();
     // newTheme();
     // cleanCache();

@@ -24,6 +24,19 @@ export default class Tray {
     }
 
     /**
+     * Create an sdk instance
+     * @private
+     */
+    private createSdkInstance() {
+        return new Sdk({
+            key: this.key,
+            password: this.password,
+            themeId: this.themeId,
+            debug: this.debug,
+        });
+    }
+
+    /**
      * Display message to user
      * @param {string} message Message to be shown
      * @param {'info' | 'succeed' | 'fail' | 'warn' | 'stop' | 'start'} type Type of verbose output. Same from Ora.
@@ -72,12 +85,7 @@ export default class Tray {
      * Configure CLI use generating config.yml file
      */
     configure() {
-        const api = new Sdk({
-            key: this.key,
-            password: this.password,
-            themeId: this.themeId,
-            debug: this.debug,
-        });
+        const api = this.createSdkInstance();
 
         this.outputVerboseMode('Verifying data...', 'start');
 
@@ -106,6 +114,27 @@ export default class Tray {
                     });
             })
             .catch((error: any) => {
+                this.outputVerboseMode(error.toString(), 'fail');
+                return false;
+            });
+    }
+
+    /**
+     * List all available themes.
+     * @param {'stdout' | 'data'} output How to return themes list. 'stdout' will show into console, 'data' will return an object.
+     */
+    list(output: 'stdout' | 'data' = 'data') {
+        const api = this.createSdkInstance();
+
+        this.outputVerboseMode('Getting all available themes', 'start');
+
+        return api
+            .getThemes()
+            .then((data) => {
+                this.outputVerboseMode(`Themes retrieved. Showing available:`, 'succeed');
+                return output === 'stdout' ? console.table(data.themes) : data;
+            })
+            .catch((error) => {
                 this.outputVerboseMode(error.toString(), 'fail');
                 return false;
             });
