@@ -13,8 +13,8 @@
         "tray",
         "cli"
     ],
-    "main": "index.js",
-    "types": "",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "bin": {
         "tray": "bin/cli.js"
     },
