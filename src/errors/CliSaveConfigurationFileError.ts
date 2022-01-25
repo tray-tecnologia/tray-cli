@@ -1,6 +1,6 @@
-import CliError from './CliError';
+import { CliError } from './CliError';
 
-export default class CliSaveConfigurationFileError extends CliError {
+export class CliSaveConfigurationFileError extends CliError {
     constructor(details: string) {
         super({
             code: 'CLI::0001',

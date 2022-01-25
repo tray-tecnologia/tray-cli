@@ -1,7 +1,7 @@
 import { program } from 'commander';
 import inquirer from 'inquirer';
 
-import Tray from '../../Tray';
+import { Tray } from '../../Tray';
 
 /**
  * Create configure file

@@ -7,7 +7,7 @@ type CliErrorParams = {
     data?: object;
 };
 
-export default class CliError extends Error {
+export class CliError extends Error {
     code: string;
     details?: string;
     data?: object;

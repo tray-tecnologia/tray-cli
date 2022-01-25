@@ -1,12 +1,12 @@
 import Sdk from 'opencode-sdk';
 import ora, { Ora } from 'ora';
 
-import CliSaveConfigurationFileError from './errors/CliSaveConfigurationFileError';
+import { CliSaveConfigurationFileError } from './errors/CliSaveConfigurationFileError';
 import { ConfigurationFile } from './types/ConfigurationFile';
 import { TrayConfig } from './types/TrayConfig';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 
-export default class Tray {
+export class Tray {
     readonly debug: boolean;
     readonly key: string;
     readonly password: string;

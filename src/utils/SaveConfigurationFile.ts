@@ -1,7 +1,7 @@
 import { promises as fsp } from 'fs';
 import yaml from 'yaml';
 
-import CliSaveConfigurationFileError from '../errors/CliSaveConfigurationFileError';
+import { CliSaveConfigurationFileError } from '../errors/CliSaveConfigurationFileError';
 import { ConfigurationFile } from '../types/ConfigurationFile';
 
 /**

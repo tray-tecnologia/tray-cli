@@ -1,6 +1,6 @@
 import { program } from 'commander';
 
-import Tray from '../../Tray';
+import { Tray } from '../../Tray';
 import keysToCamel from '../../utils/KeysToCamel';
 import { loadConfigurationFile } from '../../utils/LoadConfigurationFile';
 
