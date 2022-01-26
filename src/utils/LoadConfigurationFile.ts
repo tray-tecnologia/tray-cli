@@ -1,6 +1,8 @@
 import { promises as fsp } from 'fs';
 import yaml from 'yaml';
 
+import { FileNotFoundError } from '../errors/FileNotFoundError';
+import { UnknownError } from '../errors/UnknownError';
 import { ConfigurationFile } from '../types/ConfigurationFile';
 import keysToCamel from './KeysToCamel';
 
@@ -15,5 +17,8 @@ export function loadConfigurationFile(): Promise<ConfigurationFile> {
             const config: ConfigurationFile = keysToCamel(yaml.parse(data));
             return Promise.resolve(config);
         })
-        .catch((error) => Promise.reject(error));
+        .catch((error) => {
+            const cliError = error.code === 'ENOENT' ? new FileNotFoundError(error.toString()) : new UnknownError();
+            return Promise.reject(cliError);
+        });
 }
