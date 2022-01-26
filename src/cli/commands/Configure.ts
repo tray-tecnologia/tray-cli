@@ -1,5 +1,6 @@
 import { program } from 'commander';
 import inquirer from 'inquirer';
+import ora from 'ora';
 
 import { Tray } from '../../Tray';
 
@@ -13,7 +14,7 @@ export default function configure() {
         .argument('[password]', 'Api password')
         .argument('[theme_id]', 'Theme id')
         .option('--debug', 'Enable debug mode')
-        .action((key, password, theme_id, options) => {
+        .action(async (key, password, theme_id, options) => {
             const questions = [];
 
             let answers = {
@@ -57,19 +58,25 @@ export default function configure() {
             }
 
             if (questions.length > 0) {
-                inquirer.prompt(questions).then((missingAnswers) => {
-                    answers = { ...answers, ...missingAnswers };
-
-                    const tray = new Tray({
-                        key: answers.key,
-                        password: answers.password,
-                        themeId: answers.themeId,
-                        debug: answers.debug,
-                        verbose: true,
-                    });
-
-                    tray.configure();
-                });
+                const missingAnswers = await inquirer.prompt(questions);
+                answers = { ...answers, ...missingAnswers };
             }
+
+            const tray = new Tray({
+                key: answers.key,
+                password: answers.password,
+                themeId: answers.themeId,
+                debug: answers.debug,
+            });
+
+            const loader = ora('Setting up CLI...').start();
+
+            tray.configure()
+                .then((success) => {
+                    loader.succeed(success);
+                })
+                .catch((error) => {
+                    loader.fail(error.toString());
+                });
         });
 }
