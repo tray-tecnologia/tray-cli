@@ -1,7 +1,7 @@
 import Sdk, { ApiError, ApiListThemesResponse, Config } from 'opencode-sdk';
 
 import { CliError } from './errors/CliError';
-import { CliSaveConfigurationFileError } from './errors/CliSaveConfigurationFileError';
+import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError';
 import { ConfigurationFile } from './types/ConfigurationFile';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 
@@ -55,7 +55,7 @@ export class Tray {
 
                 return saveConfigurationFile(fileData)
                     .then((success) => Promise.resolve(success))
-                    .catch((error: CliSaveConfigurationFileError) => Promise.reject(error));
+                    .catch((error: SaveConfigurationFileError) => Promise.reject(error));
             })
             .catch((error: ApiError | CliError) => Promise.reject(error));
     }

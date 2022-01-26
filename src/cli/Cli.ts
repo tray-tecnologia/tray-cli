@@ -1,11 +1,12 @@
 #! /usr/bin/env node
 import { program } from 'commander';
 
+import cleanCache from './commands/CleanCache';
 import configure from './commands/Configure';
 import list from './commands/List';
 
 // import { newTheme } from './commands/newTheme';
-// import { cleanCache } from './commands/cleanCache';
+
 // import { deleteTheme } from './commands/deleteTheme';
 // import { download } from './commands/download';
 // import { upload } from './commands/upload';
@@ -18,9 +19,10 @@ const pkg = require('../../package.json');
 export function run() {
     configure();
     list();
+
     // themes();
     // newTheme();
-    // cleanCache();
+    cleanCache();
     // deleteTheme();
     // download();
     // upload();
