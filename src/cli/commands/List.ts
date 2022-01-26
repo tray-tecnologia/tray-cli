@@ -1,4 +1,5 @@
 import { program } from 'commander';
+import ora from 'ora';
 
 import { Tray } from '../../Tray';
 import keysToCamel from '../../utils/KeysToCamel';
@@ -21,13 +22,21 @@ export default function list() {
                         password,
                         themeId,
                         debug,
-                        verbose: true,
                     });
 
-                    tray.list('stdout');
+                    const loader = ora('Getting all available themes').start();
+
+                    tray.list()
+                        .then((data) => {
+                            loader.succeed(`Themes retrieved. Showing available:`);
+                            console.table(data.themes);
+                        })
+                        .catch((error) => {
+                            loader.fail(error.toString());
+                        });
                 })
                 .catch((error) => {
-                    console.log(error);
+                    ora().start().fail(error.toString());
                 });
         });
 }
