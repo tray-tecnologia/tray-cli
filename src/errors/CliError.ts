@@ -21,6 +21,6 @@ export class CliError extends Error {
     }
 
     toString() {
-        return `[${this.name}] [${this.code}]: ${this.message}${EOL}${this.details}`;
+        return `[${this.name}] [${this.code}]: ${this.message}`;
     }
 }
