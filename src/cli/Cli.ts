@@ -3,9 +3,8 @@ import { program } from 'commander';
 
 import cleanCache from './commands/CleanCache';
 import configure from './commands/Configure';
+import create from './commands/Create';
 import list from './commands/List';
-
-// import { newTheme } from './commands/newTheme';
 
 // import { deleteTheme } from './commands/deleteTheme';
 // import { download } from './commands/download';
@@ -19,9 +18,7 @@ const pkg = require('../../package.json');
 export function run() {
     configure();
     list();
-
-    // themes();
-    // newTheme();
+    create();
     cleanCache();
     // deleteTheme();
     // download();
@@ -30,6 +27,11 @@ export function run() {
     // watch();
     // open();
 
-    program.version(pkg.version).name('tray');
+    program
+        .version(pkg.version, '--version', 'Display CLI version')
+        .helpOption('--help', 'Display CLI help')
+        .addHelpCommand('help [command]', 'Display help por command')
+        .name('tray');
+
     program.parse(process.argv);
 }
