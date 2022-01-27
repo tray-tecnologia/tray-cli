@@ -12,8 +12,9 @@ export default function configure() {
         .command('configure')
         .argument('[key]', 'Api key')
         .argument('[password]', 'Api password')
-        .argument('[theme_id]', 'Theme id')
+        .argument('[theme-id]', 'Theme id')
         .option('--debug', 'Enable debug mode')
+        .description('Create config.yml file')
         .action(async (key, password, theme_id, options) => {
             const questions = [];
 
