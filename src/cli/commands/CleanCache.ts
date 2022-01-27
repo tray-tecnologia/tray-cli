@@ -9,7 +9,7 @@ import { Tray } from '../../Tray';
 export default function cleanCache() {
     program
         .command('clean-cache')
-        .description('Clean theme cache on store')
+        .description('Clean theme cache')
         .argument('[theme-id]', 'Id of theme to clean cache. If not passed default to configured one.')
         .action((id) => {
             Tray.initiateFromConfigFile()
