@@ -9,8 +9,8 @@ import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 export class Tray {
     readonly key: string;
     readonly password: string;
-    readonly themeId?: number;
-    readonly previewUrl?: string;
+    themeId?: number;
+    previewUrl?: string;
     readonly debug: boolean;
     readonly api: Sdk;
 
@@ -86,6 +86,52 @@ export class Tray {
         return this.api
             .cleanCache(id)
             .then((success) => Promise.resolve(success))
+            .catch((error) => Promise.reject(error));
+    }
+
+    /**
+     * Create a new theme in store
+     * @param {string} name Theme name
+     * @param {string} base Base theme for the new theme be created from.
+     * @param {boolean} createConfigFile Specify if config.yml file need to be created on disk.
+     * @return {Promise} Returns Tray class instance if promises resolves, CliError or ApiError otherwise.
+     * If createConfigFile was true, file will be created on disk before return Tray instance.
+     */
+    create(name: string, base: string = 'default', createConfigFile = false): Promise<Tray> {
+        return this.api
+            .createTheme(name, base)
+            .then((response) => {
+                this.themeId = response.themeId;
+                this.previewUrl = response.preview;
+
+                if (createConfigFile) {
+                    const config = {
+                        key: this.key,
+                        password: this.password,
+                        themeId: this.themeId,
+                        previewUrl: this.previewUrl,
+                        debug: this.debug,
+                    };
+
+                    return saveConfigurationFile(config)
+                        .then(() => Promise.resolve(this))
+                        .catch((error) => {
+                            const improvedError = error;
+
+                            let message = `Theme create with success, but ${improvedError.message}`;
+                            message = message
+                                .split('.')
+                                .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+                                .join('.');
+
+                            improvedError.message = message;
+
+                            return Promise.reject(improvedError);
+                        });
+                }
+
+                return Promise.resolve(this);
+            })
             .catch((error) => Promise.reject(error));
     }
 }
