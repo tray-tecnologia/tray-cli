@@ -55,6 +55,7 @@
         "commander": "^8.3.0",
         "inquirer": "^8.2.0",
         "lodash.camelcase": "^4.3.0",
+        "open": "^8.4.0",
         "opencode-sdk": "file:../opencode-sdk",
         "ora": "^5.4.1",
         "yaml": "^1.10.2"
