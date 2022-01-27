@@ -14,7 +14,16 @@ export function loadConfigurationFile(): Promise<ConfigurationFile> {
     return fsp
         .readFile('config.yml', { encoding: 'utf8' })
         .then((data) => {
-            const config: ConfigurationFile = keysToCamel(yaml.parse(data));
+            const { apiKey: key, password, themeId, previewUrl, debug } = keysToCamel(yaml.parse(data));
+
+            const config = {
+                key,
+                password,
+                themeId,
+                previewUrl,
+                debug,
+            };
+
             return Promise.resolve(config);
         })
         .catch((error) => {
