@@ -5,13 +5,12 @@ import cleanCache from './commands/CleanCache';
 import configure from './commands/Configure';
 import create from './commands/Create';
 import list from './commands/List';
-
 // import { deleteTheme } from './commands/deleteTheme';
 // import { download } from './commands/download';
 // import { upload } from './commands/upload';
 // import { deleteFile } from './commands/deleteFile';
 // import { watch } from './commands/watch';
-// import { open } from './commands/open';
+import { open } from './commands/Open';
 
 const pkg = require('../../package.json');
 
@@ -25,7 +24,7 @@ export function run() {
     // upload();
     // deleteFile();
     // watch();
-    // open();
+    open();
 
     program
         .version(pkg.version, '--version', 'Display CLI version')
