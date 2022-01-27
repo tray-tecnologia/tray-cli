@@ -2,8 +2,6 @@ import { program } from 'commander';
 import ora from 'ora';
 
 import { Tray } from '../../Tray';
-import keysToCamel from '../../utils/KeysToCamel';
-import { loadConfigurationFile } from '../../utils/LoadConfigurationFile';
 
 /**
  * List all themes available at store
@@ -14,19 +12,10 @@ export default function cleanCache() {
         .description('Clean theme cache on store')
         .argument('[theme-id]', 'Id of theme to clean cache. If not passed default to configured one.')
         .action((id) => {
-            loadConfigurationFile()
-                .then((config) => {
-                    const { apiKey: key, password, themeId, debug } = keysToCamel(config);
-
-                    const tray = new Tray({
-                        key,
-                        password,
-                        themeId,
-                        debug,
-                    });
-
-                    const desiredThemeId = id ?? themeId;
-                    const loader = ora().start(`Cleaning cache from configured theme id ${desiredThemeId}..`);
+            Tray.initiateFromConfigFile()
+                .then((tray) => {
+                    const desiredThemeId = id ?? tray.themeId;
+                    const loader = ora().start(`Cleaning cache from theme with id ${desiredThemeId}..`);
 
                     tray.cleanCache(desiredThemeId);
 
