@@ -4,6 +4,7 @@ import { Tray } from './Tray';
 export * from './Tray';
 export * from './errors/CliError';
 export * from './errors/FileNotFoundError';
+export * from './errors/ParameterNotDefinedError';
 export * from './errors/SaveConfigurationFileError';
 export * from './errors/UnknownError';
 export * from './types/ConfigurationFile';
