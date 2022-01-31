@@ -1,6 +1,7 @@
 import Sdk, { ApiError, ApiListThemesResponse } from 'opencode-sdk';
 
 import { CliError } from './errors/CliError';
+import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
 import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError';
 import { ConfigurationFile } from './types/ConfigurationFile';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
@@ -132,6 +133,20 @@ export class Tray {
 
                 return Promise.resolve(this);
             })
+            .catch((error) => Promise.reject(error));
+    }
+
+    /**
+     * Delete requested theme.
+     * @param {number} id Theme id to be deleted
+     * @return {Promise} Return true with promise resolves, CliError or ApiError otherwise.
+     */
+    delete(id = this.themeId): Promise<boolean> {
+        if (!id) return Promise.reject(new ParameterNotDefinedError('ThemeId'));
+
+        return this.api
+            .deleteTheme(id)
+            .then((success) => Promise.resolve(success))
             .catch((error) => Promise.reject(error));
     }
 }
