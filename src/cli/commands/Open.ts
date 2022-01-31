@@ -2,7 +2,7 @@ import { program } from 'commander';
 import launch from 'open';
 import ora from 'ora';
 
-import { PreviewUrlNotDefinedError } from '../../errors/PreviewUrlNotDefinedError';
+import { ParameterNotDefinedError } from '../../errors/ParameterNotDefinedError';
 import { loadConfigurationFile } from '../../utils/LoadConfigurationFile';
 
 export function open() {
@@ -12,7 +12,7 @@ export function open() {
         loadConfigurationFile()
             .then((config) => {
                 if (!config.previewUrl) {
-                    return Promise.reject(new PreviewUrlNotDefinedError());
+                    return Promise.reject(new ParameterNotDefinedError('Preview url'));
                 }
 
                 return launch(config.previewUrl)
