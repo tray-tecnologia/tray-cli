@@ -1,11 +1,15 @@
+import { rejects } from 'assert';
 import Sdk, { ApiError, ApiListThemesResponse } from 'opencode-sdk';
 
 import { CliError } from './errors/CliError';
 import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
 import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError';
+import { UnknownError } from './errors/UnknownError';
 import { ConfigurationFile } from './types/ConfigurationFile';
+import { DownloadCommandResponse } from './types/DownloadCommandResponse';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
+import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
 
 export class Tray {
     readonly key: string;
@@ -148,5 +152,46 @@ export class Tray {
             .deleteTheme(id)
             .then((success) => Promise.resolve(success))
             .catch((error) => Promise.reject(error));
+    }
+
+    /**
+     * Download configured theme
+     * @param files
+     */
+    download(files?: string[]): Promise<DownloadCommandResponse> {
+        const errors: string[] = [];
+
+        const promise = new Promise<string[]>((resolve, reject) => {
+            if (files && files.length) {
+                resolve(files);
+            } else {
+                reject(new Error());
+            }
+        });
+
+        return promise
+            .catch(() =>
+                this.api.getThemeAssets().then((assets) => {
+                    const filesPaths: string[] = assets.assets.map((asset) => asset.path);
+                    return filesPaths;
+                })
+            )
+            .then((assets: string[]) => {
+                const promises = assets.map((file: string) =>
+                    this.api
+                        .getThemeAsset(file.startsWith('/') ? file : `/${file}`)
+                        .then((asset) => saveThemeAssetFile(asset.key, asset.content))
+                        .catch(() => errors.push(file))
+                );
+
+                return Promise.all(promises).then(() => {
+                    const succeedFiles = assets.length - errors.length;
+
+                    return Promise.resolve({
+                        succeed: succeedFiles,
+                        errors,
+                    });
+                });
+            });
     }
 }
