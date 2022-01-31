@@ -63,6 +63,26 @@ const api = new Tray({
 api.configure().then((success) => console.log(success));
 ```
 
+## Erros
+
+O Tray-Cli pode retornar vários erros que indicam problemas diferentes durante a execução do programa.
+
+#### SaveConfigurationFileError (CLI::0001)
+
+Retornado caso não seja possível salvar o arquivo de configurações necessário para todas as outras ações.
+
+#### FileNotFoundError (CLI::0002)
+
+Retornado caso não for encontrado o arquivo config.yml na pasta atual.
+
+#### ParameterNotDefinedError (CLI::0003)
+
+Retornado quando algum parâmetro necessário não for informado.
+
+#### UnknownError (CLI::9999)
+
+Retornando quando um erro acontecer, mas que o programa não consegue identificar qual foi a causa.
+
 ## Contribuições
 
 Tray CLI é um projeto de código fonte aberto no qual todos são bem-vindos a ajudar a comunidade contribuindo com o projeto. Fique a vontade para reportar problemas, sugerir melhorias ou enviar código de novas funcionalidades.
