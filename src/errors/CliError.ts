@@ -1,5 +1,3 @@
-import { EOL } from 'os';
-
 type CliErrorParams = {
     code: string;
     message: string;
