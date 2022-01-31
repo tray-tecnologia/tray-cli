@@ -81,7 +81,7 @@ export default function create() {
 
             const loader = ora(`Creating theme ${name} based on ${base}...`).start();
 
-            tray.create(answers.name, answers.base)
+            tray.create(answers.name, answers.base, true)
                 .then((data) => {
                     loader.succeed(`Theme created under id ${data.themeId}.`);
                 })
