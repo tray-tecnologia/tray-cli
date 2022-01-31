@@ -4,6 +4,7 @@ import { program } from 'commander';
 import cleanCache from './commands/CleanCache';
 import configure from './commands/Configure';
 import create from './commands/Create';
+import del from './commands/Delete';
 import list from './commands/List';
 // import { deleteTheme } from './commands/deleteTheme';
 // import { download } from './commands/download';
@@ -19,7 +20,7 @@ export function run() {
     list();
     create();
     cleanCache();
-    // deleteTheme();
+    del();
     // download();
     // upload();
     // deleteFile();
