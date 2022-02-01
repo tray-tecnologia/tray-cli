@@ -7,11 +7,13 @@ import create from './commands/Create';
 import del from './commands/Delete';
 import download from './commands/Download';
 import list from './commands/List';
-// import { deleteTheme } from './commands/deleteTheme';
-// import { upload } from './commands/upload';
+import open from './commands/Open';
+
+// import upload from './commands/Upload';
+
 // import { deleteFile } from './commands/deleteFile';
 // import { watch } from './commands/watch';
-import { open } from './commands/Open';
+// import { deleteTheme } from './commands/deleteTheme';
 
 const pkg = require('../../package.json');
 

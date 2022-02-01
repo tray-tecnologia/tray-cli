@@ -5,7 +5,7 @@ import ora from 'ora';
 import { ParameterNotDefinedError } from '../../errors/ParameterNotDefinedError';
 import { loadConfigurationFile } from '../../utils/LoadConfigurationFile';
 
-export function open() {
+export default function open() {
     program.command('open').action(() => {
         const loader = ora('Opening theme preview page...').start();
 
