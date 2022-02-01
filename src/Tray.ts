@@ -7,6 +7,7 @@ import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError'
 import { UnknownError } from './errors/UnknownError';
 import { ConfigurationFile } from './types/ConfigurationFile';
 import { DownloadCommandResponse } from './types/DownloadCommandResponse';
+import { DownloadError } from './types/DownloadError';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
@@ -156,10 +157,11 @@ export class Tray {
 
     /**
      * Download configured theme
-     * @param files
+     * @param {string[]} files Files to be donwloaded
+     * @return {Promise} Returns DownloadCommandResponse when promises resolves
      */
     download(files?: string[]): Promise<DownloadCommandResponse> {
-        const errors: string[] = [];
+        const errors: DownloadError[] = [];
 
         const promise = new Promise<string[]>((resolve, reject) => {
             if (files && files.length) {
@@ -181,16 +183,19 @@ export class Tray {
                     this.api
                         .getThemeAsset(file.startsWith('/') ? file : `/${file}`)
                         .then((asset) => saveThemeAssetFile(asset.key, asset.content))
-                        .catch(() => errors.push(file))
+                        .catch((error) => errors.push({ file, error }))
                 );
 
                 return Promise.all(promises).then(() => {
                     const succeedFiles = assets.length - errors.length;
 
-                    return Promise.resolve({
+                    const response: DownloadCommandResponse = {
+                        total: assets.length,
                         succeed: succeedFiles,
                         errors,
-                    });
+                    };
+
+                    return Promise.resolve(response);
                 });
             });
     }

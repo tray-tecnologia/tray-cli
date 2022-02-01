@@ -15,21 +15,23 @@ export default function del() {
         .action((files) => {
             Tray.initiateFromConfigFile()
                 .then((tray) => {
-                    const type = files ? 'Files' : 'Theme';
+                    const type = files && files.length ? 'Files' : 'Theme';
                     const loader = ora(`Downloading ${type.toLowerCase()}...`).start();
 
                     tray.download(files)
                         .then((response) => {
                             if (response.errors.length) {
                                 const errorCount = response.errors.length;
-                                const errors = response.errors.join(EOL);
-                                const failMessage = `Unable to download ${type.toLowerCase()} due to lot of errors. Files affected listed bellow:`;
-                                const warnMessage = `${type} download with ${errorCount} errors. Files affected listed bellow:`;
+                                const errors = response.errors.map((error) => error.file).join(EOL);
 
-                                if (errorCount === files.length) {
-                                    loader.fail(failMessage);
+                                if (errorCount === response.total) {
+                                    loader.fail(
+                                        `Unable to download ${type.toLowerCase()} due to lot of errors. Files affected listed bellow:`
+                                    );
                                 } else {
-                                    loader.warn(warnMessage);
+                                    loader.warn(
+                                        `${type} download with ${errorCount} errors. Files affected listed bellow:`
+                                    );
                                 }
 
                                 console.log(errors);
