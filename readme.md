@@ -79,6 +79,10 @@ Retornado caso não for encontrado o arquivo config.yml na pasta atual.
 
 Retornado quando algum parâmetro necessário não for informado.
 
+#### SaveThemeAssetFileError (CLI::0004)
+
+Retornado quando algum problema ocorre ao tentar salva o arquivo baixado do tema.
+
 #### UnknownError (CLI::9999)
 
 Retornando quando um erro acontecer, mas que o programa não consegue identificar qual foi a causa.
