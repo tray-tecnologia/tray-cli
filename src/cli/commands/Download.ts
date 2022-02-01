@@ -7,7 +7,7 @@ import { Tray } from '../../Tray';
 /**
  * Download theme files from store
  */
-export default function del() {
+export default function download() {
     program
         .command('download')
         .argument('[files...]', 'Files to download. (Default: all files)')
