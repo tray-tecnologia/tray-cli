@@ -31,7 +31,7 @@ export function run() {
     program
         .version(pkg.version, '--version', 'Display CLI version')
         .helpOption('--help', 'Display CLI help')
-        .addHelpCommand('help [command]', 'Display help por command')
+        .addHelpCommand('help [command]', 'Display help per command')
         .name('tray');
 
     program.parse(process.argv);

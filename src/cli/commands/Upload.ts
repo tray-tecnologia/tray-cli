@@ -15,7 +15,7 @@ export default function upload() {
         .command('upload')
         .argument('[files...]', 'Files to upload. (Default: all files)')
         .option('--core', 'Removes settings.json and images folder from upload')
-        .description('Upload files to theme. Folder paths are not supported and will be ignored.')
+        .description('Upload files to theme')
         .action((assets: string[], options) => {
             Tray.initiateFromConfigFile()
                 .then((tray) => {
