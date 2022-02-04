@@ -49,9 +49,11 @@ export default function upload() {
 
                     tray[method](globbed)
                         .then((response) => {
-                            if (response.errors.length) {
-                                const errorCount = response.errors.length;
-                                const errors = response.errors.map((error) => error.file).join(EOL);
+                            if (response.fails.length) {
+                                const errorCount = response.fails.length;
+                                const errors = response.fails
+                                    .map((fail) => `${chalk.magenta(fail.file)} -> ${fail.error.message}`)
+                                    .join(EOL);
 
                                 if (errorCount === response.total) {
                                     loader.fail(

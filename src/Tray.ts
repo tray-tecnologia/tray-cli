@@ -195,7 +195,7 @@ export class Tray {
                     const response: DownloadCommandResponse = {
                         total: assets.length,
                         succeed: succeedFiles,
-                        errors,
+                        fails: errors,
                     };
 
                     return Promise.resolve(response);
@@ -247,7 +247,7 @@ export class Tray {
                     const response: UploadCommandResponse = {
                         total: assets.length,
                         succeed: succeedFiles,
-                        errors,
+                        fails: errors,
                     };
 
                     return Promise.resolve(response);

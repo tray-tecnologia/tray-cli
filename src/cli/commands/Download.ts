@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { program } from 'commander';
 import ora from 'ora';
 import { EOL } from 'os';
@@ -20,9 +21,11 @@ export default function download() {
 
                     tray.download(files)
                         .then((response) => {
-                            if (response.errors.length) {
-                                const errorCount = response.errors.length;
-                                const errors = response.errors.map((error) => error.file).join(EOL);
+                            if (response.fails.length) {
+                                const errorCount = response.fails.length;
+                                const errors = response.fails
+                                    .map((fail) => `${chalk.magenta(fail.file)} -> ${fail.error.message}`)
+                                    .join(EOL);
 
                                 if (errorCount === response.total) {
                                     loader.fail(
