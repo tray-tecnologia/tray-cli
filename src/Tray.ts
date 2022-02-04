@@ -203,6 +203,12 @@ export class Tray {
             });
     }
 
+    /**
+     * Upload files to theme
+     * @param {string[]} files Files to be uploaded. If not provided all files in current folder and subfolder will be uploaded.
+     *                         Config.yml and files starting with dot will always be ignored.
+     * @return {Promise} Returns UploadCommandResponse object if promises resolves, CliError or ApiError otherwise.
+     */
     upload(files?: string[]): Promise<UploadCommandResponse> {
         const errors: any[] = [];
 
@@ -249,6 +255,11 @@ export class Tray {
             });
     }
 
+    /**
+     * Upload core files, excluding configs/settings.json and images folder.
+     * Config.yml and files starting with dot will always be ignored.
+     * @return {Promise} Returns UploadCommandResponse object if promises resolves, CliError or ApiError otherwise.
+     */
     uploadCore(): Promise<UploadCommandResponse> {
         let globbed = glob.sync('**/*', { nodir: true }).flat();
         globbed = globbed.filter((path) => !path.match(/(img\/(.)*)|(configs\/settings.json)|(config.yml)/));
