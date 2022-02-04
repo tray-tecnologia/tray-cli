@@ -8,11 +8,10 @@ import del from './commands/Delete';
 import download from './commands/Download';
 import list from './commands/List';
 import open from './commands/Open';
+import remove from './commands/Remove';
 import upload from './commands/Upload';
 
-// import { deleteFile } from './commands/deleteFile';
 // import { watch } from './commands/watch';
-// import { deleteTheme } from './commands/deleteTheme';
 
 const pkg = require('../../package.json');
 
@@ -24,7 +23,7 @@ export function run() {
     del();
     download();
     upload();
-    // deleteFile();
+    remove();
     // watch();
     open();
 

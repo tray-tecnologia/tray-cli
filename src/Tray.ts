@@ -1,4 +1,3 @@
-import { rejects } from 'assert';
 import glob from 'glob';
 import Sdk, { ApiError, ApiListThemesResponse } from 'opencode-sdk';
 
@@ -9,6 +8,7 @@ import { ThemeFilesNotFoundError } from './errors/ThemeFilesNotFoundError';
 import { ConfigurationFile } from './types/ConfigurationFile';
 import { DownloadCommandResponse } from './types/DownloadCommandResponse';
 import { DownloadError } from './types/DownloadError';
+import { RemoveCommandResponse } from './types/RemoveCommandResponse';
 import { UploadCommandResponse } from './types/UploadCommandResponse';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
 import { prepareToUpload } from './utils/PrepareToUpload';
@@ -269,5 +269,32 @@ export class Tray {
         }
 
         return this.upload(globbed);
+    }
+
+    /**
+     * Delete theme files
+     * @param {string[]} files Files to be removes.
+     * @return {Promise} Returns RemoveCommandResponse object if promises resolves, CliError or ApiError otherwise.
+     */
+    remove(files: string[]): Promise<RemoveCommandResponse> {
+        const errors: any[] = [];
+
+        const promises = files.map((file: string) =>
+            this.api
+                .deleteThemeAsset(file.startsWith('/') ? file : `/${file}`)
+                .catch((error) => errors.push({ file, error }))
+        );
+
+        return Promise.all(promises).then(() => {
+            const succeedFiles = files.length - errors.length;
+
+            const response: RemoveCommandResponse = {
+                total: files.length,
+                succeed: succeedFiles,
+                fails: errors,
+            };
+
+            return Promise.resolve(response);
+        });
     }
 }
