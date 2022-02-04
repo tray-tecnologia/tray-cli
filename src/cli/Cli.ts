@@ -8,8 +8,7 @@ import del from './commands/Delete';
 import download from './commands/Download';
 import list from './commands/List';
 import open from './commands/Open';
-
-// import upload from './commands/Upload';
+import upload from './commands/Upload';
 
 // import { deleteFile } from './commands/deleteFile';
 // import { watch } from './commands/watch';
@@ -24,7 +23,7 @@ export function run() {
     cleanCache();
     del();
     download();
-    // upload();
+    upload();
     // deleteFile();
     // watch();
     open();

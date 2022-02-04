@@ -1,14 +1,17 @@
 import { rejects } from 'assert';
+import glob from 'glob';
 import Sdk, { ApiError, ApiListThemesResponse } from 'opencode-sdk';
 
 import { CliError } from './errors/CliError';
 import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
 import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError';
-import { UnknownError } from './errors/UnknownError';
+import { ThemeFilesNotFoundError } from './errors/ThemeFilesNotFoundError';
 import { ConfigurationFile } from './types/ConfigurationFile';
 import { DownloadCommandResponse } from './types/DownloadCommandResponse';
 import { DownloadError } from './types/DownloadError';
+import { UploadCommandResponse } from './types/UploadCommandResponse';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
+import { prepareToUpload } from './utils/PrepareToUpload';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
 
@@ -198,5 +201,62 @@ export class Tray {
                     return Promise.resolve(response);
                 });
             });
+    }
+
+    upload(files?: string[]): Promise<UploadCommandResponse> {
+        const errors: any[] = [];
+
+        const promise = new Promise<string[]>((resolve, reject) => {
+            if (files && files.length) {
+                resolve(files);
+            } else {
+                reject(new Error());
+            }
+        });
+
+        return promise
+            .catch(() => {
+                let globbed = glob.sync('**/*', { nodir: true }).flat();
+                globbed = globbed.filter((item) => item !== 'config.yml');
+
+                if (!globbed.length) {
+                    return Promise.reject(new ThemeFilesNotFoundError());
+                }
+
+                return globbed;
+            })
+            .then((assets: string[]) => {
+                const promises = assets.map((file: string) =>
+                    prepareToUpload(file)
+                        .then((fileUpload) => {
+                            const { filename: asset, content: data, isBinary } = fileUpload;
+                            return this.api.sendThemeAsset({ asset, data, isBinary });
+                        })
+                        .catch((error) => errors.push({ file, error }))
+                );
+
+                return Promise.all(promises).then(() => {
+                    const succeedFiles = assets.length - errors.length;
+
+                    const response: UploadCommandResponse = {
+                        total: assets.length,
+                        succeed: succeedFiles,
+                        errors,
+                    };
+
+                    return Promise.resolve(response);
+                });
+            });
+    }
+
+    uploadCore(): Promise<UploadCommandResponse> {
+        let globbed = glob.sync('**/*', { nodir: true }).flat();
+        globbed = globbed.filter((path) => !path.match(/(img\/(.)*)|(configs\/settings.json)|(config.yml)/));
+
+        if (!globbed.length) {
+            return Promise.reject(new ThemeFilesNotFoundError());
+        }
+
+        return this.upload(globbed);
     }
 }
