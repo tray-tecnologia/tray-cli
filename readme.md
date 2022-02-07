@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.png" width="100" />
+  <img src="assets/logo.png" width="130" />
   <h1>Tray CLI</h1>
 </div>
 
@@ -12,14 +12,14 @@ Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar d
     -   [tray help [command]](#tray-help-command)
     -   [tray configure [options] [key] [password] [theme_id]](#tray-configure-options-key-password-theme_id)
     -   [tray list](#tray-list)
-    -   [create [options] [key] [password] [theme-name] [theme-base]](#create-options-key-password-theme-name-theme-base)
-    -   [clean-cache [theme-id]](#clean-cache-theme-id)
-    -   [delete [theme-id]](#delete-theme-id)
-    -   [download [files...]](#download-files)
-    -   [upload [options] [files...]](#upload-options-files)
-    -   [remove <files...>](#remove-files)
-    -   [watch](#watch)
-    -   [open](#open)
+    -   [create [options] [key] [password] [theme-name] [theme-base]](#tray-create-options-key-password-theme-name-theme-base)
+    -   [clean-cache [theme-id]](#tray-clean-cache-theme-id)
+    -   [delete [theme-id]](#tray-delete-theme-id)
+    -   [download [files...]](#tray-download-files)
+    -   [upload [options] [files...]](#tray-upload-options-files)
+    -   [remove <files...>](#tray-remove-files)
+    -   [watch](#tray-watch)
+    -   [open](#tray-open)
 -   [Api](#api)
 -   [Erros](#erros)
 -   [Contribuições](#contribuições)
@@ -42,7 +42,7 @@ Se desejar usar localmente, todos os comando abaixo precisaram ter acrescido `np
 
 ## Linha de comando
 
-Os comandos abaixo estão disponíveis no programa. Todos eles se iniciam pela palavra `tray`. Parâmetros obrigatórios são indicados entre sinais de menor `<` e maior `>` e parâmetros opcionais entre colchetes `[]`. Parâmetros opcionais são independentes de ordem, ou seja, podem ser passados no início ou no final do comando.
+Os comandos abaixo estão disponíveis no programa. Parâmetros obrigatórios são indicados entre sinais de menor `<` e maior `>` e parâmetros opcionais entre colchetes `[]`. Parâmetros opcionais são independentes de ordem, ou seja, podem ser passados no início ou no final do comando.
 
 ### tray help [command]
 
@@ -56,23 +56,23 @@ Cria o arquivo de configuração. Caso não passe os parâmetros acima o program
 
 Lista todos os temas disponíveis atualmente na loja.
 
-### create [options] [key] [password] [theme-name] [theme-base]
+### tray create [options] [key] [password] [theme-name] [theme-base]
 
 Cria um novo tema na loja com o nome passado e baseado no tema base. Caso algum parâmetro não seja informado, o programa irá solicitá-lo. É possível usar a opçao `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
 
-### clean-cache [theme-id]
+### tray clean-cache [theme-id]
 
 Limpa o cache de um tema. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
 
-### delete [theme-id]
+### tray delete [theme-id]
 
 Deleta um tema da loja. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
 
-### download [files...]
+### tray download [files...]
 
 Baixa os arquivos especificados do tema configurado. Se o parâmetro opcional `files` não for fornecido, o programa irá baixar todos os arquivos do tema.
 
-### upload [options] [files...]
+### tray upload [options] [files...]
 
 Envia os arquivos para a loja no tema configurado. Se o parâmetro opcional `files` não for fornecido, o programa irá enviar todos os arquivos, pastas e subpastas presentes na pasta raiz onde o comando é executado.
 
@@ -80,15 +80,15 @@ Esse comando possui a opçào `--core`, que indica ao programa para enviar somen
 
 Esse comando suporta padrões Glob e usa a biblioteca [node-glob](https://github.com/isaacs/node-glob) para isso.
 
-### remove <files...>
+### tray remove <files...>
 
 Remove os arquivos especificados do tema configurado. É obrigatório passar os arquivos que deseja remover. Esse comando suporta padrões Glob e usa a biblioteca [node-glob](https://github.com/isaacs/node-glob) para isso.
 
-### watch
+### tray watch
 
 Monitora os arquivos para verificar se ocorreram mudanças e já realiza as devidas alterações na loja. **_Atenção_**: nem todas as operações do sistema de arquivos do seu computador são suportadas pela API da Tray. Apenas as operações de criação, atualização, remoção e renomeação de arquivos são suportadas. Operações com pastas não são suportadas e serão ignoradas.
 
-### open
+### tray open
 
 Abre o link de prévia do tema no navegador padrão.
 
