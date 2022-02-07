@@ -1,11 +1,14 @@
-# Tray CLI
+<div align="center">
+  <img src="assets/logo.png" width="100" />
+  <h1>Tray CLI</h1>
+</div>
 
 Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar desenvolvedores a criarem ótimos temas para Tray.
 
 ### Índice
 
 -   [Instalação](#instalação)
--   [Comandos disponíveis](#comandos-disponíveis)
+-   [Linha de comando](#linha-de-comando)
     -   [tray help [command]](#tray-help-command)
     -   [tray configure [options] [key] [password] [theme_id]](#tray-configure-options-key-password-theme_id)
     -   [tray list](#tray-list)
