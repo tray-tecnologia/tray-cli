@@ -10,8 +10,7 @@ import list from './commands/List';
 import open from './commands/Open';
 import remove from './commands/Remove';
 import upload from './commands/Upload';
-
-// import { watch } from './commands/watch';
+import watch from './commands/Watch';
 
 const pkg = require('../../package.json');
 
@@ -24,7 +23,7 @@ export function run() {
     download();
     upload();
     remove();
-    // watch();
+    watch();
     open();
 
     program
