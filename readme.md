@@ -17,6 +17,8 @@ Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar d
     -   [remove <files...>](#remove-files)
     -   [watch](#watch)
     -   [open](#open)
+-   [Api](#api)
+-   [Erros](#erros)
 -   [Contribuições](#contribuições)
 -   [Créditos](#créditos)
 -   [Licença](#licença)
@@ -36,8 +38,6 @@ npm install tray-cli
 Se desejar usar localmente, todos os comando abaixo precisaram ter acrescido `npx` antes para que ele seja executado corretamente.
 
 ## Linha de comando
-
-### Comandos disponíveis
 
 Os comandos abaixo estão disponíveis no programa. Todos eles se iniciam pela palavra `tray`. Parâmetros obrigatórios são indicados entre sinais de menor `<` e maior `>` e parâmetros opcionais entre colchetes `[]`. Parâmetros opcionais são independentes de ordem, ou seja, podem ser passados no início ou no final do comando.
 
