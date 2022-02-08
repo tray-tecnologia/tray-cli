@@ -149,7 +149,7 @@ Retornando quando um erro acontecer, mas que o programa não consegue identifica
 
 ## Contribuições
 
-Tray CLI é um projeto de código fonte aberto no qual todos são bem-vindos a ajudar a comunidade contribuindo com o projeto. Fique a vontade para reportar problemas, sugerir melhorias ou enviar código de novas funcionalidades.
+Tray CLI é um projeto de código fonte aberto no qual todos são bem-vindos a ajudar a comunidade contribuindo com o projeto. Fique a vontade para reportar problemas, sugerir melhorias ou enviar código de novas funcionalidades. Confira [Como contribuir com o projeto](contributing.md) e ajudá-lo a melhorar a cada dia.
 
 ## Licença
 
