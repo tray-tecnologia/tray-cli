@@ -32,10 +32,10 @@ Para usar esse programa basta instalar com os comandos abaixo. Recomendados faze
 
 ```sh
 # Instala globalmente no sistema (Recomendado)
-npm install tray-cli --global
+npm install @tray-tecnologia/tray-cli --global
 
 # Instala na pasta local
-npm install tray-cli
+npm install @tray-tecnologia/tray-cli
 ```
 
 Se desejar usar localmente, todos os comando abaixo precisaram ter acrescido `npx` antes para que ele seja executado corretamente.
