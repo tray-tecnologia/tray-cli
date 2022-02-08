@@ -1,4 +1,4 @@
-import { ApiError } from 'opencode-sdk/dist';
+import { ApiError } from '@tray-tecnologia/opencode-sdk';
 
 import { CliError } from '../errors/CliError';
 

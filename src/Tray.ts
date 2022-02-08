@@ -1,5 +1,5 @@
+import Sdk, { ApiError, ApiListThemesResponse } from '@tray-tecnologia/opencode-sdk';
 import glob from 'glob';
-import Sdk, { ApiError, ApiListThemesResponse } from 'opencode-sdk';
 
 import { CliError } from './errors/CliError';
 import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
@@ -176,7 +176,7 @@ export class Tray {
 
         return promise
             .catch(() =>
-                this.api.getThemeAssets().then((assets) => {
+                this.api.getAssets().then((assets) => {
                     const filesPaths: string[] = assets.assets.map((asset) => asset.path);
                     return filesPaths;
                 })
@@ -184,7 +184,7 @@ export class Tray {
             .then((assets: string[]) => {
                 const promises = assets.map((file: string) =>
                     this.api
-                        .getThemeAsset(file.startsWith('/') ? file : `/${file}`)
+                        .getAsset(file.startsWith('/') ? file : `/${file}`)
                         .then((asset) => saveThemeAssetFile(asset.key, asset.content))
                         .catch((error) => errors.push({ file, error }))
                 );
@@ -236,7 +236,7 @@ export class Tray {
                     prepareToUpload(file)
                         .then((fileUpload) => {
                             const { filename: asset, content: data, isBinary } = fileUpload;
-                            return this.api.sendThemeAsset({ asset, data, isBinary });
+                            return this.api.sendAsset({ asset, data, isBinary });
                         })
                         .catch((error) => errors.push({ file, error }))
                 );
@@ -281,7 +281,7 @@ export class Tray {
 
         const promises = files.map((file: string) =>
             this.api
-                .deleteThemeAsset(file.startsWith('/') ? file : `/${file}`)
+                .deleteAsset(file.startsWith('/') ? file : `/${file}`)
                 .catch((error) => errors.push({ file, error }))
         );
 
