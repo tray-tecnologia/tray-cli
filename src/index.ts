@@ -21,4 +21,3 @@ export * from './types/UploadCommandResponse';
 export * from './types/UploadError';
 
 export default Tray;
-module.exports = Tray;
