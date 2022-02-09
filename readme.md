@@ -101,7 +101,7 @@ Todos os métodos dessa API retornam uma `Promise`. Você deverá observá-la pa
 Veja o exemplo abaixo de um uso simples para gerar a configuração do tema
 
 ```js
-const Tray = require('tray-cli');
+const Tray = require('@tray-tecnologia/tray-cli').default;
 
 const api = new Tray({
     key: 'MINHA-CHAVE-AQUI',
