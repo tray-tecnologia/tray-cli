@@ -36,9 +36,7 @@ export default function remove() {
                                 globbed = globbed.flat();
                                 globbed = globbed.filter((path: string) => path !== 'config.yml');
 
-                                console.log(
-                                    `${chalk.yellow('[Warn]')} Folder paths are not supported and will be ignored.`
-                                );
+                                ora().start().warn('Folder paths are not supported and will be ignored.');
 
                                 const loader = ora(`Deleting files...`).start();
 
@@ -52,7 +50,7 @@ export default function remove() {
 
                                             if (errorCount === response.total) {
                                                 loader.fail(
-                                                    `Unable to delete files due to lot of errors. Files affected listed bellow:`
+                                                    `Unable to delete files correctly due to errors. Files affected listed bellow:`
                                                 );
                                             } else {
                                                 loader.warn(

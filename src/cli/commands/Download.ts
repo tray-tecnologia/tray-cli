@@ -29,7 +29,7 @@ export default function download() {
 
                                 if (errorCount === response.total) {
                                     loader.fail(
-                                        `Unable to download ${type.toLowerCase()} due to lot of errors. Files affected listed bellow:`
+                                        `Unable to download ${type.toLowerCase()} correctly due to errors. Files affected listed bellow:`
                                     );
                                 } else {
                                     loader.warn(

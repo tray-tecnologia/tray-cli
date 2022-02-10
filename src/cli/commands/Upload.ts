@@ -24,11 +24,11 @@ export default function upload() {
 
                     if (assets.length) {
                         if (options.core) {
-                            console.log(
-                                `${chalk.yellow(
-                                    'Warn'
-                                )} Core option has no affect when used together with files parameter. Option ignored.`
-                            );
+                            ora()
+                                .start()
+                                .warn(
+                                    'Core option has no affect when used together with files parameter. Option ignored.'
+                                );
                         }
 
                         assets.forEach((asset) => {
@@ -43,7 +43,7 @@ export default function upload() {
                         method = 'uploadCore';
                     }
 
-                    console.log(`${chalk.yellow('[Warn]')} Folder paths are not supported and will be ignored.`);
+                    ora().start().warn('Folder paths are not supported and will be ignored.');
 
                     const loader = ora(`Uploading files...`).start();
 
@@ -57,7 +57,7 @@ export default function upload() {
 
                                 if (errorCount === response.total) {
                                     loader.fail(
-                                        `Unable to upload files due to lot of errors. Files affected listed bellow:`
+                                        `Unable to upload files correctly due to errors. Files affected listed bellow:`
                                     );
                                 } else {
                                     loader.warn(
