@@ -13,7 +13,7 @@ export default function remove() {
         .command('remove')
         .argument('<files...>', 'Files to remove')
         .description('Removes files from theme')
-        .action(async (files: string[]) => {
+        .action((files: string[]) => {
             inquirer
                 .prompt({
                     type: 'confirm',
