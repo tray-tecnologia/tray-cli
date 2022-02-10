@@ -1,10 +1,15 @@
 import { CliError } from './CliError';
 
+type foundError = {
+    file?: string;
+    details?: string;
+};
+
 export class FileNotFoundError extends CliError {
-    constructor(details: string) {
+    constructor({ file, details }: foundError) {
         super({
             code: 'CLI::0002',
-            message: 'Config.yml file not found on current directory. Verify and try again.',
+            message: `${file ? `${file}` : 'File'} not found on current directory. Verify and try again.`,
             details,
         });
         this.name = 'FileNotFoundError';

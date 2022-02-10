@@ -27,7 +27,10 @@ export function loadConfigurationFile(): Promise<ConfigurationFile> {
             return Promise.resolve(config);
         })
         .catch((error) => {
-            const cliError = error.code === 'ENOENT' ? new FileNotFoundError(error.toString()) : new UnknownError();
+            const cliError =
+                error.code === 'ENOENT'
+                    ? new FileNotFoundError({ file: 'config.yml', details: error.toString() })
+                    : new UnknownError();
             return Promise.reject(cliError);
         });
 }

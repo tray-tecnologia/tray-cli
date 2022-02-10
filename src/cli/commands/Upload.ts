@@ -6,6 +6,7 @@ import { EOL } from 'os';
 import { extname } from 'path';
 
 import { Tray } from '../../Tray';
+import { FileNotFoundError } from '../../errors/FileNotFoundError';
 
 /**
  * Upload theme files from store
@@ -39,6 +40,18 @@ export default function upload() {
 
                         globbed = globbed.flat();
                         globbed = globbed.filter((path: string) => path !== 'config.yml');
+
+                        if (globbed.length === 0) {
+                            return Promise.reject(
+                                new FileNotFoundError({
+                                    details: 'Files passed through command was not found in specified path.',
+                                })
+                            );
+                        }
+
+                        if (globbed.length < assets.length) {
+                            ora().start().warn('Some request files could not be found. Verify files after operation.');
+                        }
                     } else if (options.core) {
                         method = 'uploadCore';
                     }
