@@ -76,7 +76,7 @@ Baixa os arquivos especificados do tema configurado. Se o parâmetro opcional `f
 
 Envia os arquivos para a loja no tema configurado. Se o parâmetro opcional `files` não for fornecido, o programa irá enviar todos os arquivos, pastas e subpastas presentes na pasta raiz onde o comando é executado.
 
-Esse comando possui a opçào `--core`, que indica ao programa para enviar somente os arquivos essenciais, ignorando o arquivos `settings.html` e a pasta imagem por completo.
+Esse comando possui a opçào `--core`, que indica ao programa para enviar somente os arquivos essenciais, ignorando o arquivos `settings.json` e a pasta imagem por completo.
 
 Esse comando suporta padrões Glob e usa a biblioteca [node-glob](https://github.com/isaacs/node-glob) para isso.
 
