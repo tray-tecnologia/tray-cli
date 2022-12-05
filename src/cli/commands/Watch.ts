@@ -135,7 +135,7 @@ export default function watch() {
         .action(() => {
             Tray.initiateFromConfigFile()
                 .then((tray) => {
-                    const watcher = chokidar.watch('./', {
+                    const watcher = chokidar.watch('.', {
                         ignored: /(^|[/\\])\../, // ignore dotfiles
                         persistent: true,
                         ignoreInitial: true,
