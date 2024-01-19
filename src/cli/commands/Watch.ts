@@ -139,6 +139,10 @@ export default function watch() {
                         ignored: /(^|[/\\])\../, // ignore dotfiles
                         persistent: true,
                         ignoreInitial: true,
+                        awaitWriteFinish: {
+                            stabilityThreshold: 1000,
+                            pollInterval: 100
+                        }
                     });
 
                     watcher
