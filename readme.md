@@ -86,7 +86,9 @@ Remove os arquivos especificados do tema configurado. É obrigatório passar os 
 
 ### tray watch
 
-Monitora os arquivos para verificar se ocorreram mudanças e já realiza as devidas alterações na loja. **_Atenção_**: nem todas as operações do sistema de arquivos do seu computador são suportadas pela API da Tray. Apenas as operações de criação, atualização, remoção e renomeação de arquivos são suportadas. Operações com pastas não são suportadas e serão ignoradas.
+Monitora os arquivos para verificar se ocorreram mudanças e já realiza as devidas alterações na loja. Para garantir que o conteúdo dos arquivos sejam lidos corretamente, o CLI irá aguardar até que o arquivo acabe de escrever em disco. Essa detecção pode demorar até 1000 milissegundos (1 segundo).
+
+**_Atenção_**: nem todas as operações do sistema de arquivos do seu computador são suportadas pela API da Tray. Apenas as operações de criação, atualização, remoção e renomeação de arquivos são suportadas. Operações com pastas não são suportadas e serão ignoradas.
 
 ### tray open
 
