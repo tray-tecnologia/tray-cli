@@ -1,0 +1,36 @@
+{
+  "name": "@tray-tecnologia/theme-sdk",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Opencode SDK to interact with Opencode API",
+  "license": "GPL-3.0-only",
+  "author": "Tray Plataforma de E-commerce",
+  "keywords": [
+    "opencode",
+    "tray",
+    "sdk"
+  ],
+  "scripts": {
+    "dev": "vite-node src/dev.ts",
+    "lint": "eslint --cache",
+    "type:check": "tsc --build --force",
+    "build": "vite build",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "file-type": "^21.0.0"
+  },
+  "devDependencies": {
+    "@tray-tecnologia/config-eslint": "*",
+    "@tsconfig/node22": "^22.0.0",
+    "@types/lodash.camelcase": "^4.3.9",
+    "@types/node": "^22.15.29",
+    "eslint": "^9.28.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vite-node": "^3.2.1",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "main": "./src/index.ts"
+}

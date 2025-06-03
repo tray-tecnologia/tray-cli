@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": [".eslintcache"]
+    },
+    "type:check": {
+      "dependsOn": ["^type:check"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["BRANCH", "BASE_URL", "VITE_*", "MODE", "DEV"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
