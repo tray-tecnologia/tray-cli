@@ -11,36 +11,36 @@ import { SubfolderNotAllowedError } from '../errors/SubfolderNotAllowedError';
  * @internal
  */
 function isExtensionValid(extension: string): Promise<boolean> {
-    const allowedEextensions = [
-        /* Fonts extensions */
-        '.ttf',
-        '.otf',
-        '.eot',
-        '.woff',
-        '.woff2',
+  const allowedEextensions = [
+    /* Fonts extensions */
+    '.ttf',
+    '.otf',
+    '.eot',
+    '.woff',
+    '.woff2',
 
-        /* Imagens extensions */
-        '.jpg',
-        '.jpeg',
-        '.gif',
-        '.png',
-        '.svg',
+    /* Imagens extensions */
+    '.jpg',
+    '.jpeg',
+    '.gif',
+    '.png',
+    '.svg',
 
-        /* Styles extensions */
-        '.css',
-        '.scss',
+    /* Styles extensions */
+    '.css',
+    '.scss',
 
-        /* Other extensions */
-        '.html',
-        '.js',
-        '.json',
-    ];
+    /* Other extensions */
+    '.html',
+    '.js',
+    '.json',
+  ];
 
-    return new Promise((resolve, reject) => {
-        allowedEextensions.includes(extension)
-            ? resolve(true)
-            : reject(new FileExtensionNotAllowedError(allowedEextensions.join(', ')));
-    });
+  return new Promise((resolve, reject) => {
+    allowedEextensions.includes(extension)
+      ? resolve(true)
+      : reject(new FileExtensionNotAllowedError(allowedEextensions.join(', ')));
+  });
 }
 
 /**
@@ -50,14 +50,14 @@ function isExtensionValid(extension: string): Promise<boolean> {
  * @internal
  */
 function isFolderValid(directories: string): Promise<boolean> {
-    const allowedFolders = ['configs', 'css', 'elements', 'img', 'js', 'layouts', 'pages'];
-    const rootFolder = directories.substring(1).split('/')[0];
+  const allowedFolders = ['configs', 'css', 'elements', 'img', 'js', 'layouts', 'pages'];
+  const rootFolder = directories.substring(1).split('/')[0];
 
-    return new Promise((resolve, reject) => {
-        allowedFolders.includes(rootFolder)
-            ? resolve(true)
-            : reject(new FolderNotAllowedError(allowedFolders.join(', ')));
-    });
+  return new Promise((resolve, reject) => {
+    allowedFolders.includes(rootFolder)
+      ? resolve(true)
+      : reject(new FolderNotAllowedError(allowedFolders.join(', ')));
+  });
 }
 
 /**
@@ -67,15 +67,15 @@ function isFolderValid(directories: string): Promise<boolean> {
  * @internal
  */
 function isSubfoldersAllowed(directories: string): Promise<boolean> {
-    const allowedSubolders = ['css', 'elements', 'img', 'js'];
-    const folders = directories.substring(1).split('/');
-    const rootFolder = folders[0];
+  const allowedSubolders = ['css', 'elements', 'img', 'js'];
+  const folders = directories.substring(1).split('/');
+  const rootFolder = folders[0];
 
-    return new Promise((resolve, reject) => {
-        folders.length > 1 && !allowedSubolders.includes(rootFolder)
-            ? reject(new SubfolderNotAllowedError(allowedSubolders.join(', ')))
-            : resolve(true);
-    });
+  return new Promise((resolve, reject) => {
+    folders.length > 1 && !allowedSubolders.includes(rootFolder)
+      ? reject(new SubfolderNotAllowedError(allowedSubolders.join(', ')))
+      : resolve(true);
+  });
 }
 
 /**
@@ -85,9 +85,9 @@ function isSubfoldersAllowed(directories: string): Promise<boolean> {
  * @return {promise} True if promises resolves, ApiError otherwise.
  */
 export function isFileAllowed(path: string): Promise<boolean> {
-    const { ext: extension, dir: directories } = parse(path);
+  const { ext: extension, dir: directories } = parse(path);
 
-    return isExtensionValid(extension)
-        .then((data) => isFolderValid(directories))
-        .then((data) => isSubfoldersAllowed(directories));
+  return isExtensionValid(extension)
+    .then((data) => isFolderValid(directories))
+    .then((data) => isSubfoldersAllowed(directories));
 }

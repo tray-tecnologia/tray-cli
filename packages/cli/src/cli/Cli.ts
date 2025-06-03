@@ -15,22 +15,22 @@ import watch from './commands/Watch';
 const pkg = require('../../package.json');
 
 export function run() {
-    configure();
-    list();
-    create();
-    cleanCache();
-    del();
-    download();
-    upload();
-    remove();
-    watch();
-    open();
+  configure();
+  list();
+  create();
+  cleanCache();
+  del();
+  download();
+  upload();
+  remove();
+  watch();
+  open();
 
-    program
-        .version(pkg.version, '--version', 'Display CLI version')
-        .helpOption('--help', 'Display CLI help')
-        .addHelpCommand('help [command]', 'Display help per command')
-        .name('tray');
+  program
+    .version(pkg.version, '--version', 'Display CLI version')
+    .helpOption('--help', 'Display CLI help')
+    .addHelpCommand('help [command]', 'Display help per command')
+    .name('tray');
 
-    program.parse(process.argv);
+  program.parse(process.argv);
 }

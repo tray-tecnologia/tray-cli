@@ -1,5 +1,5 @@
 export type ApiConfigurationResponse = {
-    authentication: boolean;
-    themeId?: string;
-    preview?: string;
+  authentication: boolean;
+  themeId?: string;
+  preview?: string;
 };
