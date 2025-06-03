@@ -1,5 +1,5 @@
 export type SendAsset = {
-    asset: string;
-    data: Buffer;
-    isBinary: boolean;
+  asset: string;
+  data: Buffer;
+  isBinary: boolean;
 };
