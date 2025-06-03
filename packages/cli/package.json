@@ -1,0 +1,53 @@
+{
+  "name": "@tray-tecnologia/cli",
+  "version": "1.0.2",
+  "type": "module",
+  "description": "CLI designed to help developers create great themes for Tray E-commerce.",
+  "license": "GPL-3.0-only",
+  "author": "Tray Plataforma de E-commerce",
+  "keywords": [
+    "opencode",
+    "tray",
+    "cli"
+  ],
+  "scripts": {
+    "dev": "vite-node src/dev.ts",
+    "lint": "eslint --cache",
+    "type:check": "tsc --build --force",
+    "build": "vite build",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@tray-tecnologia/sdk": "*",
+    "@types/inquirer": "^8.1.3",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.5.3",
+    "commander": "^8.3.0",
+    "glob": "^7.2.0",
+    "inquirer": "^8.2.0",
+    "isbinaryfile": "^4.0.8",
+    "open": "^8.4.0",
+    "ora": "^5.4.1",
+    "slash": "^3.0.0",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@tray-tecnologia/config-eslint": "*",
+    "@tsconfig/node22": "^22.0.0",
+    "@types/glob": "^7.2.0",
+    "@types/node": "^22.15.29",
+    "eslint": "^9.28.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vite-node": "^3.2.1",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "tray": "bin/cli.js"
+  },
+  "files": [
+    "dist/**/*"
+  ]
+}

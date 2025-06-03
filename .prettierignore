@@ -1,2 +1,5 @@
 #Folders
 dist/
+
+# Files
+*.md

@@ -1,0 +1,27 @@
+{
+  "include": ["vite.config.ts", "src/**/*"],
+  "exclude": ["src/**/__tests__/*"],
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "es2024",
+    "lib": ["es2024"],
+    "types": ["node", "vite/client"],
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "jsx": "preserve",
+    "strict": true,
+    "noEmit": true,
+    "noImplicitThis": true,
+    "verbatimModuleSyntax": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "composite": true,
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "baseUrl": "."
+  }
+}

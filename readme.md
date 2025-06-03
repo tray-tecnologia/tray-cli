@@ -1,158 +1,37 @@
 <div align="center">
-  <img src="assets/logo.png" width="130" />
-  <h1>Tray CLI</h1>
+  <img src="logo.png" width="130"/>
+    
+  <svg width="140" height="52" viewBox="0 0 140 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.68 38H6.848V19.184H0.64V15.152H17.888V19.184H11.68V38ZM28.0673 15.152C30.1366 15.152 31.8433 15.408 33.1873 15.92C34.5313 16.4107 35.5339 17.168 36.1953 18.192C36.8566 19.1947 37.1873 20.464 37.1873 22C37.1873 23.0453 36.9846 23.9627 36.5793 24.752C36.1953 25.52 35.6726 26.1813 35.0113 26.736C34.3713 27.2693 33.6779 27.7067 32.9313 28.048L39.6513 38H34.2753L28.8353 29.232H26.2433V38H21.4113V15.152H28.0673ZM27.7153 19.12H26.2433V25.296H27.8113C28.8779 25.296 29.7419 25.1787 30.4033 24.944C31.0646 24.7093 31.5446 24.3573 31.8433 23.888C32.1419 23.3973 32.2913 22.8107 32.2913 22.128C32.2913 21.4027 32.1206 20.8267 31.7793 20.4C31.4593 19.952 30.9579 19.632 30.2753 19.44C29.6139 19.2267 28.7606 19.12 27.7153 19.12ZM56.5203 38L54.8563 32.56H46.5363L44.8723 38H39.6562L47.7203 15.056H53.6403L61.7363 38H56.5203ZM52.0403 23.184C51.9336 22.8213 51.7949 22.3627 51.6243 21.808C51.4536 21.2533 51.2829 20.688 51.1123 20.112C50.9416 19.536 50.8029 19.0347 50.6963 18.608C50.5896 19.0347 50.4403 19.568 50.2483 20.208C50.0776 20.8267 49.9069 21.424 49.7363 22C49.5869 22.5547 49.4696 22.9493 49.3843 23.184L47.7523 28.496H53.7043L52.0403 23.184ZM69.8278 24.56L74.5958 15.152H79.8118L72.2278 29.104V38H67.4278V29.264L59.8438 15.152H65.0918L69.8278 24.56ZM100.701 18.864C99.7837 18.864 98.9623 19.0453 98.237 19.408C97.533 19.7707 96.9357 20.2933 96.445 20.976C95.9543 21.6373 95.581 22.448 95.325 23.408C95.0903 24.368 94.973 25.4453 94.973 26.64C94.973 28.2613 95.165 29.648 95.549 30.8C95.9543 31.9307 96.5837 32.7947 97.437 33.392C98.2903 33.9893 99.3783 34.288 100.701 34.288C101.64 34.288 102.568 34.1813 103.485 33.968C104.424 33.7547 105.437 33.456 106.525 33.072V37.136C105.522 37.5413 104.53 37.84 103.549 38.032C102.568 38.224 101.469 38.32 100.253 38.32C97.9063 38.32 95.965 37.84 94.429 36.88C92.9143 35.8987 91.7943 34.5333 91.069 32.784C90.3437 31.0133 89.981 28.9547 89.981 26.608C89.981 24.88 90.2157 23.3013 90.685 21.872C91.1543 20.4213 91.837 19.1733 92.733 18.128C93.6503 17.0827 94.7703 16.272 96.093 15.696C97.437 15.12 98.973 14.832 100.701 14.832C101.832 14.832 102.962 14.9813 104.093 15.28C105.245 15.5573 106.344 15.9413 107.389 16.432L105.821 20.368C104.968 19.9627 104.104 19.6107 103.229 19.312C102.376 19.0133 101.533 18.864 100.701 18.864ZM111.38 38V15.152H116.212V34H125.492V38H111.38ZM138.018 38H127.618V35.248L130.402 33.968V19.184L127.618 17.904V15.152H138.018V17.904L135.234 19.184V33.968L138.018 35.248V38Z" fill="black"/>
+  </svg> 
+  
+  [![NPM Version](https://img.shields.io/npm/v/@tray-tecnologia/tray-cli?style=flat-square&label=@tray-tecnologia/tray-cli)](https://www.npmjs.com/package/@tray-tecnologia/tray-cli) 
+  ![NPM License](https://img.shields.io/npm/l/@tray-tecnologia/tray-cli?style=flat-square&color=%2397ca00)
 </div>
 
-Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar desenvolvedores a criarem ótimos temas para Tray.
+## Sobre esse repositório
 
-### Índice
+O repositório `tray-tecnologia/tray-cli` é um monorepo composto por pacotes NPM de modo a interagir com as APIs da Tray para a gestão dos temas.
 
--   [Instalação](#instalação)
--   [Linha de comando](#linha-de-comando)
-    -   [tray help [command]](#tray-help-command)
-    -   [tray configure [options] [key] [password] [theme_id]](#tray-configure-options-key-password-theme_id)
-    -   [tray list](#tray-list)
-    -   [tray create [options] [key] [password] [theme-name] [theme-base]](#tray-create-options-key-password-theme-name-theme-base)
-    -   [tray clean-cache [theme-id]](#tray-clean-cache-theme-id)
-    -   [tray delete [theme-id]](#tray-delete-theme-id)
-    -   [tray download [files...]](#tray-download-files)
-    -   [tray upload [options] [files...]](#tray-upload-options-files)
-    -   [tray remove <files...>](#tray-remove-files)
-    -   [tray watch](#tray-watch)
-    -   [tray open](#tray-open)
--   [Api](#api)
--   [Erros](#erros)
--   [Contribuições](#contribuições)
--   [Créditos](#créditos)
--   [Licença](#licença)
+```
+tray-cli/
+├── config-eslint   # Configurações do eslint compartilhadas entre os outros pacotes
+├── sdk             # SDK que interage diretamente com a API da Tray
+└── cli             # Interface de linha de comando para gerenciar os temas
+```
 
 ## Instalação
 
-Para usar esse programa basta instalar com os comandos abaixo. Recomendados fazer a instalação global. No linux a instalação global necessita ser feita com administrador com o comando `sudo`.
+Para instalar o Tray CLI para desenvolvimento do pacote use os seguintes comandos:
 
 ```sh
-# Instala globalmente no sistema (Recomendado)
-npm install @tray-tecnologia/tray-cli --global
-
-# Instala na pasta local
-npm install @tray-tecnologia/tray-cli
+npm install && npm run build
 ```
-
-Se desejar usar localmente, todos os comando abaixo precisaram ter acrescido `npx` antes para que ele seja executado corretamente.
-
-## Linha de comando
-
-Os comandos abaixo estão disponíveis no programa. Parâmetros obrigatórios são indicados entre sinais de menor `<` e maior `>` e parâmetros opcionais entre colchetes `[]`. Parâmetros opcionais são independentes de ordem, ou seja, podem ser passados no início ou no final do comando.
-
-### tray help [command]
-
-Mostra uma listagem de todos os comando disponíveis, bem como uma descrição sucinta sobre o comando. Se o parâmetro `command` for passado mostra a ajuda específica do comando solicitado.
-
-### tray configure [options] [key] [password] [theme_id]
-
-Cria o arquivo de configuração. Caso não passe os parâmetros acima o programa irá solicitá-los interativamente. A única opção disponível para esse comando é `--debug`. Isso fará com que arquivos de log sejam gerados na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
-
-### tray list
-
-Lista todos os temas disponíveis atualmente na loja.
-
-### tray create [options] [key] [password] [theme-name] [theme-base]
-
-Cria um novo tema na loja com o nome passado e baseado no tema base. Caso algum parâmetro não seja informado, o programa irá solicitá-lo. É possível usar a opçao `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
-
-### tray clean-cache [theme-id]
-
-Limpa o cache de um tema. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
-
-### tray delete [theme-id]
-
-Deleta um tema da loja. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
-
-### tray download [files...]
-
-Baixa os arquivos especificados do tema configurado. Se o parâmetro opcional `files` não for fornecido, o programa irá baixar todos os arquivos do tema.
-
-### tray upload [options] [files...]
-
-Envia os arquivos para a loja no tema configurado. Se o parâmetro opcional `files` não for fornecido, o programa irá enviar todos os arquivos, pastas e subpastas presentes na pasta raiz onde o comando é executado.
-
-Esse comando possui a opçào `--core`, que indica ao programa para enviar somente os arquivos essenciais, ignorando o arquivos `settings.json` e a pasta imagem por completo.
-
-Esse comando suporta padrões Glob e usa a biblioteca [node-glob](https://github.com/isaacs/node-glob) para isso.
-
-### tray remove <files...>
-
-Remove os arquivos especificados do tema configurado. É obrigatório passar os arquivos que deseja remover. Esse comando suporta padrões Glob e usa a biblioteca [node-glob](https://github.com/isaacs/node-glob) para isso.
-
-### tray watch
-
-Monitora os arquivos para verificar se ocorreram mudanças e já realiza as devidas alterações na loja. Para garantir que o conteúdo dos arquivos sejam lidos corretamente, o CLI irá aguardar até que o arquivo acabe de escrever em disco. Essa detecção pode demorar até 1000 milissegundos (1 segundo).
-
-**_Atenção_**: nem todas as operações do sistema de arquivos do seu computador são suportadas pela API da Tray. Apenas as operações de criação, atualização, remoção e renomeação de arquivos são suportadas. Operações com pastas não são suportadas e serão ignoradas.
-
-### tray open
-
-Abre o link de prévia do tema no navegador padrão.
-
-## API
-
-O Tray Cli também expõe uma API para que você possa usar integrar os commandos do CLI em outra ferramenta. Com exceção dos comandos `open` e `watch`, todos os outros comandos estão disponíveis nessa API.
-
-Todos os métodos dessa API retornam uma `Promise`. Você deverá observá-la para detectar quando ela foi resolvida ou rejeitada. Como algumas operações demoram a serem executadas, recomendamos sempre executá-las de modo assíncrono.
-
-Veja o exemplo abaixo de um uso simples para gerar a configuração do tema
-
-```js
-const Tray = require('@tray-tecnologia/tray-cli').default;
-
-const api = new Tray({
-    key: 'MINHA-CHAVE-AQUI',
-    password: 'MINHA-SENHA-AQUI',
-    themeId: 1, // Id do meu tema
-    debug: false,
-});
-
-api.configure()
-    .then((success) => console.log(success))
-    .catch((error) => console.error(error));
-```
-
-## Erros
-
-O Tray Cli pode retornar vários erros que indicam problemas diferentes durante a execução do programa.
-
-#### SaveConfigurationFileError (CLI::0001)
-
-Retornado caso não seja possível salvar o arquivo de configurações necessário para todas as outras ações.
-
-#### FileNotFoundError (CLI::0002)
-
-Retornado caso não for encontrado o arquivo config.yml na pasta atual.
-
-#### ParameterNotDefinedError (CLI::0003)
-
-Retornado quando algum parâmetro necessário não for informado.
-
-#### SaveThemeAssetError (CLI::0004)
-
-Retornado quando algum problema ocorre ao tentar salva o arquivo baixado do tema.
-
-#### LoadThemeAssetError (CLI::0005)
-
-Retornado quando o programa não consegue carregar os dados do arquivo do tema a ser enviado.
-
-#### ThemeFilesNotFoundError (CLI::0006)
-
-Retornado quando o programa não consegue listar automaticamente os arquivos a serem enviado para a loja.
-
-#### UnknownError (CLI::9999)
-
-Retornando quando um erro acontecer, mas que o programa não consegue identificar qual foi a causa.
 
 ## Contribuições
 
-Tray CLI é um projeto de código fonte aberto no qual todos são bem-vindos a ajudar a comunidade contribuindo com o projeto. Fique a vontade para reportar problemas, sugerir melhorias ou enviar código de novas funcionalidades. Confira [Como contribuir com o projeto](contributing.md) e ajudá-lo a melhorar a cada dia.
+O projeto possui código fonte aberto no qual todos são bem-vindos a ajudar. Fique a vontade para reportar problemas, sugerir melhorias ou enviar código de novas funcionalidades. Confira [Como contribuir com o projeto](contributing.md) e ajudá-lo a melhorar a cada dia.
 
 ## Licença
 
-[GPLv3](license.md)
+O código fonte desse repositório está sob a licença [GPLv3](license.md).
