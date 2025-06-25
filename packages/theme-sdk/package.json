@@ -32,5 +32,13 @@
     "vite-node": "^3.2.1",
     "vite-plugin-dts": "^4.5.4"
   },
-  "main": "./src/index.ts"
+  "main": "./src/index.ts",
+  "imports": {
+    "#theme-sdk/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/*.ts",
+      "./src/*/index.ts"
+    ]
+  }
 }

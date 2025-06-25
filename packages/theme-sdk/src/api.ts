@@ -4,7 +4,7 @@ import { fileTypeFromBuffer } from 'file-type';
 import { appendFile } from 'fs/promises';
 import { EOL } from 'os';
 
-import { ApiError } from './errors/ApiError';
+import { BaseError } from './errors/BaseError';
 import { AuthenticationError } from './errors/AuthenticationError';
 import { FailedConfigurationError } from './errors/FailedConfigurationError';
 import { FailedRemoveDynamicFile } from './errors/FailedRemoveDynamicFile';
@@ -94,7 +94,7 @@ export class Api {
 
   /**
    * Check configurations files
-   * @returns Promise to be resolved. ApiConfigurationResponse if resolved. ApiError otherwise.
+   * @returns Promise to be resolved. ApiConfigurationResponse if resolved. BaseError otherwise.
    */
   checkConfiguration(): Promise<ApiConfigurationResponse> {
     const config: AxiosRequestConfig = {
@@ -142,7 +142,7 @@ export class Api {
   /**
    * Clean cache for a theme on store
    * @param {number|null} themeId Theme id to clean cache.
-   * @returns Promise Return true with promises resolve, or ApiError otherwise.
+   * @returns Promise Return true with promises resolve, or BaseError otherwise.
    */
   cleanCache(themeId = this.themeId): Promise<boolean> {
     const config: AxiosRequestConfig = {
@@ -165,10 +165,10 @@ export class Api {
         this.generateDebugFile({ type: 'Info', operation: 'cleanCache', data: response.data });
         return Promise.resolve(true);
       })
-      .catch((error: AxiosError | ApiError) => {
+      .catch((error: AxiosError | BaseError) => {
         let sdkError;
 
-        if (error instanceof ApiError) {
+        if (error instanceof BaseError) {
           sdkError = error;
         } else {
           sdkError = this.verifyAuthenticationError(error);
@@ -181,7 +181,7 @@ export class Api {
 
   /**
    * Get a list of all themes available at store
-   * @returns Promise ApiListThemesResponse if promise resolves, or ApiError otherwise.
+   * @returns Promise ApiListThemesResponse if promise resolves, or BaseError otherwise.
    */
   getThemes(): Promise<ApiListThemesResponse> {
     const config: AxiosRequestConfig = {
@@ -212,7 +212,7 @@ export class Api {
    * Create a new theme on store.
    * @param name Name of the new theme
    * @param base Name of the base theme
-   * @returns Promise ApiCreateThemeResponse if promise resolves, or ApiError otherwise.
+   * @returns Promise ApiCreateThemeResponse if promise resolves, or BaseError otherwise.
    */
   createTheme(name: string, base: string = 'default'): Promise<ApiCreateThemeResponse> {
     const config: AxiosRequestConfig = {
@@ -256,7 +256,7 @@ export class Api {
   /**
    * Delete a theme from store
    * @param id Theme id to delete
-   * @returns Promise Return true with promises resolve, or ApiError otherwise.
+   * @returns Promise Return true with promises resolve, or BaseError otherwise.
    */
   deleteTheme(id: number): Promise<boolean> {
     const config: AxiosRequestConfig = {
@@ -299,7 +299,7 @@ export class Api {
 
   /**
    * Get theme assets
-   * @returns Promise Return assets and total quantity if promise resolves, or ApiError otherwise.
+   * @returns Promise Return assets and total quantity if promise resolves, or BaseError otherwise.
    */
   getAssets(): Promise<ApiAssetsResponse> {
     const config: AxiosRequestConfig = {
@@ -331,7 +331,7 @@ export class Api {
 
   /**
    * Get specific theme asset
-   * @returns Promise Return asset data if promise resolves, or ApiError otherwise.
+   * @returns Promise Return asset data if promise resolves, or BaseError otherwise.
    */
   getAsset(asset: string): Promise<ApiAssetContentResponse> {
     const config: AxiosRequestConfig = {
@@ -377,7 +377,7 @@ export class Api {
    * @param {string} asset Asset name like path
    * @param {Buffer} data Asset content
    * @param {boolean} isBinary True if content is binary, false otherwise.
-   * @return Promise Return true if promise resolves, or ApiError otherwise.
+   * @return Promise Return true if promise resolves, or BaseError otherwise.
    */
   sendAsset({ asset, data, isBinary = false }: SendAsset): Promise<boolean> {
     const config: AxiosRequestConfig = {
@@ -421,7 +421,7 @@ export class Api {
   /**
    * Delete asset requested
    * @param {string} asset Asset name to be deleted.
-   * @return Promise Return true if promise resolves, or ApiError otherwise.
+   * @return Promise Return true if promise resolves, or BaseError otherwise.
    */
   deleteAsset(asset: string): Promise<boolean> {
     const config: AxiosRequestConfig = {

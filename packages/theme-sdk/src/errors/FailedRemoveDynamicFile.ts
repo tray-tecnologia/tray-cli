@@ -1,6 +1,6 @@
-import { ApiError } from './ApiError';
+import { BaseError } from './BaseError';
 
-export class FailedRemoveDynamicFile extends ApiError {
+export class FailedRemoveDynamicFile extends BaseError {
   constructor(data: object) {
     super({
       code: 'SDK::0007',

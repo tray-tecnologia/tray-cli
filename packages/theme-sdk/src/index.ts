@@ -1,7 +1,7 @@
 import { Api } from './api';
 
 export * from './api';
-export * from './errors/ApiError';
+export * from './errors/BaseError';
 export * from './errors/AuthenticationError';
 export * from './errors/FailedConfigurationError';
 export * from './errors/FailedRemoveStaticFile';

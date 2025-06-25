@@ -7,7 +7,7 @@ import { SubfolderNotAllowedError } from '../errors/SubfolderNotAllowedError';
 /**
  * Verify is extension is allowed.
  * @param {string} extension File extension
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
  */
 function isExtensionValid(extension: string): Promise<boolean> {
@@ -46,7 +46,7 @@ function isExtensionValid(extension: string): Promise<boolean> {
 /**
  * Verify folder is allowed.
  * @param {string} directories Folders path
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
  */
 function isFolderValid(directories: string): Promise<boolean> {
@@ -63,7 +63,7 @@ function isFolderValid(directories: string): Promise<boolean> {
 /**
  * Verify path allow subfolders
  * @param {string} directories Folders path
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
  */
 function isSubfoldersAllowed(directories: string): Promise<boolean> {
@@ -82,7 +82,7 @@ function isSubfoldersAllowed(directories: string): Promise<boolean> {
  * Verify file is allowed in theme structure.
  * Validades file extension, root folders and subfolders.
  * @param {string} path Complete file path
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  */
 export function isFileAllowed(path: string): Promise<boolean> {
   const { ext: extension, dir: directories } = parse(path);

@@ -1,6 +1,6 @@
-import { ApiError } from './ApiError';
+import { BaseError } from './BaseError';
 
-export class UnknownError extends ApiError {
+export class UnknownError extends BaseError {
   constructor(message?: string) {
     super({
       code: 'SDK::9999',

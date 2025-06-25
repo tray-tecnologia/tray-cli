@@ -1,6 +1,6 @@
-import { ApiError } from './ApiError';
+import { BaseError } from './BaseError';
 
-export class InvalidLayoutError extends ApiError {
+export class InvalidLayoutError extends BaseError {
   constructor(data: object) {
     super({
       code: 'SDK::0004',
