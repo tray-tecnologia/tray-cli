@@ -3,12 +3,16 @@ import pkg from '../../package.json';
 import type {
   ApiResponse,
   Config,
+  Debug,
   GeneralResponse,
   ThemeInstall,
   ThemeInstallAsset,
 } from '#theme-sdk/types';
 import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError } from '#theme-sdk/errors';
 import { ValidationError } from '#theme-sdk/errors/ValidationError.ts';
+import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed.ts';
+import { appendFile } from 'fs/promises';
+import { EOL } from 'os';
 
 export class Client {
   private adapter: AxiosAdapter;
@@ -39,95 +43,237 @@ export class Client {
     );
   }
 
+  /**
+   * Adds operation info log to file with debug enabled
+   * @param {string} type Type of message. Allowed: Emergency, Alert, Critical, Error, Warning, Notice Info or Debug
+   * @param {string} operation Operation where debug info was generated
+   * @param {Object|string} data Data from operation
+   * @private
+   */
+  private generateDebugFile({ type, operation, data }: Debug) {
+    if (this.debug) {
+      const date = new Date().toLocaleString('pt-br');
+      const convertedData = typeof data === 'object' && data !== null ? JSON.stringify(data) : data;
+      const dataToWrite = `[${date}] Type: ${type} | Operation: ${operation} | Data: ${convertedData}${EOL}`;
+
+      appendFile(this.debugFilePath, dataToWrite).catch(() => false);
+    }
+  }
+
+  /**
+   * Get all themes
+   * @returns Promise ThemeInstall.
+   */
   async getThemes(): Promise<void | ApiResponse<ThemeInstall[]>> {
     return this.adapter
       .get<ApiResponse<ThemeInstall[]>>('/theme-installs')
-      .then((response) => response)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'getThemes',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('getThemes', error);
       });
   }
 
-  async getTheme(id: number): Promise<void | ApiResponse<ThemeInstall>> {
+  /**
+   * Get a theme by id
+   * @returns Promise ThemeInstall.
+   */
+  async getTheme(): Promise<void | ApiResponse<ThemeInstall>> {
     return this.adapter
-      .get<ApiResponse<ThemeInstall>>(`/theme-installs/${id}`)
-      .then((response) => response)
+      .get<ApiResponse<ThemeInstall>>(`/theme-installs/${this.themeId}`)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'getTheme',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('getTheme', error);
       });
   }
 
+  /**
+   * Create a clean theme
+   * @returns Promise ThemeInstall.
+   */
   async createCleanTheme(): Promise<void | ApiResponse<ThemeInstall>> {
     return this.adapter
       .post<ApiResponse<ThemeInstall>>(`/theme-installs/create-clean`)
-      .then((response) => response)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'createCleanTheme',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('createCleanTheme', error);
       });
   }
 
+  /**
+   * Delete a theme
+   * @returns Promise GeneralResponse.
+   */
   async deleteTheme(id: number): Promise<void | ApiResponse<GeneralResponse>> {
     return this.adapter
       .delete<ApiResponse<GeneralResponse>>(`/theme-installs/${id}`)
-      .then((response) => response)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'deleteTheme',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('deleteTheme', error);
       });
   }
 
-  async getThemeAssets(id: number): Promise<void | ApiResponse<ThemeInstallAsset[]>> {
+  /**
+   * Get all assets from a theme
+   * @returns Promise ThemeInstallAsset.
+   */
+  async getThemeAssets(): Promise<void | ApiResponse<ThemeInstallAsset[]>> {
     return this.adapter
-      .get<ApiResponse<ThemeInstallAsset[]>>(`/theme-installs/${id}/assets`)
-      .then((response) => response)
+      .get<ApiResponse<ThemeInstallAsset[]>>(`/theme-installs/${this.themeId}/assets`)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'getThemeAssets',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('getThemeAssets', error);
       });
   }
 
-  async getThemeAsset(id: number, themeId: number): Promise<void | ApiResponse<ThemeInstallAsset>> {
+  /**
+   * Get an asset by id
+   * @param id Asset id
+   * @returns Promise ThemeInstallAsset.
+   */
+  async getThemeAsset(id: number): Promise<void | ApiResponse<ThemeInstallAsset>> {
     return this.adapter
-      .get<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${themeId}/assets/${id}`)
-      .then((response) => response)
+      .get<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets/${id}`)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'getThemeAsset',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('getThemeAsset', error);
       });
   }
 
-  async deleteThemeAsset(id: number, themeId: number): Promise<void | ApiResponse<GeneralResponse>> {
+  /**
+   * Delete an asset by id
+   * @param id Asset id
+   * @returns Promise GeneralResponse.
+   */
+  async deleteThemeAsset(id: number): Promise<void | ApiResponse<GeneralResponse>> {
     return this.adapter
-      .delete<ApiResponse<GeneralResponse>>(`/theme-installs/${themeId}/assets/${id}`)
-      .then((response) => response)
+      .delete<ApiResponse<GeneralResponse>>(`/theme-installs/${this.themeId}/assets/${id}`)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'deleteThemeAsset',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('deleteThemeAsset', error);
       });
   }
 
-  async createThemeAsset(path: string, content: string, themeId: number, ): Promise<void | ApiResponse<ThemeInstallAsset>> {
-    return this.adapter
-      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${themeId}/assets`, {
+  /**
+   * Create a theme asset
+   * @param path Asset path
+   * @param content Asset content
+   * @returns Promise ThemeInstallAsset.
+   */
+  async createThemeAsset(path: string, content: string): Promise<void | ApiResponse<ThemeInstallAsset>> {
+    return isFileAllowed(path).then(async () => {
+      return this.adapter
+      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets`, {
         path,
         content,
       })
-      .then((response) => response)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'createThemeAsset',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
         this.handleErrors('createThemeAsset', error);
       });
+    })
   }
 
-  async updateThemeAsset(id: number, content: string, themeId: number, ): Promise<void | ApiResponse<ThemeInstallAsset>> {
+  /**
+   * Update a theme asset
+   * @param id Asset id
+   * @param content Asset content
+   * @returns Promise ThemeInstallAsset.
+   */
+  async updateThemeAsset(id: number, content: string): Promise<void | ApiResponse<ThemeInstallAsset>> {
     return this.adapter
-      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${themeId}/assets`, {
+      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets`, {
         id,
         content,
       })
-      .then((response) => response)
+      .then((response) => {
+        this.generateDebugFile({
+          type: 'Info',
+          operation: 'updateThemeAsset',
+          data: response,
+        });
+
+        return response;
+      })
       .catch((error) => {
-        this.handleErrors('createThemeAsset', error);
+        this.handleErrors('updateThemeAsset', error);
       });
   }
 
+  /**
+   * Handle errors
+   * @param operation Operation where error was generated
+   * @param error Error object
+   */
   private handleErrors(operation: string, error: any): void {
-
+    this.generateDebugFile({
+      type: 'Error',
+      operation,
+      data: error.body,
+    });
 
     if (error instanceof ResponseError) {
       switch (error.status) {
