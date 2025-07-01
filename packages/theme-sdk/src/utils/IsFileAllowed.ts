@@ -2,12 +2,11 @@ import { parse } from 'path';
 
 import { FileExtensionNotAllowedError } from '../errors/FileExtensionNotAllowedError';
 import { FolderNotAllowedError } from '../errors/FolderNotAllowedError';
-import { SubfolderNotAllowedError } from '../errors/SubfolderNotAllowedError';
 
 /**
  * Verify is extension is allowed.
  * @param {string} extension File extension
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
  */
 function isExtensionValid(extension: string): Promise<boolean> {
@@ -46,7 +45,7 @@ function isExtensionValid(extension: string): Promise<boolean> {
 /**
  * Verify folder is allowed.
  * @param {string} directories Folders path
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
  */
 function isFolderValid(directories: string): Promise<boolean> {
@@ -63,17 +62,17 @@ function isFolderValid(directories: string): Promise<boolean> {
 /**
  * Verify path allow subfolders
  * @param {string} directories Folders path
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
  */
 function isSubfoldersAllowed(directories: string): Promise<boolean> {
-  const allowedSubolders = ['css', 'elements', 'img', 'js'];
+  const allowedSubFolders = ['css', 'elements', 'img', 'js'];
   const folders = directories.substring(1).split('/');
   const rootFolder = folders[0];
 
   return new Promise((resolve, reject) => {
-    folders.length > 1 && !allowedSubolders.includes(rootFolder)
-      ? reject(new SubfolderNotAllowedError(allowedSubolders.join(', ')))
+    folders.length > 1 && !allowedSubFolders.includes(rootFolder)
+      ? reject(new FolderNotAllowedError(allowedSubFolders.join(', ')))
       : resolve(true);
   });
 }
@@ -82,7 +81,7 @@ function isSubfoldersAllowed(directories: string): Promise<boolean> {
  * Verify file is allowed in theme structure.
  * Validades file extension, root folders and subfolders.
  * @param {string} path Complete file path
- * @return {promise} True if promises resolves, ApiError otherwise.
+ * @return {promise} True if promises resolves, BaseError otherwise.
  */
 export function isFileAllowed(path: string): Promise<boolean> {
   const { ext: extension, dir: directories } = parse(path);

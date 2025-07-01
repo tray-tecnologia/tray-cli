@@ -37,7 +37,7 @@ Os temas precisam seguir uma estrutura bem determinada, caso contrário os arqui
 ├── pages
 ```
 
-Somente as pastas `css`, `img`, `elements` e `js` suportam subpastas. Tentar criar pastas nas outras pastas irá gerar o erro [SubfolderNotAllowedError](#subfoldernotallowederror-sdk0010).
+Somente as pastas `css`, `img`, `elements` e `js` suportam subpastas. Tentar criar pastas nas outras pastas irá gerar o erro [FolderNotAllowedError](#foldernotallowederror-sdk0009).
 
 Fique atento tambem aos formatos permitidos para os arquivos. Eles são: `.ttf`, `.otf`, `.eot`, `.woff`, `.woff2`, `.jpg`, `.jpeg`, `.gif`, `.png`, `.svg`, `.css`, `.scss`, `.html`, `.js`, `.json`
 
@@ -146,29 +146,29 @@ O Opencode SDK pode retornar vários erros que indicam problemas diferentes dura
 
 Retornado caso os dados de acesso estejam incorretos.
 
-#### FailedConfigurationError (SDK::0002)
+#### ValidationError (SDK::0002)
 
-Retornado quando não é possível verificar os dados de configuração especificados.
+Retornado caso ocorra um erro em processar a informações enviadas.
 
-#### InvalidOrNotSentParamsError (SDK::0003)
+#### TimeoutError (SDK::0003)
 
-Retornado quando um parâmetro obrigatório está inválido ou não foi enviado.
+Retornado caso a requisição passe do tempo definido de retorno.
 
-#### InvalidLayoutError (SDK::0004)
+#### NotFoundError (SDK::0004)
 
-Retornado quando o id do tema não existe.
+Retornado caso a rota ou conteúdo seja inexistente.
 
-#### ResourceNotFoundError (SDK::0005)
+#### ServerError (SDK::0005)
 
-Retornado quando o asset requisitado não existe no tema.
+Retornado caso ocorra um erro na requisição para o servidor.
 
-#### FailedRemoveStaticFile (SDK::0006)
+#### ThemeNotFoundError (SDK::0006)
 
-Retornado quando não é possível remover um arquivo estatico do tema. Arquivos estáticos são quaisquer arquivos diferentes dos `.html` e que possuem código Twig.
+Retornado caso o tema que esteja tentando alterar, seja inexistente.
 
-#### FailedRemoveDynamicFile (SDK::0007)
+#### AssetNotFoundError (SDK::0007)
 
-Retornado quando não é possível remover um arquivo dinâmico do tema. Arquivos dinâmicos são arquivos `.html` que possuem código Twig.
+Retornado ao tentar alterar um arquivo inexistente.
 
 #### FileExtensionNotAllowedError (SDK::0008)
 
@@ -178,9 +178,13 @@ Retornado ao tentar enviar um arquivo com extensão não suportada.
 
 Retornado ao tentar enviar um arquivo fora das pastas padrões permitidas.
 
-#### SubfolderNotAllowedError (SDK::0010)
+#### RequestError (SDK::9001)
 
-Retornado ao tentar criar subpastas em pastas não permitidas.
+Retornado caso ocorra um erro no processo da requisição.
+
+#### UnknownError (SDK::9999)
+
+Retornado caso retorne um erro não mapeado.
 
 ## Contribuições
 

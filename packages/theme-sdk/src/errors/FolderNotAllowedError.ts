@@ -1,6 +1,6 @@
-import { ApiError } from './ApiError';
+import { BaseError } from './BaseError';
 
-export class FolderNotAllowedError extends ApiError {
+export class FolderNotAllowedError extends BaseError {
   constructor(folders: string) {
     super({
       code: 'SDK::0009',

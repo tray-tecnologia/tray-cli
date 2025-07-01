@@ -1,6 +1,6 @@
-import { ApiError } from './ApiError';
+import { BaseError } from './BaseError';
 
-export class FileExtensionNotAllowedError extends ApiError {
+export class FileExtensionNotAllowedError extends BaseError {
   constructor(extensions: string) {
     super({
       code: 'SDK::0008',
