@@ -9,7 +9,6 @@ export * from './FileExtensionNotAllowedError';
 export * from './FolderNotAllowedError';
 export * from './NotFoundError';
 export * from './ServerError';
-export * from './SubfolderNotAllowedError';
 export * from './ThemeNotFoundError';
 export * from './TimeoutError';
 export * from './UnknownError';

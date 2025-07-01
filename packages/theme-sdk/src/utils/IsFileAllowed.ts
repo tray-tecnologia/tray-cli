@@ -2,7 +2,6 @@ import { parse } from 'path';
 
 import { FileExtensionNotAllowedError } from '../errors/FileExtensionNotAllowedError';
 import { FolderNotAllowedError } from '../errors/FolderNotAllowedError';
-import { SubfolderNotAllowedError } from '../errors/SubfolderNotAllowedError';
 
 /**
  * Verify is extension is allowed.
@@ -67,13 +66,13 @@ function isFolderValid(directories: string): Promise<boolean> {
  * @internal
  */
 function isSubfoldersAllowed(directories: string): Promise<boolean> {
-  const allowedSubolders = ['css', 'elements', 'img', 'js'];
+  const allowedSubFolders = ['css', 'elements', 'img', 'js'];
   const folders = directories.substring(1).split('/');
   const rootFolder = folders[0];
 
   return new Promise((resolve, reject) => {
-    folders.length > 1 && !allowedSubolders.includes(rootFolder)
-      ? reject(new SubfolderNotAllowedError(allowedSubolders.join(', ')))
+    folders.length > 1 && !allowedSubFolders.includes(rootFolder)
+      ? reject(new FolderNotAllowedError(allowedSubFolders.join(', ')))
       : resolve(true);
   });
 }

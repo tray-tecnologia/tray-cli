@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ResponseError, RequestError } from '#theme-sdk/errors';
+import { ResponseError, RequestError } from '../errors';
 import type {
   AxiosError,
   AxiosRequestConfig,
@@ -7,7 +7,7 @@ import type {
   InternalAxiosRequestConfig,
   RawAxiosRequestHeaders,
 } from 'axios';
-import type { RequestData, RequestOptions } from '#theme-sdk/types';
+import type { RequestData, RequestOptions } from '../types';
 
 type Interceptor = (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig;
 

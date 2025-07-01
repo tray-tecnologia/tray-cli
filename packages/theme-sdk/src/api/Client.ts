@@ -8,7 +8,7 @@ import type {
   ThemeInstall,
   ThemeInstallAsset,
 } from '#theme-sdk/types';
-import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError } from '#theme-sdk/errors';
+import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError } from '#theme-sdk/errors';
 import { ValidationError } from '#theme-sdk/errors/ValidationError.ts';
 import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed.ts';
 import { appendFile } from 'fs/promises';
@@ -297,9 +297,8 @@ export class Client {
           if (error.status >= 500) {
             throw new ServerError(error.body);
           }
-          throw error;
       }
     }
-    throw error;
+    throw new UnknownError();
   }
 }

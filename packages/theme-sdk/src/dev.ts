@@ -25,6 +25,6 @@ const client = new Client({
 //   .catch((err) => console.log(err.toString()));
 
 client
-  .getThemeAssets()
+  .getThemes()
   .then((res) => console.log(res))
   .catch((err) => console.log(err.toString()));
