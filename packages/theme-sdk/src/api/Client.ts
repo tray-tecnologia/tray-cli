@@ -245,7 +245,7 @@ export class Client {
    */
   async updateThemeAsset(id: number, content: string): Promise<void | ApiResponse<ThemeInstallAsset>> {
     return this.adapter
-      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets`, {
+      .put<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets/${id}`, {
         id,
         content,
       })
@@ -299,6 +299,7 @@ export class Client {
           }
       }
     }
-    throw new UnknownError();
+    
+    throw new UnknownError(error.body?.data?.message);
   }
 }

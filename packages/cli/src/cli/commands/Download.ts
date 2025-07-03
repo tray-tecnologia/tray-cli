@@ -43,7 +43,7 @@ export default function download() {
                 loader.succeed(`${type} downloaded.`);
               }
             })
-            .catch((error) => {
+            .catch((error: any) => {
               loader.fail(error.toString());
             });
         })

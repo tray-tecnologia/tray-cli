@@ -2,7 +2,7 @@ import { promises as fsp } from 'fs';
 import { isBinaryFile } from 'isbinaryfile';
 
 import { LoadThemeAssetError } from '../errors/LoadThemeAssetError';
-import { FileUpload } from '../types/FileUpload';
+import type { FileUpload } from '../types/FileUpload';
 
 export function prepareToUpload(filename: string): Promise<FileUpload> {
   const correctFilename = filename.startsWith('/') ? filename : `/${filename}`;

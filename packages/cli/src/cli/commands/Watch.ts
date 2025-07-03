@@ -5,8 +5,8 @@ import ora from 'ora';
 import slash from 'slash';
 
 import { Tray } from '../../Tray';
-import { RemoveCommandResponse } from '../../types/RemoveCommandResponse';
-import { UploadCommandResponse } from '../../types/UploadCommandResponse';
+import type { RemoveCommandResponse } from '../../types/RemoveCommandResponse';
+import type { UploadCommandResponse } from '../../types/UploadCommandResponse';
 
 /**
  * Auxiliar constants

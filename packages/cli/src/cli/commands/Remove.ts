@@ -40,6 +40,8 @@ export default function remove() {
 
                 const loader = ora(`Deleting files...`).start();
 
+                console.log('globbed',globbed);
+
                 tray
                   .remove(globbed)
                   .then((response) => {
@@ -71,6 +73,8 @@ export default function remove() {
               .catch((error) => {
                 ora().start().fail(error.toString());
               });
+
+              
           } else {
             ora().fail('Operation aborted by user');
           }

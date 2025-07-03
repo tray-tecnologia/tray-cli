@@ -27,7 +27,32 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: ['path', 'os', 'fs', 'fs/promises'],
+      input: {
+        index: resolve(__dirname, 'src/index.ts'),
+        'bin/cli': resolve(__dirname, 'src/bin.ts'),
+      },
+      output: {
+        format: 'es',
+        entryFileNames: '[name].js',
+      },
+      external: [
+        'path',
+        'os', 
+        'fs',
+        'fs/promises',
+        'module',
+        'url',
+        'commander',
+        'chalk',
+        'inquirer',
+        'ora',
+        'open',
+        'glob',
+        'chokidar',
+        'isbinaryfile',
+        'slash',
+        'yaml',
+      ],
     },
   },
 });

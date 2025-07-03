@@ -1,23 +1,26 @@
-import Sdk, { ApiError, ApiListThemesResponse } from '@tray-tecnologia/theme-sdk';
+import Sdk from '@tray-tecnologia/theme-sdk';
 import glob from 'glob';
 
-import { CliError } from './errors/CliError';
-import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
+// import { CliError } from './errors/CliError';
 import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError';
-import { ThemeFilesNotFoundError } from './errors/ThemeFilesNotFoundError';
-import { ConfigurationFile } from './types/ConfigurationFile';
-import { DownloadCommandResponse } from './types/DownloadCommandResponse';
-import { DownloadError } from './types/DownloadError';
-import { RemoveCommandResponse } from './types/RemoveCommandResponse';
-import { UploadCommandResponse } from './types/UploadCommandResponse';
+import type { ConfigurationFile } from './types/ConfigurationFile';
+import type { DownloadCommandResponse } from './types/DownloadCommandResponse';
+import type { DownloadError } from './types/DownloadError';
+import type { RemoveCommandResponse } from './types/RemoveCommandResponse';
+import type { UploadCommandResponse } from './types/UploadCommandResponse';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
 import { prepareToUpload } from './utils/PrepareToUpload';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
+import type { ThemeInstall, ThemeInstallAsset, GeneralResponse } from '@tray-tecnologia/theme-sdk/src/types';
+import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
+import { ThemeFilesNotFoundError } from './errors/ThemeFilesNotFoundError';
+import { FileNotFoundError } from './errors/FileNotFoundError';
+
+import axios from 'axios';
 
 export class Tray {
-  readonly key: string;
-  readonly password: string;
+  readonly token: string;
   themeId?: number;
   previewUrl?: string;
   readonly debug: boolean;
@@ -27,16 +30,14 @@ export class Tray {
    * Create new Tray instance
    * @param {ConfigurationFile}
    */
-  constructor({ key, password, themeId, previewUrl, debug = false }: ConfigurationFile) {
-    this.key = key;
-    this.password = password;
+  constructor({ token, themeId, previewUrl, debug = false }: ConfigurationFile) {
+    this.token = token;
     this.themeId = themeId;
     this.previewUrl = previewUrl;
     this.debug = debug;
 
     this.api = new Sdk({
-      key: this.key,
-      password: this.password,
+      token: this.token,
       themeId: this.themeId,
       debug: this.debug,
     });
@@ -46,7 +47,7 @@ export class Tray {
    * Load configuration settings from config.yml and create an instance of class.
    * @return {Promise<Tray>} Returns Tray instance if promises resolves, or CliError otherwise.
    */
-  static initiateFromConfigFile(): Promise<Tray> {
+  static async initiateFromConfigFile(): Promise<Tray> {
     return loadConfigurationFile()
       .then((config) => new this(config))
       .catch((error) => Promise.reject(error));
@@ -56,15 +57,14 @@ export class Tray {
    * Configure CLI use generating config.yml file
    * @return {Promise} Return string if promise resolves, ApiError or CliError otherwise
    */
-  configure(): Promise<string> {
-    return this.api
-      .checkConfiguration()
+  async configure(): Promise<string> {
+    return await this.api
+      .getTheme()
       .then((data) => {
         const fileData: ConfigurationFile = {
-          key: this.key,
-          password: this.password,
+          token: this.token,
           themeId: this.themeId,
-          previewUrl: data.preview ?? '',
+          previewUrl: data?.data?.preview ?? '',
           debug: this.debug,
         };
 
@@ -72,135 +72,117 @@ export class Tray {
           .then((success) => Promise.resolve(success))
           .catch((error: SaveConfigurationFileError) => Promise.reject(error));
       })
-      .catch((error: ApiError | CliError) => Promise.reject(error));
   }
 
   /**
    * List all available themes.
-   * @return {Promise} Return ApiListThemesResponse if promises resolves, ApiError or CliError otherwise.
+   * @return {Promise} Return ThemeInstall if promises resolves, BaseError or CliError otherwise.
    */
-  list(): Promise<ApiListThemesResponse> {
-    return this.api
+  async list(): Promise<void | ThemeInstall[]> {
+    return await this.api
       .getThemes()
-      .then((data) => Promise.resolve(data))
-      .catch((error) => Promise.reject(error));
-  }
-
-  /**
-   * Clean cache for required theme
-   * @param {?number} id Theme id to clean the cache
-   * @return {Promise} Return true if promises resolves or ApiError otherwise.
-   */
-  cleanCache(id = this.themeId): Promise<boolean> {
-    return this.api
-      .cleanCache(id)
-      .then((success) => Promise.resolve(success))
-      .catch((error) => Promise.reject(error));
-  }
-
-  /**
-   * Create a new theme in store
-   * @param {string} name Theme name
-   * @param {string} base Base theme for the new theme be created from.
-   * @param {boolean} createConfigFile Specify if config.yml file need to be created on disk.
-   * @return {Promise} Returns Tray class instance if promises resolves, CliError or ApiError otherwise.
-   * If createConfigFile was true, file will be created on disk before return Tray instance.
-   */
-  create(name: string, base: string = 'default', createConfigFile = false): Promise<Tray> {
-    return this.api
-      .createTheme(name, base)
       .then((response) => {
-        this.themeId = response.themeId;
-        this.previewUrl = response.preview;
-
-        if (createConfigFile) {
-          const config = {
-            key: this.key,
-            password: this.password,
-            themeId: this.themeId,
-            previewUrl: this.previewUrl,
-            debug: this.debug,
-          };
-
-          return saveConfigurationFile(config)
-            .then(() => Promise.resolve(this))
-            .catch((error) => {
-              const improvedError = error;
-
-              let message = `Theme create with success, but ${improvedError.message}`;
-              message = message
-                .split('.')
-                .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-                .join('.');
-
-              improvedError.message = message;
-
-              return Promise.reject(improvedError);
-            });
-        }
-
-        return Promise.resolve(this);
+        return response?.data;
       })
-      .catch((error) => Promise.reject(error));
+  }
+
+  /**
+   * Create a clean theme
+   * @returns Promise ThemeInstall.
+   */
+  async createCleanTheme(): Promise<void | ThemeInstall> {
+    return await this.api
+      .createCleanTheme()
+      .then((response) => {
+        return response?.data;
+      })
   }
 
   /**
    * Delete requested theme.
    * @param {number} id Theme id to be deleted
-   * @return {Promise} Return true with promise resolves, CliError or ApiError otherwise.
+   * @return {Promise} Return true with promise resolves, CliError or BaseError otherwise.
    */
-  delete(id = this.themeId): Promise<boolean> {
-    if (!id) return Promise.reject(new ParameterNotDefinedError('ThemeId'));
+  async delete(id = this.themeId): Promise<void | GeneralResponse> {
+    if (!id) throw new ParameterNotDefinedError('ThemeId');
 
-    return this.api
+    return await this.api
       .deleteTheme(id)
-      .then((success) => Promise.resolve(success))
-      .catch((error) => Promise.reject(error));
+      .then((success) => success?.data)
   }
 
   /**
    * Download configured theme
-   * @param {string[]} files Files to be donwloaded
+   * @param {string[]} files Files to be downloaded
    * @return {Promise} Returns DownloadCommandResponse when promises resolves
    */
-  download(files?: string[]): Promise<DownloadCommandResponse> {
+  async download(files?: string[]): Promise<DownloadCommandResponse> {
     const errors: DownloadError[] = [];
 
-    const promise = new Promise<string[]>((resolve, reject) => {
-      if (files && files.length) {
-        resolve(files);
-      } else {
-        reject(new Error());
-      }
-    });
+    const assets = await this.api.getThemeAssets().then(response => response?.data);
+    if (!assets?.length) {
+      throw new ThemeFilesNotFoundError();
+    }
 
-    return promise
-      .catch(() =>
-        this.api.getAssets().then((assets) => {
-          const filesPaths: string[] = assets.assets.map((asset) => asset.path);
-          return filesPaths;
-        })
-      )
-      .then((assets: string[]) => {
-        const promises = assets.map((file: string) =>
-          this.api
-            .getAsset(file.startsWith('/') ? file : `/${file}`)
-            .then((asset) => saveThemeAssetFile(asset.key, asset.content))
-            .catch((error) => errors.push({ file, error }))
-        );
+    let assetsToDownload: ThemeInstallAsset[] = [];
 
-        return Promise.all(promises).then(() => {
-          const succeedFiles = assets.length - errors.length;
+    if (files && files.length) {
+      const filesWithSlash = files.map(file => `/${file}`);
+      const filter = assets.filter((asset) => filesWithSlash.includes(asset.path));
 
-          const response: DownloadCommandResponse = {
-            total: assets.length,
-            succeed: succeedFiles,
-            fails: errors,
-          };
+      assetsToDownload = filter;
+    } else {
+      assetsToDownload = assets;
+    }
 
-          return Promise.resolve(response);
+    const dynamicAssets = assetsToDownload.filter(asset => asset.dynamic);
+    const publicAssets = assetsToDownload.filter(asset => asset.uri && !asset.dynamic);
+
+    for (const asset of publicAssets) {
+      try {
+        const response = await axios.get(asset.uri as string, {
+          responseType: 'arraybuffer',
+          timeout: 30000
         });
-      });
+        
+        const buffer = Buffer.from(response.data);
+        await saveThemeAssetFile(asset.path, buffer);
+        
+      } catch (error) {
+        errors.push({ file: asset.path, error: new FileNotFoundError({ file: asset.path }) });
+      }
+    }
+
+    if (dynamicAssets.length > 0) {
+      const requestDelay = 2000;
+      
+      for (let i = 0; i < dynamicAssets.length; i++) {
+        const file = dynamicAssets[i];
+        
+        if (i > 0) {
+          await new Promise(resolve => setTimeout(resolve, requestDelay));
+        }
+        
+        try {
+          const asset = await this.api.getThemeAsset(file.id);
+          if (!asset?.data?.path) {
+            throw new FileNotFoundError({ file: file.path });
+          }
+
+          const buffer = Buffer.from(asset.data.content ?? '', 'utf8');
+          await saveThemeAssetFile(asset.data.path, buffer);
+          
+        } catch (error) {
+          errors.push({ file: file.path, error: error as any });
+        }
+      }
+    }
+
+    return {
+      total: assets.length,
+      succeed: assets.length - errors.length,
+      fails: errors,
+    };
   }
 
   /**
@@ -209,50 +191,62 @@ export class Tray {
    *                         Config.yml and files starting with dot will always be ignored.
    * @return {Promise} Returns UploadCommandResponse object if promises resolves, CliError or ApiError otherwise.
    */
-  upload(files?: string[]): Promise<UploadCommandResponse> {
+  async upload(files?: string[]): Promise<UploadCommandResponse> {
     const errors: any[] = [];
 
-    const promise = new Promise<string[]>((resolve, reject) => {
-      if (files && files.length) {
-        resolve(files);
-      } else {
-        reject(new Error());
+    const allFiles = await this.api.getThemeAssets();
+    if (!allFiles?.data?.length) {
+      throw new ThemeFilesNotFoundError();
+    }
+
+    let assets: string[];
+    if (files && files.length) {
+      assets = files;
+    } else {
+      let globbed = glob.sync('**/*', { nodir: true }).flat();
+      globbed = globbed.filter((item) => item !== 'config.yml');
+
+      if (!globbed.length) {
+        throw new ThemeFilesNotFoundError();
       }
-    });
+      
+      assets = globbed;
+    }
 
-    return promise
-      .catch(() => {
-        let globbed = glob.sync('**/*', { nodir: true }).flat();
-        globbed = globbed.filter((item) => item !== 'config.yml');
-
-        if (!globbed.length) {
-          return Promise.reject(new ThemeFilesNotFoundError());
-        }
-
-        return globbed;
-      })
-      .then((assets: string[]) => {
-        const promises = assets.map((file: string) =>
-          prepareToUpload(file)
-            .then((fileUpload) => {
-              const { filename: asset, content: data, isBinary } = fileUpload;
-              return this.api.sendAsset({ asset, data, isBinary });
-            })
-            .catch((error) => errors.push({ file, error }))
-        );
-
-        return Promise.all(promises).then(() => {
-          const succeedFiles = assets.length - errors.length;
-
-          const response: UploadCommandResponse = {
-            total: assets.length,
-            succeed: succeedFiles,
-            fails: errors,
-          };
-
-          return Promise.resolve(response);
+    const requestDelay = 2000;
+    
+    for (let i = 0; i < assets.length; i++) {
+      const file = assets[i];
+      
+      if (i > 0) {
+        await new Promise(resolve => setTimeout(resolve, requestDelay));
+      }
+      
+      try {
+        const fileUpload = await prepareToUpload(file);
+        const { filename: asset, content: data } = fileUpload;
+        
+        const contentBase64 = Buffer.from(data).toString("base64");
+        
+        const existingFile = allFiles.data.find(apiFile => {
+          return apiFile.path === asset;
         });
-      });
+        
+        if (existingFile) {
+          await this.api.updateThemeAsset(existingFile.id, contentBase64);
+        } else {
+          await this.api.createThemeAsset(asset, contentBase64);
+        }
+      } catch (error) {
+        errors.push({ file, error });
+      }
+    }
+
+    return {
+      total: assets.length,
+      succeed: assets.length - errors.length,
+      fails: errors,
+    };
   }
 
   /**
@@ -278,12 +272,20 @@ export class Tray {
    * @param {string[]} files Files to be removes.
    * @return {Promise} Returns RemoveCommandResponse object if promises resolves, CliError or ApiError otherwise.
    */
-  remove(files: string[]): Promise<RemoveCommandResponse> {
+  async remove(files: string[]): Promise<RemoveCommandResponse> {
     const errors: any[] = [];
 
-    const promises = files.map((file: string) =>
+    const allFiles = await this.api.getThemeAssets();
+
+    if (!allFiles?.data) {
+      throw new ThemeFilesNotFoundError();
+    }
+
+    const filesToRemove = allFiles.data.filter((file) => files.includes(file.path));
+
+    const promises = filesToRemove.map((file) =>
       this.api
-        .deleteAsset(file.startsWith('/') ? file : `/${file}`)
+        .deleteThemeAsset(file.id)
         .catch((error) => errors.push({ file, error }))
     );
 

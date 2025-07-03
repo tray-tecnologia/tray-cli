@@ -2,7 +2,7 @@ import { promises as fsp } from 'fs';
 import yaml from 'yaml';
 
 import { SaveConfigurationFileError } from '../errors/SaveConfigurationFileError';
-import { ConfigurationFile } from '../types/ConfigurationFile';
+import type { ConfigurationFile } from '../types/ConfigurationFile';
 
 /**
  * Save configs to config.yml file
@@ -10,15 +10,13 @@ import { ConfigurationFile } from '../types/ConfigurationFile';
  * @return Promise<string> Return success message if promise resolves, SaveConfigurationFileError otherwise.
  */
 export function saveConfigurationFile({
-  key,
-  password,
+  token,
   themeId,
   previewUrl,
   debug,
 }: ConfigurationFile): Promise<string> {
   const fileDataAsObject = {
-    ':api_key': key,
-    ':password': password,
+    ':api_token': token,
     ':theme_id': themeId,
     ':preview_url': previewUrl,
     ':debug': debug,

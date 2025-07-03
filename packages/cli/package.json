@@ -1,6 +1,6 @@
 {
   "name": "@tray-tecnologia/cli",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "type": "module",
   "description": "CLI designed to help developers create great themes for Tray E-commerce.",
   "license": "GPL-3.0-only",
@@ -15,11 +15,13 @@
     "lint": "eslint --cache",
     "type:check": "tsc --build --force",
     "build": "vite build",
+    "postbuild": "chmod +x dist/bin/cli.js",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@tray-tecnologia/sdk": "*",
     "@types/inquirer": "^8.1.3",
+    "axios-retry": "^4.5.0",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "commander": "^8.3.0",
@@ -45,7 +47,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "tray": "bin/cli.js"
+    "tray": "dist/bin/cli.js"
   },
   "files": [
     "dist/**/*"

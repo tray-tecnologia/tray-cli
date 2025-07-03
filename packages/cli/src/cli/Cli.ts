@@ -1,7 +1,9 @@
 #! /usr/bin/env node
 import { program } from 'commander';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-import cleanCache from './commands/CleanCache';
 import configure from './commands/Configure';
 import create from './commands/Create';
 import del from './commands/Delete';
@@ -12,13 +14,15 @@ import remove from './commands/Remove';
 import upload from './commands/Upload';
 import watch from './commands/Watch';
 
-const pkg = require('../../package.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
+const pkg = require(join(__dirname, '../../package.json'));
 
 export function run() {
   configure();
   list();
   create();
-  cleanCache();
   del();
   download();
   upload();

@@ -1,4 +1,4 @@
-import { UploadError } from './UploadError';
+import type { UploadError } from './UploadError';
 
 export declare type UploadCommandResponse = {
   total: number;

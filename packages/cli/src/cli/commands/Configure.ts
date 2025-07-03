@@ -10,34 +10,24 @@ import { Tray } from '../../Tray';
 export default function configure() {
   program
     .command('configure')
-    .argument('[key]', 'Api key')
-    .argument('[password]', 'Api password')
+    .argument('[token]', 'Api token')
     .argument('[theme-id]', 'Theme id')
     .option('--debug', 'Enable debug mode')
     .description('Create config.yml file')
-    .action(async (key, password, theme_id, options) => {
+    .action(async (token, theme_id, options) => {
       const questions = [];
 
       let answers = {
-        key,
-        password,
+        token,
         themeId: theme_id,
         debug: options.debug ?? false,
       };
 
-      if (!answers.key) {
+      if (!answers.token) {
         questions.push({
           type: 'input',
-          message: 'Enter api key',
-          name: 'key',
-        });
-      }
-
-      if (!answers.password) {
-        questions.push({
-          type: 'input',
-          message: 'Enter api password',
-          name: 'password',
+          message: 'Enter api token',
+          name: 'token',
         });
       }
 
@@ -49,7 +39,7 @@ export default function configure() {
         });
       }
 
-      if (!answers.key || !answers.password || !answers.themeId) {
+      if (!answers.token || !answers.themeId) {
         questions.push({
           type: 'confirm',
           message: 'Enabled debug mode?',
@@ -64,8 +54,7 @@ export default function configure() {
       }
 
       const tray = new Tray({
-        key: answers.key,
-        password: answers.password,
+        token: answers.token,
         themeId: answers.themeId,
         debug: answers.debug,
       });
@@ -80,5 +69,7 @@ export default function configure() {
         .catch((error) => {
           loader.fail(error.toString());
         });
+
+      loader.succeed('CLI configured successfully');
     });
 }
