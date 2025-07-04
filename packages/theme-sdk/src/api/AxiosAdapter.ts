@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import { ResponseError, RequestError } from '../errors';
 import type {
   AxiosError,
@@ -16,7 +17,32 @@ export class AxiosAdapter {
 
   constructor(config: AxiosRequestConfig, requestInterceptors: Interceptor) {
     this.axios = axios.create(config);
+    this.setupAxiosRetry();
     this.setInterceptors(requestInterceptors);
+  }
+
+  private setupAxiosRetry() {
+    axiosRetry(this.axios, {
+      retries: 10,
+      retryDelay: (retryCount, error) => {
+        if (error.response?.status === 429) {
+          const remaining = parseInt(error.response.headers['x-ratelimit-remaining'] || '0');
+          
+          if (remaining === 0) {
+            const delay = 60000;
+
+            return delay;
+          }
+          
+          return 2000;
+        }
+        
+        return retryCount * 1000;
+      },
+      retryCondition: (error) => {
+        return error.response?.status === 429;
+      },
+    });
   }
 
   private setInterceptors(requestInterceptors: Interceptor) {

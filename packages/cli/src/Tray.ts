@@ -138,7 +138,8 @@ export class Tray {
     const dynamicAssets = assetsToDownload.filter(asset => asset.dynamic);
     const publicAssets = assetsToDownload.filter(asset => asset.uri && !asset.dynamic);
 
-    for (const asset of publicAssets) {
+    // Download paralelo de arquivos públicos
+    const publicPromises = publicAssets.map(async (asset) => {
       try {
         const response = await axios.get(asset.uri as string, {
           responseType: 'arraybuffer',
@@ -151,32 +152,25 @@ export class Tray {
       } catch (error) {
         errors.push({ file: asset.path, error: new FileNotFoundError({ file: asset.path }) });
       }
-    }
+    });
 
-    if (dynamicAssets.length > 0) {
-      const requestDelay = 2000;
-      
-      for (let i = 0; i < dynamicAssets.length; i++) {
-        const file = dynamicAssets[i];
-        
-        if (i > 0) {
-          await new Promise(resolve => setTimeout(resolve, requestDelay));
+    // Download paralelo de arquivos dinâmicos
+    const dynamicPromises = dynamicAssets.map(async (file) => {
+      try {
+        const asset = await this.api.getThemeAsset(file.id);
+        if (!asset?.data?.path) {
+          throw new FileNotFoundError({ file: file.path });
         }
-        
-        try {
-          const asset = await this.api.getThemeAsset(file.id);
-          if (!asset?.data?.path) {
-            throw new FileNotFoundError({ file: file.path });
-          }
 
-          const buffer = Buffer.from(asset.data.content ?? '', 'utf8');
-          await saveThemeAssetFile(asset.data.path, buffer);
-          
-        } catch (error) {
-          errors.push({ file: file.path, error: error as any });
-        }
+        const buffer = Buffer.from(asset.data.content ?? '', 'utf8');
+        await saveThemeAssetFile(asset.data.path, buffer);
+        
+      } catch (error) {
+        errors.push({ file: file.path, error: error as any });
       }
-    }
+    });
+
+    await Promise.all([...publicPromises, ...dynamicPromises]);
 
     return {
       total: assets.length,
@@ -213,15 +207,7 @@ export class Tray {
       assets = globbed;
     }
 
-    const requestDelay = 2000;
-    
-    for (let i = 0; i < assets.length; i++) {
-      const file = assets[i];
-      
-      if (i > 0) {
-        await new Promise(resolve => setTimeout(resolve, requestDelay));
-      }
-      
+    const uploadPromises = assets.map(async (file) => {
       try {
         const fileUpload = await prepareToUpload(file);
         const { filename: asset, content: data } = fileUpload;
@@ -240,7 +226,9 @@ export class Tray {
       } catch (error) {
         errors.push({ file, error });
       }
-    }
+    });
+
+    await Promise.all(uploadPromises);
 
     return {
       total: assets.length,
