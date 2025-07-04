@@ -22,6 +22,9 @@
     "isolatedModules": true,
     "composite": true,
     "tsBuildInfoFile": "tsconfig.tsbuildinfo",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "#cli/*": ["src/*"]
+    }
   }
 }

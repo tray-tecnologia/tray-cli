@@ -1,7 +1,7 @@
 import { program } from 'commander';
 import ora from 'ora';
 
-import { Tray } from '../../Tray';
+import { Tray } from '#cli/Tray';
 import { UnknownError } from '@tray-tecnologia/theme-sdk';
 
 /**

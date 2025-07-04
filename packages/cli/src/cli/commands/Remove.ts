@@ -1,83 +1,69 @@
 import chalk from 'chalk';
 import { program } from 'commander';
-import glob from 'glob';
-import inquirer from 'inquirer';
+import { globSync, hasMagic } from 'glob';
+import { confirm } from '@inquirer/prompts';
 import ora from 'ora';
 import { EOL } from 'os';
 import { extname } from 'path';
 
-import { Tray } from '../../Tray';
+import { Tray } from '#cli/Tray';
 
 export default function remove() {
   program
     .command('remove')
     .argument('<files...>', 'Files to remove')
     .description('Removes files from theme')
-    .action((files: string[]) => {
-      inquirer
-        .prompt({
-          type: 'confirm',
-          message: 'Do you really want to delete this files? This action cannot be undone.',
-          name: 'confirm',
-          default: false,
-        })
-        .then((answers) => {
-          if (answers.confirm) {
-            Tray.initiateFromConfigFile()
-              .then((tray) => {
-                let globbed: any = [];
+    .action(async (files: string[]) => {
+      const confirmDelete = await confirm({
+        message: 'Do you really want to delete this files? This action cannot be undone.',
+        default: false,
+      });
 
-                files.forEach((file) => {
-                  if (glob.hasMagic(file) || extname(file)) {
-                    globbed.push(glob.sync(file, { nodir: true }));
-                  }
-                });
+      if (confirmDelete) {
+        try {
+          const tray = await Tray.initiateFromConfigFile();
+          let globbed: any = [];
 
-                globbed = globbed.flat();
-                globbed = globbed.filter((path: string) => path !== 'config.json');
+          files.forEach((file) => {
+            if (hasMagic(file) || extname(file)) {
+              globbed.push(...globSync(file, { nodir: true }));
+            }
+          });
 
-                ora().start().warn('Folder paths are not supported and will be ignored.');
+          // globbed = globbed.flat(); // Não necessário no glob v11
+          globbed = globbed.filter((path: string) => path !== 'config.json');
 
-                const loader = ora(`Deleting files...`).start();
+          ora().start().warn('Folder paths are not supported and will be ignored.');
 
-                console.log('globbed',globbed);
+          const loader = ora(`Deleting files...`).start();
 
-                tray
-                  .remove(globbed)
-                  .then((response) => {
-                    if (response.fails.length) {
-                      const errorCount = response.fails.length;
-                      const errors = response.fails
-                        .map((fail) => `${chalk.magenta(fail.file)} -> ${fail.error.message}`)
-                        .join(EOL);
+          const response = await tray.remove(globbed);
+          
+          if (response.fails.length) {
+            const errorCount = response.fails.length;
+            const errors = response.fails
+              .map((fail) => `${chalk.magenta(fail.file)} -> ${fail.error.message}`)
+              .join(EOL);
 
-                      if (errorCount === response.total) {
-                        loader.fail(
-                          `Unable to delete files correctly due to errors. Files affected listed bellow:`
-                        );
-                      } else {
-                        loader.warn(
-                          `Files deleted with ${errorCount} errors. Files affected listed bellow:`
-                        );
-                      }
+            if (errorCount === response.total) {
+              loader.fail(
+                `Unable to delete files correctly due to errors. Files affected listed bellow:`
+              );
+            } else {
+              loader.warn(
+                `Files deleted with ${errorCount} errors. Files affected listed bellow:`
+              );
+            }
 
-                      console.log(errors);
-                    } else {
-                      loader.succeed(`Files deleted.`);
-                    }
-                  })
-                  .catch((error) => {
-                    loader.fail(error.toString());
-                  });
-              })
-              .catch((error) => {
-                ora().start().fail(error.toString());
-              });
-
-              
+            console.log(errors);
           } else {
-            ora().fail('Operation aborted by user');
+            loader.succeed(`Files deleted.`);
           }
-        });
+        } catch (error) {
+          ora().start().fail((error as Error).toString());
+        }
+      } else {
+        ora().fail('Operation aborted by user');
+      }
     });
 }

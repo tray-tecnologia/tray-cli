@@ -51,8 +51,7 @@ Abaixo um exemplo simples de uso do SDK.
 const Sdk = require('@tray-tecnologia/opencode-sdk').default;
 
 const client = new Sdk({
-    key: 'YOUR-KEY-HERE',
-    password: 'YOUR-PASSWORD-HERE',
+    token: 'YOUR-TOKEN-HERE',
     themeId: 1,
     debug: false,
 });
@@ -115,8 +114,7 @@ Estrutura com dados para a configuração e conexão com a API da Tray.
 
 ```typescript
 type Config = {
-    key: string;
-    password: string;
+    token: string;
     themeId: number | null;
     debug?: boolean;
 };

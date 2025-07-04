@@ -23,25 +23,7 @@ export class AxiosAdapter {
 
   private setupAxiosRetry() {
     axiosRetry(this.axios, {
-      retries: 10,
-      retryDelay: (retryCount, error) => {
-        if (error.response?.status === 429) {
-          const remaining = parseInt(error.response.headers['x-ratelimit-remaining'] || '0');
-          
-          if (remaining === 0) {
-            const delay = 60000;
-
-            return delay;
-          }
-          
-          return 2000;
-        }
-        
-        return retryCount * 1000;
-      },
-      retryCondition: (error) => {
-        return error.response?.status === 429;
-      },
+      retries: 30,
     });
   }
 

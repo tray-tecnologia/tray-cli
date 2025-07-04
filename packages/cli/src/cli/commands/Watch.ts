@@ -4,9 +4,10 @@ import { program } from 'commander';
 import ora from 'ora';
 import slash from 'slash';
 
-import { Tray } from '../../Tray';
-import type { RemoveCommandResponse } from '../../types/RemoveCommandResponse';
-import type { UploadCommandResponse } from '../../types/UploadCommandResponse';
+import { Tray } from '#cli/Tray';
+
+import type { UploadCommandResponse } from '#cli/types/UploadCommandResponse';
+import type { RemoveCommandResponse } from '#cli/types/RemoveCommandResponse.ts';
 
 /**
  * Auxiliar constants

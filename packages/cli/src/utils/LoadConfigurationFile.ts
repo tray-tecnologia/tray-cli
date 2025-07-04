@@ -1,8 +1,7 @@
 import { promises as fsp } from 'fs';
 
-import { FileNotFoundError } from '../errors/FileNotFoundError';
-import { UnknownError } from '../errors/UnknownError';
-import type { ConfigurationFile } from '../types/ConfigurationFile';
+import { FileNotFoundError, UnknownError } from '#cli/errors';
+import type { ConfigurationFile } from '#cli/types/ConfigurationFile';
 import keysToCamel from './KeysToCamel';
 
 /**

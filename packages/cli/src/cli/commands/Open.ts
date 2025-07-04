@@ -2,8 +2,8 @@ import { program } from 'commander';
 import launch from 'open';
 import ora from 'ora';
 
-import { ParameterNotDefinedError } from '../../errors/ParameterNotDefinedError';
-import { loadConfigurationFile } from '../../utils/LoadConfigurationFile';
+import { ParameterNotDefinedError } from '#cli/errors';
+import { loadConfigurationFile } from '#cli/utils/LoadConfigurationFile';
 
 export default function open() {
   program

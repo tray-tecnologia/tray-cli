@@ -23,14 +23,13 @@
     "file-type": "^21.0.0"
   },
   "devDependencies": {
-    "@tray-tecnologia/config-eslint": "*",
     "@tsconfig/node22": "^22.0.0",
     "@types/lodash.camelcase": "^4.3.9",
     "@types/node": "^22.15.29",
-    "eslint": "^9.28.0",
+    "eslint": "^9.30.0",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
-    "vite-node": "^3.2.1",
+    "vite": "^7.0.2",
+    "vite-node": "^3.2.4",
     "vite-plugin-dts": "^4.5.4"
   },
   "main": "./src/index.ts",

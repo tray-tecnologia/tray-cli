@@ -1,8 +1,7 @@
 import Sdk from '@tray-tecnologia/theme-sdk';
-import glob from 'glob';
+import { globSync } from 'glob';
 
-// import { CliError } from './errors/CliError';
-import { SaveConfigurationFileError } from './errors/SaveConfigurationFileError';
+import { SaveConfigurationFileError } from './errors';
 import type { ConfigurationFile } from './types/ConfigurationFile';
 import type { DownloadCommandResponse } from './types/DownloadCommandResponse';
 import type { DownloadError } from './types/DownloadError';
@@ -13,9 +12,7 @@ import { prepareToUpload } from './utils/PrepareToUpload';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
 import type { ThemeInstall, ThemeInstallAsset, GeneralResponse } from '@tray-tecnologia/theme-sdk/src/types';
-import { ParameterNotDefinedError } from './errors/ParameterNotDefinedError';
-import { ThemeFilesNotFoundError } from './errors/ThemeFilesNotFoundError';
-import { FileNotFoundError } from './errors/FileNotFoundError';
+import { ParameterNotDefinedError, ThemeFilesNotFoundError, FileNotFoundError } from './errors';
 
 import axios from 'axios';
 
@@ -197,7 +194,7 @@ export class Tray {
     if (files && files.length) {
       assets = files;
     } else {
-      let globbed = glob.sync('**/*', { nodir: true }).flat();
+      let globbed = globSync('**/*', { nodir: true });
       globbed = globbed.filter((item) => item !== 'config.json');
 
       if (!globbed.length) {
@@ -243,7 +240,7 @@ export class Tray {
    * @return {Promise} Returns UploadCommandResponse object if promises resolves, CliError or ApiError otherwise.
    */
   uploadCore(): Promise<UploadCommandResponse> {
-    let globbed = glob.sync('**/*', { nodir: true }).flat();
+    let globbed = globSync('**/*', { nodir: true });
     globbed = globbed.filter(
       (path) => !path.match(/(img\/(.)*)|(configs\/settings.json)|(config.json)/)
     );

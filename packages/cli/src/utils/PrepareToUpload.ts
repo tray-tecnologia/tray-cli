@@ -1,24 +1,20 @@
 import { promises as fsp } from 'fs';
-import { isBinaryFile } from 'isbinaryfile';
 
-import { LoadThemeAssetError } from '../errors/LoadThemeAssetError';
-import type { FileUpload } from '../types/FileUpload';
+import { LoadThemeAssetError } from '#cli/errors';
+import type { FileUpload } from '#cli/types/FileUpload';
 
 export function prepareToUpload(filename: string): Promise<FileUpload> {
   const correctFilename = filename.startsWith('/') ? filename : `/${filename}`;
 
   return fsp
     .readFile(`.${correctFilename}`)
-    .then((content) =>
-      isBinaryFile(`.${correctFilename}`).then((success) => {
-        const response: FileUpload = {
-          filename: correctFilename,
-          content,
-          isBinary: success,
-        };
+    .then((content) => {
+      const response: FileUpload = {
+        filename: correctFilename,
+        content,
+      };
 
-        return Promise.resolve(response);
-      })
-    )
+      return Promise.resolve(response);
+    })
     .catch((error) => Promise.reject(new LoadThemeAssetError(error.message)));
 }

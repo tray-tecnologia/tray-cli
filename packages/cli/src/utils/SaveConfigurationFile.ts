@@ -1,7 +1,7 @@
 import { promises as fsp } from 'fs';
 
-import { SaveConfigurationFileError } from '../errors/SaveConfigurationFileError';
-import type { ConfigurationFile } from '../types/ConfigurationFile';
+import { SaveConfigurationFileError } from '#cli/errors';
+import type { ConfigurationFile } from '#cli/types/ConfigurationFile';
 
 /**
  * Save configs to config.json file
