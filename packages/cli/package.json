@@ -30,8 +30,7 @@
     "isbinaryfile": "^4.0.8",
     "open": "^8.4.0",
     "ora": "^5.4.1",
-    "slash": "^3.0.0",
-    "yaml": "^1.10.2"
+    "slash": "^3.0.0"
   },
   "devDependencies": {
     "@tray-tecnologia/config-eslint": "*",

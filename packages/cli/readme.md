@@ -58,11 +58,11 @@ Cria um novo tema na loja com o nome passado e baseado no tema base. Caso algum 
 
 ### tray clean-cache [theme-id]
 
-Limpa o cache de um tema. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
+Limpa o cache de um tema. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.json`.
 
 ### tray delete [theme-id]
 
-Deleta um tema da loja. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
+Deleta um tema da loja. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.json`.
 
 ### tray download [files...]
 
@@ -123,7 +123,7 @@ Retornado caso não seja possível salvar o arquivo de configurações necessár
 
 #### FileNotFoundError (CLI::0002)
 
-Retornado caso não for encontrado o arquivo config.yml na pasta atual.
+Retornado caso não for encontrado o arquivo config.json na pasta atual.
 
 #### ParameterNotDefinedError (CLI::0003)
 

@@ -73,10 +73,6 @@ Construtor da classe. Deve-se passar um objeto do tipo [Config](#config). Retorn
 
 Valida se os dados passados na criação do objeto estão corretos. Retorna objeto `ApiConfigurationResponse` se promise for resolvida ou uma instância de `ApiError` caso contrário.
 
-#### .cleanCache(themeId: number = this.themeId): Promise\<boolean\>
-
-Limpa o cache do tema informado. Caso o parâmetro opcional `themeId` não seja informado, será usado o tema configurado. Retorna `true` se promise for resolvida, ou uma instância de `ApiError` caso contrário.
-
 #### .getThemes(): Promise\<ApiListThemesResponse\>
 
 Obtem a lista de todos os temas disponíveis na loja. Retorna objeto `ApiListThemesResponse` se promise for resolvida, ou uma instância de `ApiError` caso contrário.

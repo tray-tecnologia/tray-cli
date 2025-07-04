@@ -1,11 +1,10 @@
 import { promises as fsp } from 'fs';
-import yaml from 'yaml';
 
 import { SaveConfigurationFileError } from '../errors/SaveConfigurationFileError';
 import type { ConfigurationFile } from '../types/ConfigurationFile';
 
 /**
- * Save configs to config.yml file
+ * Save configs to config.json file
  * @param {ConfigurationFile} param Configuration object with configs to be saved.
  * @return Promise<string> Return success message if promise resolves, SaveConfigurationFileError otherwise.
  */
@@ -16,16 +15,16 @@ export function saveConfigurationFile({
   debug,
 }: ConfigurationFile): Promise<string> {
   const fileDataAsObject = {
-    ':api_token': token,
-    ':theme_id': themeId,
-    ':preview_url': previewUrl,
-    ':debug': debug,
+    token: token,
+    theme_id: themeId,
+    preview_url: previewUrl,
+    debug: debug,
   };
 
-  const configFileData = yaml.stringify(fileDataAsObject);
+  const configFileData = JSON.stringify(fileDataAsObject, null, 2);
 
   return fsp
-    .writeFile('config.yml', configFileData)
+    .writeFile('config.json', configFileData)
     .then(() => Promise.resolve('Configuration file created'))
     .catch((error) => {
       const cliError = new SaveConfigurationFileError(error);

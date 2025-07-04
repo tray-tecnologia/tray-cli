@@ -34,7 +34,7 @@ export default function remove() {
                 });
 
                 globbed = globbed.flat();
-                globbed = globbed.filter((path: string) => path !== 'config.yml');
+                globbed = globbed.filter((path: string) => path !== 'config.json');
 
                 ora().start().warn('Folder paths are not supported and will be ignored.');
 

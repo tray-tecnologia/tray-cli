@@ -13,7 +13,7 @@ export default function configure() {
     .argument('[token]', 'Api token')
     .argument('[theme-id]', 'Theme id')
     .option('--debug', 'Enable debug mode')
-    .description('Create config.yml file')
+    .description('Create config.json file')
     .action(async (token, theme_id, options) => {
       const questions = [];
 

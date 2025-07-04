@@ -1,5 +1,4 @@
 import { promises as fsp } from 'fs';
-import yaml from 'yaml';
 
 import { FileNotFoundError } from '../errors/FileNotFoundError';
 import { UnknownError } from '../errors/UnknownError';
@@ -7,14 +6,16 @@ import type { ConfigurationFile } from '../types/ConfigurationFile';
 import keysToCamel from './KeysToCamel';
 
 /**
- * Load configs from config.yml file
+ * Load configs from config.json file
  * @return Promise<ConfigurationFile> Return ConfigurationFile if promise resolves, Error otherwise.
  */
 export async function loadConfigurationFile(): Promise<ConfigurationFile> {
   return fsp
-    .readFile('config.yml', { encoding: 'utf8' })
+    .readFile('config.json', { encoding: 'utf8' })
     .then((data) => {
-      const { token, themeId, previewUrl, debug } = keysToCamel(yaml.parse(data));
+      const { token, themeId, previewUrl, debug } = keysToCamel(JSON.parse(data));
+
+
 
       const config = {
         token,
@@ -28,7 +29,7 @@ export async function loadConfigurationFile(): Promise<ConfigurationFile> {
     .catch((error) => {
       const cliError =
         error.code === 'ENOENT'
-          ? new FileNotFoundError({ file: 'config.yml', details: error.toString() })
+          ? new FileNotFoundError({ file: 'config.json', details: error.toString() })
           : new UnknownError();
       return Promise.reject(cliError);
     });

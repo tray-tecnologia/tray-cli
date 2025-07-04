@@ -51,7 +51,6 @@ export default defineConfig({
         'chokidar',
         'isbinaryfile',
         'slash',
-        'yaml',
       ],
     },
   },

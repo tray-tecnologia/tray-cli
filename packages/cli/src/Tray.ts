@@ -44,7 +44,7 @@ export class Tray {
   }
 
   /**
-   * Load configuration settings from config.yml and create an instance of class.
+   * Load configuration settings from config.json and create an instance of class.
    * @return {Promise<Tray>} Returns Tray instance if promises resolves, or CliError otherwise.
    */
   static async initiateFromConfigFile(): Promise<Tray> {
@@ -54,7 +54,7 @@ export class Tray {
   }
 
   /**
-   * Configure CLI use generating config.yml file
+   * Configure CLI use generating config.json file
    * @return {Promise} Return string if promise resolves, ApiError or CliError otherwise
    */
   async configure(): Promise<string> {
@@ -188,7 +188,7 @@ export class Tray {
   /**
    * Upload files to theme
    * @param {string[]} files Files to be uploaded. If not provided all files in current folder and subfolder will be uploaded.
-   *                         Config.yml and files starting with dot will always be ignored.
+   *                         Config.json and files starting with dot will always be ignored.
    * @return {Promise} Returns UploadCommandResponse object if promises resolves, CliError or ApiError otherwise.
    */
   async upload(files?: string[]): Promise<UploadCommandResponse> {
@@ -204,7 +204,7 @@ export class Tray {
       assets = files;
     } else {
       let globbed = glob.sync('**/*', { nodir: true }).flat();
-      globbed = globbed.filter((item) => item !== 'config.yml');
+      globbed = globbed.filter((item) => item !== 'config.json');
 
       if (!globbed.length) {
         throw new ThemeFilesNotFoundError();
@@ -251,13 +251,13 @@ export class Tray {
 
   /**
    * Upload core files, excluding configs/settings.json and images folder.
-   * Config.yml and files starting with dot will always be ignored.
+   * Config.json and files starting with dot will always be ignored.
    * @return {Promise} Returns UploadCommandResponse object if promises resolves, CliError or ApiError otherwise.
    */
   uploadCore(): Promise<UploadCommandResponse> {
     let globbed = glob.sync('**/*', { nodir: true }).flat();
     globbed = globbed.filter(
-      (path) => !path.match(/(img\/(.)*)|(configs\/settings.json)|(config.yml)/)
+      (path) => !path.match(/(img\/(.)*)|(configs\/settings.json)|(config.json)/)
     );
 
     if (!globbed.length) {

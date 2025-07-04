@@ -39,7 +39,7 @@ export default function upload() {
             });
 
             globbed = globbed.flat();
-            globbed = globbed.filter((path: string) => path !== 'config.yml');
+            globbed = globbed.filter((path: string) => path !== 'config.json');
 
             if (globbed.length === 0) {
               return Promise.reject(
