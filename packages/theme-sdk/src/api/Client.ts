@@ -8,9 +8,8 @@ import type {
   ThemeInstall,
   ThemeInstallAsset,
 } from '#theme-sdk/types';
-import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError } from '#theme-sdk/errors';
-import { ValidationError } from '#theme-sdk/errors/ValidationError.ts';
-import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed.ts';
+import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError, ValidationError } from '#theme-sdk/errors';
+import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed';
 import { appendFile } from 'node:fs/promises';
 import { EOL } from 'node:os';
 

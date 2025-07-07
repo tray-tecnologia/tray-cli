@@ -6,8 +6,7 @@ import slash from 'slash';
 
 import { Tray } from '#cli/Tray';
 
-import type { UploadCommandResponse } from '#cli/types';
-import type { RemoveCommandResponse } from '#cli/types';
+import type { UploadCommandResponse, RemoveCommandResponse } from '#cli/types';
 
 /**
  * Auxiliar constants

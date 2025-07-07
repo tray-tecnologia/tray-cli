@@ -12,3 +12,4 @@ export * from './ServerError';
 export * from './ThemeNotFoundError';
 export * from './TimeoutError';
 export * from './UnknownError';
+export * from './ValidationError';

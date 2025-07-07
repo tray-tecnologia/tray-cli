@@ -1,20 +1,20 @@
 import Sdk from '@tray-tecnologia/theme-sdk';
 import { globSync } from 'glob';
+import axios from 'axios';
 
-import { SaveConfigurationFileError } from './errors';
-import type { ConfigurationFile } from './types/ConfigurationFile';
-import type { DownloadCommandResponse } from './types/DownloadCommandResponse';
-import type { DownloadError } from './types/DownloadError';
-import type { RemoveCommandResponse } from './types/RemoveCommandResponse';
-import type { UploadCommandResponse } from './types/UploadCommandResponse';
+import { SaveConfigurationFileError, ParameterNotDefinedError, ThemeFilesNotFoundError, FileNotFoundError } from '#cli/errors';
+import type { 
+  ConfigurationFile,
+  DownloadCommandResponse,
+  DownloadError,
+  RemoveCommandResponse,
+  UploadCommandResponse
+} from '#cli/types';
 import { loadConfigurationFile } from './utils/LoadConfigurationFile';
 import { prepareToUpload } from './utils/PrepareToUpload';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
 import type { ThemeInstall, ThemeInstallAsset, GeneralResponse } from '@tray-tecnologia/theme-sdk/src/types';
-import { ParameterNotDefinedError, ThemeFilesNotFoundError, FileNotFoundError } from './errors';
-
-import axios from 'axios';
 
 export class Tray {
   readonly token: string;

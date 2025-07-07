@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { EOL } from 'node:os';
 import { BaseError } from './BaseError';
-import type { RequestErrorParams } from '#theme-sdk/types.ts';
+import type { RequestErrorParams } from '#theme-sdk/types';
 
 export class RequestError extends BaseError {
   details: string;

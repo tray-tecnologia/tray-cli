@@ -1,7 +1,6 @@
 import { parse } from 'node:path';
 
-import { FileExtensionNotAllowedError } from '../errors/FileExtensionNotAllowedError';
-import { FolderNotAllowedError } from '../errors/FolderNotAllowedError';
+import { FileExtensionNotAllowedError, FolderNotAllowedError } from '#theme-sdk/errors';
 
 /**
  * Verify is extension is allowed.

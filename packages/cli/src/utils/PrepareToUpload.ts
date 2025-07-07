@@ -1,7 +1,7 @@
 import { promises as fsp } from 'node:fs';
 
 import { LoadThemeAssetError } from '#cli/errors';
-import type { FileUpload } from '#cli/types/FileUpload';
+import type { FileUpload } from '#cli/types';
 
 export function prepareToUpload(filename: string): Promise<FileUpload> {
   const correctFilename = filename.startsWith('/') ? filename : `/${filename}`;

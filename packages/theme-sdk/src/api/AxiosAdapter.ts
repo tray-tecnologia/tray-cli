@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import { ResponseError, RequestError } from '../errors';
+import { ResponseError, RequestError } from '#theme-sdk/errors';
 import type {
   AxiosError,
   AxiosRequestConfig,
@@ -8,7 +8,7 @@ import type {
   InternalAxiosRequestConfig,
   RawAxiosRequestHeaders,
 } from 'axios';
-import type { RequestData, RequestOptions } from '../types';
+import type { RequestData, RequestOptions } from '#theme-sdk/types';
 
 type Interceptor = (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig;
 
