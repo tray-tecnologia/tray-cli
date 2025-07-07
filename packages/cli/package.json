@@ -49,7 +49,10 @@
   ],
   "imports": {
     "#cli/*": [
-      "./src/*"
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/*.ts",
+      "./src/*/index.ts"
     ]
   }
 }
