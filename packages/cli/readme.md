@@ -6,10 +6,9 @@ Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar d
 -   [Instalação](#instalação)
 -   [Linha de comando](#linha-de-comando)
     -   [tray help [command]](#tray-help-command)
-    -   [tray configure [options] [key] [password] [theme_id]](#tray-configure-options-key-password-theme_id)
+    -   [tray configure [options] [token] [theme_id]](#tray-configure-options-token-theme_id)
     -   [tray list](#tray-list)
-    -   [tray create [options] [key] [password] [theme-name] [theme-base]](#tray-create-options-key-password-theme-name-theme-base)
-    -   [tray clean-cache [theme-id]](#tray-clean-cache-theme-id)
+    -   [tray create [options] [token]](#tray-create-options-token)
     -   [tray delete [theme-id]](#tray-delete-theme-id)
     -   [tray download [files...]](#tray-download-files)
     -   [tray upload [options] [files...]](#tray-upload-options-files)
@@ -44,7 +43,7 @@ Os comandos abaixo estão disponíveis no programa. Parâmetros obrigatórios s�
 
 Mostra uma listagem de todos os comando disponíveis, bem como uma descrição sucinta sobre o comando. Se o parâmetro `command` for passado mostra a ajuda específica do comando solicitado.
 
-### tray configure [options] [key] [password] [theme_id]
+### tray configure [options] [token] [theme_id]
 
 Cria o arquivo de configuração. Caso não passe os parâmetros acima o programa irá solicitá-los interativamente. A única opção disponível para esse comando é `--debug`. Isso fará com que arquivos de log sejam gerados na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
 
@@ -52,17 +51,13 @@ Cria o arquivo de configuração. Caso não passe os parâmetros acima o program
 
 Lista todos os temas disponíveis atualmente na loja.
 
-### tray create [options] [key] [password] [theme-name] [theme-base]
+### tray create [options] [token]
 
-Cria um novo tema na loja com o nome passado e baseado no tema base. Caso algum parâmetro não seja informado, o programa irá solicitá-lo. É possível usar a opçao `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
-
-### tray clean-cache [theme-id]
-
-Limpa o cache de um tema. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
+Cria um novo tema na loja, contendo somente os arquivos necessários sem conteúdo para desenvolvimento de um tema do zero. É possível usar a opção `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
 
 ### tray delete [theme-id]
 
-Deleta um tema da loja. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.yml`.
+Deleta um tema da loja. Se o parâmetro opcional `theme-id` não for fornecido, o programa usará o tema configurado no arquivo `config.json`.
 
 ### tray download [files...]
 
@@ -72,7 +67,7 @@ Baixa os arquivos especificados do tema configurado. Se o parâmetro opcional `f
 
 Envia os arquivos para a loja no tema configurado. Se o parâmetro opcional `files` não for fornecido, o programa irá enviar todos os arquivos, pastas e subpastas presentes na pasta raiz onde o comando é executado.
 
-Esse comando possui a opçào `--core`, que indica ao programa para enviar somente os arquivos essenciais, ignorando o arquivos `settings.json` e a pasta imagem por completo.
+Esse comando possui a opção `--core`, que indica ao programa para enviar somente os arquivos essenciais, ignorando o arquivos `settings.json` e a pasta imagem por completo.
 
 Esse comando suporta padrões Glob e usa a biblioteca [node-glob](https://github.com/isaacs/node-glob) para isso.
 
@@ -102,8 +97,7 @@ Veja o exemplo abaixo de um uso simples para gerar a configuração do tema
 const Tray = require('@tray-tecnologia/tray-cli').default;
 
 const api = new Tray({
-    key: 'MINHA-CHAVE-AQUI',
-    password: 'MINHA-SENHA-AQUI',
+    token: 'SEU-TOKEN-AQUI',
     themeId: 1, // Id do meu tema
     debug: false,
 });
@@ -123,7 +117,7 @@ Retornado caso não seja possível salvar o arquivo de configurações necessár
 
 #### FileNotFoundError (CLI::0002)
 
-Retornado caso não for encontrado o arquivo config.yml na pasta atual.
+Retornado caso não for encontrado o arquivo config.json na pasta atual.
 
 #### ParameterNotDefinedError (CLI::0003)
 

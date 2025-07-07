@@ -1,8 +1,8 @@
 import { program } from 'commander';
-import inquirer from 'inquirer';
+import { input, confirm } from '@inquirer/prompts';
 import ora from 'ora';
 
-import { Tray } from '../../Tray';
+import { Tray } from '#cli/Tray';
 
 /**
  * Create configure file
@@ -10,62 +10,38 @@ import { Tray } from '../../Tray';
 export default function configure() {
   program
     .command('configure')
-    .argument('[key]', 'Api key')
-    .argument('[password]', 'Api password')
+    .argument('[token]', 'Api token')
     .argument('[theme-id]', 'Theme id')
     .option('--debug', 'Enable debug mode')
-    .description('Create config.yml file')
-    .action(async (key, password, theme_id, options) => {
-      const questions = [];
-
+    .description('Create config.json file')
+    .action(async (token, theme_id, options) => {
       let answers = {
-        key,
-        password,
+        token,
         themeId: theme_id,
         debug: options.debug ?? false,
       };
 
-      if (!answers.key) {
-        questions.push({
-          type: 'input',
-          message: 'Enter api key',
-          name: 'key',
-        });
-      }
-
-      if (!answers.password) {
-        questions.push({
-          type: 'input',
-          message: 'Enter api password',
-          name: 'password',
+      if (!answers.token) {
+        answers.token = await input({
+          message: 'Enter api token',
         });
       }
 
       if (!answers.themeId) {
-        questions.push({
-          type: 'input',
+        answers.themeId = await input({
           message: 'Enter theme id',
-          name: 'themeId',
         });
       }
 
-      if (!answers.key || !answers.password || !answers.themeId) {
-        questions.push({
-          type: 'confirm',
+      if (!answers.token || !answers.themeId) {
+        answers.debug = await confirm({
           message: 'Enabled debug mode?',
-          name: 'debug',
           default: false,
         });
       }
 
-      if (questions.length > 0) {
-        const missingAnswers = await inquirer.prompt(questions);
-        answers = { ...answers, ...missingAnswers };
-      }
-
       const tray = new Tray({
-        key: answers.key,
-        password: answers.password,
+        token: answers.token,
         themeId: answers.themeId,
         debug: answers.debug,
       });
@@ -80,5 +56,7 @@ export default function configure() {
         .catch((error) => {
           loader.fail(error.toString());
         });
+
+      loader.succeed('CLI configured successfully');
     });
 }

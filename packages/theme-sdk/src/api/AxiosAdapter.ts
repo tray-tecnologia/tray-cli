@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ResponseError, RequestError } from '../errors';
+import axiosRetry from 'axios-retry';
+import { ResponseError, RequestError } from '#theme-sdk/errors';
 import type {
   AxiosError,
   AxiosRequestConfig,
@@ -7,7 +8,7 @@ import type {
   InternalAxiosRequestConfig,
   RawAxiosRequestHeaders,
 } from 'axios';
-import type { RequestData, RequestOptions } from '../types';
+import type { RequestData, RequestOptions } from '#theme-sdk/types';
 
 type Interceptor = (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig;
 
@@ -16,7 +17,14 @@ export class AxiosAdapter {
 
   constructor(config: AxiosRequestConfig, requestInterceptors: Interceptor) {
     this.axios = axios.create(config);
+    this.setupAxiosRetry();
     this.setInterceptors(requestInterceptors);
+  }
+
+  private setupAxiosRetry() {
+    axiosRetry(this.axios, {
+      retries: 30,
+    });
   }
 
   private setInterceptors(requestInterceptors: Interceptor) {

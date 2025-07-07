@@ -1,4 +1,4 @@
-import { RemoveError } from './RemoveError';
+import type { RemoveError } from '#cli/types';
 
 export declare type RemoveCommandResponse = {
   total: number;

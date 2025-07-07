@@ -1,12 +1,12 @@
 import chalk from 'chalk';
 import { program } from 'commander';
-import glob from 'glob';
+import { globSync, hasMagic } from 'glob';
 import ora from 'ora';
-import { EOL } from 'os';
-import { extname } from 'path';
+import { EOL } from 'node:os';
+import { extname } from 'node:path';
 
-import { Tray } from '../../Tray';
-import { FileNotFoundError } from '../../errors/FileNotFoundError';
+import { Tray } from '#cli/Tray';
+import { FileNotFoundError } from '#cli/errors';
 
 /**
  * Upload theme files from store
@@ -33,13 +33,12 @@ export default function upload() {
             }
 
             assets.forEach((asset) => {
-              if (glob.hasMagic(asset) || extname(asset)) {
-                globbed.push(glob.sync(asset, { nodir: true }));
+              if (hasMagic(asset) || extname(asset)) {
+                globbed.push(...globSync(asset, { nodir: true }));
               }
             });
 
-            globbed = globbed.flat();
-            globbed = globbed.filter((path: string) => path !== 'config.yml');
+            globbed = globbed.filter((path: string) => path !== 'config.json');
 
             if (globbed.length === 0) {
               return Promise.reject(
@@ -59,8 +58,10 @@ export default function upload() {
           }
 
           ora().start().warn('Folder paths are not supported and will be ignored.');
+          ora().start().info('If you have a lot of files, this operation may take a while due to the API rate limit.');
 
           const loader = ora(`Uploading files...`).start();
+          
 
           tray[method](globbed)
             .then((response) => {

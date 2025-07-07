@@ -7,6 +7,6 @@
     "tsBuildInfoFile": "tsconfig.build.tsbuildinfo",
     "baseUrl": ".",
     "outDir": "./dist/types",
-    "declarationMap": true
+    "declarationMap": true,
   }
 }

@@ -1,4 +1,4 @@
-import { DownloadError } from './DownloadError';
+import type { DownloadError } from '#cli/types';
 
 export declare type DownloadCommandResponse = {
   total: number;

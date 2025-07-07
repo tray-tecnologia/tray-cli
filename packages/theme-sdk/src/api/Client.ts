@@ -8,11 +8,10 @@ import type {
   ThemeInstall,
   ThemeInstallAsset,
 } from '#theme-sdk/types';
-import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError } from '#theme-sdk/errors';
-import { ValidationError } from '#theme-sdk/errors/ValidationError.ts';
-import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed.ts';
-import { appendFile } from 'fs/promises';
-import { EOL } from 'os';
+import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError, ValidationError } from '#theme-sdk/errors';
+import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed';
+import { appendFile } from 'node:fs/promises';
+import { EOL } from 'node:os';
 
 export class Client {
   private adapter: AxiosAdapter;
@@ -245,7 +244,7 @@ export class Client {
    */
   async updateThemeAsset(id: number, content: string): Promise<void | ApiResponse<ThemeInstallAsset>> {
     return this.adapter
-      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets`, {
+      .put<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets/${id}`, {
         id,
         content,
       })
@@ -299,6 +298,7 @@ export class Client {
           }
       }
     }
-    throw new UnknownError();
+    
+    throw new UnknownError(error.body?.data?.message);
   }
 }

@@ -1,8 +1,8 @@
 import { program } from 'commander';
-import inquirer from 'inquirer';
+import { confirm } from '@inquirer/prompts';
 import ora from 'ora';
 
-import { Tray } from '../../Tray';
+import { Tray } from '#cli/Tray';
 
 /**
  * Delete a theme from store
@@ -12,35 +12,26 @@ export default function del() {
     .command('delete')
     .argument('[theme-id]', 'Theme id to be deleted. (Default: current theme)')
     .description('Delete theme from store')
-    .action((id) => {
-      inquirer
-        .prompt({
-          type: 'confirm',
-          message: 'Do you really want to delete this theme? This action cannot be undone.',
-          name: 'confirm',
-          default: false,
-        })
-        .then((answers) => {
-          if (answers.confirm) {
-            Tray.initiateFromConfigFile()
-              .then((tray) => {
-                const desiredThemeId = id ?? tray.themeId;
+    .action(async (id) => {
+      const confirmDelete = await confirm({
+        message: 'Do you really want to delete this theme? This action cannot be undone.',
+        default: false,
+      });
 
-                const loader = ora(`Deleting theme ${desiredThemeId}...`).start();
+      if (confirmDelete) {
+        try {
+          const tray = await Tray.initiateFromConfigFile();
+          const desiredThemeId = id ?? tray.themeId;
 
-                tray
-                  .delete(desiredThemeId)
-                  .then(() => loader.succeed(`Theme deleted.`))
-                  .catch((error) => {
-                    loader.fail(error.toString());
-                  });
-              })
-              .catch((error) => {
-                ora().start().fail(error.toString());
-              });
-          } else {
-            ora().fail('Operation aborted by user');
-          }
-        });
+          const loader = ora(`Deleting theme ${desiredThemeId}...`).start();
+
+          await tray.delete(desiredThemeId);
+          loader.succeed(`Theme deleted.`);
+        } catch (error) {
+          ora().start().fail((error as Error).toString());
+        }
+      } else {
+        ora().fail('Operation aborted by user');
+      }
     });
 }

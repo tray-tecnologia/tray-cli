@@ -1,6 +1,5 @@
 export declare type ConfigurationFile = {
-  key: string;
-  password: string;
+  token: string;
   themeId?: number;
   previewUrl?: string;
   debug: boolean;

@@ -1,8 +1,8 @@
 import { program } from 'commander';
-import inquirer from 'inquirer';
+import { input, confirm } from '@inquirer/prompts';
 import ora from 'ora';
 
-import { Tray } from '../../Tray';
+import { Tray } from '#cli/Tray';
 
 /**
  * List all themes available at store
@@ -10,81 +10,38 @@ import { Tray } from '../../Tray';
 export default function create() {
   program
     .command('create')
-    .argument('[key]', 'Api key')
-    .argument('[password]', 'Api password')
-    .argument('[theme-name]', 'Name of the theme')
-    .argument('[theme-base]', 'Base theme for this new theme (default: default)')
+    .argument('[token]', 'Api token')
     .option('--debug', 'Enable debug mode')
     .description('Create a new theme in store')
     // eslint-disable-next-line default-param-last
-    .action(async (key, password, name, base = 'default', options) => {
-      const questions = [];
-
+    .action(async (token, options) => {
       let answers = {
-        key,
-        password,
-        name,
-        base,
+        token,
         debug: options.debug ?? false,
       };
 
-      if (!answers.key) {
-        questions.push({
-          type: 'input',
-          message: 'Enter api key',
-          name: 'key',
-        });
-      }
-
-      if (!answers.password) {
-        questions.push({
-          type: 'input',
-          message: 'Enter api password',
-          name: 'password',
-        });
-      }
-
-      if (!answers.name) {
-        questions.push({
-          type: 'input',
-          message: 'Enter theme name',
-          name: 'name',
-        });
-      }
-
-      if (!answers.key || !answers.password || !answers.name) {
-        questions.push({
-          type: 'input',
-          message: 'Enter base theme',
-          name: 'base',
-          default: 'default',
+      if (!answers.token) {
+        answers.token = await input({
+          message: 'Enter api token',
         });
 
-        questions.push({
-          type: 'confirm',
+        answers.debug = await confirm({
           message: 'Enabled debug mode?',
-          name: 'debug',
           default: false,
         });
       }
 
-      if (questions.length > 0) {
-        const missingAnswers = await inquirer.prompt(questions);
-        answers = { ...answers, ...missingAnswers };
-      }
-
       const tray = new Tray({
-        key: answers.key,
-        password: answers.password,
+        token: answers.token,
         debug: answers.debug,
       });
 
-      const loader = ora(`Creating theme ${name} based on ${base}...`).start();
+      const loader = ora(`Creating clean theme...`).start();
 
       tray
-        .create(answers.name, answers.base, true)
+        .createCleanTheme()
         .then((data) => {
-          loader.succeed(`Theme created under id ${data.themeId}.`);
+          loader.succeed(`Theme created under id ${data?.id}.`);
         })
         .catch((error) => {
           loader.fail(error.toString());

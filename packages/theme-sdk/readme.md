@@ -51,8 +51,7 @@ Abaixo um exemplo simples de uso do SDK.
 const Sdk = require('@tray-tecnologia/opencode-sdk').default;
 
 const client = new Sdk({
-    key: 'YOUR-KEY-HERE',
-    password: 'YOUR-PASSWORD-HERE',
+    token: 'YOUR-TOKEN-HERE',
     themeId: 1,
     debug: false,
 });
@@ -72,10 +71,6 @@ Construtor da classe. Deve-se passar um objeto do tipo [Config](#config). Retorn
 #### .checkConfiguration(): Promise\<ApiConfigurationResponse\>
 
 Valida se os dados passados na criação do objeto estão corretos. Retorna objeto `ApiConfigurationResponse` se promise for resolvida ou uma instância de `ApiError` caso contrário.
-
-#### .cleanCache(themeId: number = this.themeId): Promise\<boolean\>
-
-Limpa o cache do tema informado. Caso o parâmetro opcional `themeId` não seja informado, será usado o tema configurado. Retorna `true` se promise for resolvida, ou uma instância de `ApiError` caso contrário.
 
 #### .getThemes(): Promise\<ApiListThemesResponse\>
 
@@ -119,8 +114,7 @@ Estrutura com dados para a configuração e conexão com a API da Tray.
 
 ```typescript
 type Config = {
-    key: string;
-    password: string;
+    token: string;
     themeId: number | null;
     debug?: boolean;
 };

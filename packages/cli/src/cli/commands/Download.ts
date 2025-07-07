@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 import { program } from 'commander';
 import ora from 'ora';
-import { EOL } from 'os';
+import { EOL } from 'node:os';
 
-import { Tray } from '../../Tray';
+import { Tray } from '#cli/Tray';
+import type { BaseError } from '@tray-tecnologia/theme-sdk';
 
 /**
  * Download theme files from store
@@ -17,6 +18,8 @@ export default function download() {
       Tray.initiateFromConfigFile()
         .then((tray) => {
           const type = files && files.length ? 'Files' : 'Theme';
+          
+          ora().start().info('If you have a lot of files, this operation may take a while due to the API rate limit.');
           const loader = ora(`Downloading ${type.toLowerCase()}...`).start();
 
           tray
@@ -43,7 +46,7 @@ export default function download() {
                 loader.succeed(`${type} downloaded.`);
               }
             })
-            .catch((error) => {
+            .catch((error: BaseError) => {
               loader.fail(error.toString());
             });
         })

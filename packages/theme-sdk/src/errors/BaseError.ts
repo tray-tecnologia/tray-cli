@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { EOL } from 'os';
+import { EOL } from 'node:os';
 import type { BaseErrorParams } from '#theme-sdk/types';
 
 export class BaseError extends Error {

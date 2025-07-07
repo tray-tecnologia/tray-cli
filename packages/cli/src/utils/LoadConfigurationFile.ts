@@ -1,24 +1,23 @@
-import { promises as fsp } from 'fs';
-import yaml from 'yaml';
+import { promises as fsp } from 'node:fs';
 
-import { FileNotFoundError } from '../errors/FileNotFoundError';
-import { UnknownError } from '../errors/UnknownError';
-import { ConfigurationFile } from '../types/ConfigurationFile';
+import { FileNotFoundError, UnknownError } from '#cli/errors';
+import type { ConfigurationFile } from '#cli/types';
 import keysToCamel from './KeysToCamel';
 
 /**
- * Load configs from config.yml file
+ * Load configs from config.json file
  * @return Promise<ConfigurationFile> Return ConfigurationFile if promise resolves, Error otherwise.
  */
-export function loadConfigurationFile(): Promise<ConfigurationFile> {
+export async function loadConfigurationFile(): Promise<ConfigurationFile> {
   return fsp
-    .readFile('config.yml', { encoding: 'utf8' })
+    .readFile('config.json', { encoding: 'utf8' })
     .then((data) => {
-      const { apiKey: key, password, themeId, previewUrl, debug } = keysToCamel(yaml.parse(data));
+      const { token, themeId, previewUrl, debug } = keysToCamel(JSON.parse(data));
+
+
 
       const config = {
-        key,
-        password,
+        token,
         themeId,
         previewUrl,
         debug,
@@ -29,7 +28,7 @@ export function loadConfigurationFile(): Promise<ConfigurationFile> {
     .catch((error) => {
       const cliError =
         error.code === 'ENOENT'
-          ? new FileNotFoundError({ file: 'config.yml', details: error.toString() })
+          ? new FileNotFoundError({ file: 'config.json', details: error.toString() })
           : new UnknownError();
       return Promise.reject(cliError);
     });

@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
@@ -22,12 +22,17 @@ export default defineConfig({
     target: 'node22',
     outDir: 'dist',
     lib: {
-      name: '@tray-tecnologia/sdk',
+      name: '@tray-tecnologia/theme-sdk',
       formats: ['es'],
       entry: resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: ['path', 'os', 'fs', 'fs/promises'],
+      external: [
+        'node:fs',
+        'node:fs/promises',
+        'node:os',
+        'node:path',
+      ],
     },
   },
 });
