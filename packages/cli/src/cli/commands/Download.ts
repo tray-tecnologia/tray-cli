@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { program } from 'commander';
 import ora from 'ora';
-import { EOL } from 'os';
+import { EOL } from 'node:os';
 
 import { Tray } from '#cli/Tray';
 import type { BaseError } from '@tray-tecnologia/theme-sdk';

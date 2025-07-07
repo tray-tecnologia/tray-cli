@@ -36,7 +36,7 @@ export default function create() {
         debug: answers.debug,
       });
 
-      const loader = ora(`Creating theme clean...`).start();
+      const loader = ora(`Creating clean theme...`).start();
 
       tray
         .createCleanTheme()

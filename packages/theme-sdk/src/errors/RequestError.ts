@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { EOL } from 'os';
+import { EOL } from 'node:os';
 import { BaseError } from './BaseError';
 import type { RequestErrorParams } from '#theme-sdk/types.ts';
 

@@ -1,4 +1,4 @@
-import { parse } from 'path';
+import { parse } from 'node:path';
 
 import { FileExtensionNotAllowedError } from '../errors/FileExtensionNotAllowedError';
 import { FolderNotAllowedError } from '../errors/FolderNotAllowedError';

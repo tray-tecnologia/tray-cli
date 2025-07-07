@@ -51,9 +51,9 @@ Cria o arquivo de configuração. Caso não passe os parâmetros acima o program
 
 Lista todos os temas disponíveis atualmente na loja.
 
-### tray create [options] [token] [theme-name] [theme-base]
+### tray create [options] [token]
 
-Cria um novo tema na loja com o nome passado e baseado no tema base. Caso algum parâmetro não seja informado, o programa irá solicitá-lo. É possível usar a opção `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
+Cria um novo tema na loja, sendo um tema contendo somente os arquivos necessários sem conteúdo. É possível usar a opção `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
 
 ### tray delete [theme-id]
 

@@ -1,5 +1,5 @@
-import { promises as fsp } from 'fs';
-import { dirname } from 'path';
+import { promises as fsp } from 'node:fs';
+import { dirname } from 'node:path';
 
 import { SaveThemeAssetError } from '#cli/errors';
 

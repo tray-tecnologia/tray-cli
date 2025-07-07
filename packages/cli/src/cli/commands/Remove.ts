@@ -3,8 +3,8 @@ import { program } from 'commander';
 import { globSync, hasMagic } from 'glob';
 import { confirm } from '@inquirer/prompts';
 import ora from 'ora';
-import { EOL } from 'os';
-import { extname } from 'path';
+import { EOL } from 'node:os';
+import { extname } from 'node:path';
 
 import { Tray } from '#cli/Tray';
 
@@ -30,7 +30,6 @@ export default function remove() {
             }
           });
 
-          // globbed = globbed.flat(); // Não necessário no glob v11
           globbed = globbed.filter((path: string) => path !== 'config.json');
 
           ora().start().warn('Folder paths are not supported and will be ignored.');

@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import { program } from 'commander';
 import { globSync, hasMagic } from 'glob';
 import ora from 'ora';
-import { EOL } from 'os';
-import { extname } from 'path';
+import { EOL } from 'node:os';
+import { extname } from 'node:path';
 
 import { Tray } from '#cli/Tray';
 import { FileNotFoundError } from '#cli/errors';

@@ -11,8 +11,8 @@ import type {
 import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError } from '#theme-sdk/errors';
 import { ValidationError } from '#theme-sdk/errors/ValidationError.ts';
 import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed.ts';
-import { appendFile } from 'fs/promises';
-import { EOL } from 'os';
+import { appendFile } from 'node:fs/promises';
+import { EOL } from 'node:os';
 
 export class Client {
   private adapter: AxiosAdapter;

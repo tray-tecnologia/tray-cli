@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 import { program } from 'commander';
-import { createRequire } from 'module';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 import configure from './commands/Configure';
 import create from './commands/Create';

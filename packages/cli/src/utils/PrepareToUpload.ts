@@ -1,4 +1,4 @@
-import { promises as fsp } from 'fs';
+import { promises as fsp } from 'node:fs';
 
 import { LoadThemeAssetError } from '#cli/errors';
 import type { FileUpload } from '#cli/types/FileUpload';

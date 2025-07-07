@@ -1,4 +1,4 @@
-import { promises as fsp } from 'fs';
+import { promises as fsp } from 'node:fs';
 
 import { FileNotFoundError, UnknownError } from '#cli/errors';
 import type { ConfigurationFile } from '#cli/types/ConfigurationFile';

@@ -8,8 +8,5 @@
     "baseUrl": ".",
     "outDir": "./dist/types",
     "declarationMap": true,
-    "paths": {
-      "#cli/*": ["src/*"]
-    }
   }
 }
