@@ -6,9 +6,9 @@ Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar d
 -   [Instalação](#instalação)
 -   [Linha de comando](#linha-de-comando)
     -   [tray help [command]](#tray-help-command)
-    -   [tray configure [options] [token] [theme_id]](#tray-configure-options-key-password-theme_id)
+    -   [tray configure [options] [token] [theme_id]](#tray-configure-options-token-theme_id)
     -   [tray list](#tray-list)
-    -   [tray create [options] [token] [theme-name] [theme-base]](#tray-create-options-key-password-theme-name-theme-base)
+    -   [tray create [options] [token]](#tray-create-options-token)
     -   [tray delete [theme-id]](#tray-delete-theme-id)
     -   [tray download [files...]](#tray-download-files)
     -   [tray upload [options] [files...]](#tray-upload-options-files)
@@ -53,7 +53,7 @@ Lista todos os temas disponíveis atualmente na loja.
 
 ### tray create [options] [token]
 
-Cria um novo tema na loja, sendo um tema contendo somente os arquivos necessários sem conteúdo. É possível usar a opção `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
+Cria um novo tema na loja, contendo somente os arquivos necessários sem conteúdo para desenvolvimento de um tema do zero. É possível usar a opção `--debug` nesse comando para gerar arquivos de log sejam na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
 
 ### tray delete [theme-id]
 
