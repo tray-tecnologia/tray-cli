@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": [],
+  "exclude": ["vite.config.ts", "src/dev.ts"],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,

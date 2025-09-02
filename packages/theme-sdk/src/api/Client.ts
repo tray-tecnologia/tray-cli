@@ -1,5 +1,4 @@
 import { AxiosAdapter } from './AxiosAdapter';
-import pkg from '../../package.json';
 import type {
   ApiResponse,
   Config,
@@ -8,7 +7,17 @@ import type {
   ThemeInstall,
   ThemeInstallAsset,
 } from '#theme-sdk/types';
-import { AssetNotFoundError, AuthenticationError, NotFoundError, ResponseError, ServerError, ThemeNotFoundError, TimeoutError, UnknownError, ValidationError } from '#theme-sdk/errors';
+import {
+  AssetNotFoundError,
+  AuthenticationError,
+  NotFoundError,
+  ResponseError,
+  ServerError,
+  ThemeNotFoundError,
+  TimeoutError,
+  UnknownError,
+  ValidationError,
+} from '#theme-sdk/errors';
 import { isFileAllowed } from '#theme-sdk/utils/IsFileAllowed';
 import { appendFile } from 'node:fs/promises';
 import { EOL } from 'node:os';
@@ -30,7 +39,7 @@ export class Client {
       {
         baseURL: import.meta.env.VITE_API_URL,
         headers: {
-          'User-Agent': `${pkg.name}@${pkg.version}`,
+          'User-Agent': `@tray-tecnologia/theme-sdk@${import.meta.env.VITE_PACKAGE_VERSION}`,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
@@ -214,26 +223,29 @@ export class Client {
    * @param content Asset content
    * @returns Promise ThemeInstallAsset.
    */
-  async createThemeAsset(path: string, content: string): Promise<void | ApiResponse<ThemeInstallAsset>> {
+  async createThemeAsset(
+    path: string,
+    content: string
+  ): Promise<void | ApiResponse<ThemeInstallAsset>> {
     return isFileAllowed(path).then(async () => {
       return this.adapter
-      .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets`, {
-        path,
-        content,
-      })
-      .then((response) => {
-        this.generateDebugFile({
-          type: 'Info',
-          operation: 'createThemeAsset',
-          data: response,
-        });
+        .post<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets`, {
+          path,
+          content,
+        })
+        .then((response) => {
+          this.generateDebugFile({
+            type: 'Info',
+            operation: 'createThemeAsset',
+            data: response,
+          });
 
-        return response;
-      })
-      .catch((error) => {
-        this.handleErrors('createThemeAsset', error);
-      });
-    })
+          return response;
+        })
+        .catch((error) => {
+          this.handleErrors('createThemeAsset', error);
+        });
+    });
   }
 
   /**
@@ -242,7 +254,10 @@ export class Client {
    * @param content Asset content
    * @returns Promise ThemeInstallAsset.
    */
-  async updateThemeAsset(id: number, content: string): Promise<void | ApiResponse<ThemeInstallAsset>> {
+  async updateThemeAsset(
+    id: number,
+    content: string
+  ): Promise<void | ApiResponse<ThemeInstallAsset>> {
     return this.adapter
       .put<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets/${id}`, {
         id,
@@ -279,11 +294,11 @@ export class Client {
         case 401:
           throw new AuthenticationError(error.body);
         case 404:
-          if(['deleteTheme', 'getTheme'].includes(operation)) {
+          if (['deleteTheme', 'getTheme'].includes(operation)) {
             throw new ThemeNotFoundError(error.body);
           }
 
-          if(['deleteThemeAsset', 'getThemeAsset', 'updateThemeAsset'].includes(operation)) {
+          if (['deleteThemeAsset', 'getThemeAsset', 'updateThemeAsset'].includes(operation)) {
             throw new AssetNotFoundError(error.body);
           }
 
@@ -298,7 +313,7 @@ export class Client {
           }
       }
     }
-    
+
     throw new UnknownError(error.body?.data?.message);
   }
 }

@@ -1,5 +1,5 @@
 {
-  "include": ["vite.config.ts", "src/**/*", "package.json"],
+  "include": ["vite.config.ts", "src/**/*"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "module": "ESNext",

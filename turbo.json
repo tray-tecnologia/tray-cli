@@ -11,6 +11,7 @@
     },
     "build": {
       "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
       "env": ["BRANCH", "BASE_URL", "VITE_*", "MODE", "DEV"]
     },
     "dev": {

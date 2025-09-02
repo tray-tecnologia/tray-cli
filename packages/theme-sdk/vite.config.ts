@@ -24,15 +24,12 @@ export default defineConfig({
     lib: {
       name: '@tray-tecnologia/theme-sdk',
       formats: ['es'],
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+      },
     },
     rollupOptions: {
-      external: [
-        'node:fs',
-        'node:fs/promises',
-        'node:os',
-        'node:path',
-      ],
+      external: ['node:fs', 'node:fs/promises', 'node:os', 'node:path'],
     },
   },
 });

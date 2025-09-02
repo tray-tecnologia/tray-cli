@@ -1,6 +1,5 @@
 {
-  "name": "cli",
-  "license": "GPL-3.0-only",
+  "private": true,
   "scripts": {
     "lint": "turbo run lint",
     "type:check": "turbo run type:check",

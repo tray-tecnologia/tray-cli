@@ -1,12 +1,13 @@
 {
   "name": "@tray-tecnologia/cli",
-  "version": "2.0.0",
+  "version": "2.0.0-alpha.1",
   "type": "module",
   "description": "CLI designed to help developers create great themes for Tray E-commerce.",
   "license": "GPL-3.0-only",
   "author": "Tray Plataforma de E-commerce",
   "keywords": [
     "opencode",
+    "studio",
     "tray",
     "cli"
   ],
@@ -20,6 +21,7 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^7.6.0",
+    "@tray-tecnologia/theme-sdk": "*",
     "axios-retry": "^4.5.0",
     "chalk": "^5.4.1",
     "chokidar": "^4.0.3",
@@ -30,6 +32,7 @@
     "slash": "^5.1.0"
   },
   "devDependencies": {
+    "@tray-tecnologia/config-eslint": "*",
     "@tsconfig/node22": "^22.0.0",
     "@types/glob": "^7.2.0",
     "@types/node": "^22.15.29",
@@ -39,14 +42,6 @@
     "vite-node": "^3.2.4",
     "vite-plugin-dts": "^4.5.4"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "bin": {
-    "tray": "dist/bin/cli.js"
-  },
-  "files": [
-    "dist/**/*"
-  ],
   "imports": {
     "#cli/*": [
       "./src/*",
@@ -54,5 +49,17 @@
       "./src/*/*.ts",
       "./src/*/index.ts"
     ]
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "./dist"
+  ],
+  "bin": {
+    "tray": "./dist/bin/cli.js"
   }
 }

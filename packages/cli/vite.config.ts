@@ -24,17 +24,12 @@ export default defineConfig({
     lib: {
       name: '@tray-tecnologia/cli',
       formats: ['es'],
-      entry: resolve(__dirname, 'src/index.ts'),
-    },
-    rollupOptions: {
-      input: {
+      entry: {
         index: resolve(__dirname, 'src/index.ts'),
         'bin/cli': resolve(__dirname, 'src/bin.ts'),
       },
-      output: {
-        format: 'es',
-        entryFileNames: '[name].js',
-      },
+    },
+    rollupOptions: {
       external: [
         'node:async_hooks',
         'node:buffer',
@@ -52,6 +47,7 @@ export default defineConfig({
         'node:tty',
         'node:url',
         'node:util',
+        'node:crypto',
         'buffer',
         'child_process',
         'crypto',
