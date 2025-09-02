@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["vite.config.ts", "src/dev.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "tsBuildInfoFile": "tsconfig.build.tsbuildinfo",
+    "baseUrl": ".",
+    "outDir": "./dist/types",
+    "declarationMap": true
+  }
+}

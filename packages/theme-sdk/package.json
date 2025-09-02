@@ -1,0 +1,54 @@
+{
+  "name": "@tray-tecnologia/theme-sdk",
+  "version": "2.0.0-alpha.1",
+  "type": "module",
+  "description": "Theme SDK to interact with Studio API",
+  "license": "GPL-3.0-only",
+  "author": "Tray Plataforma de E-commerce",
+  "keywords": [
+    "opencode",
+    "studio",
+    "tray",
+    "sdk"
+  ],
+  "scripts": {
+    "dev": "vite-node src/dev.ts",
+    "lint": "eslint --cache",
+    "type:check": "tsc --build --force",
+    "build": "vite build",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "axios-retry": "^4.5.0",
+    "file-type": "^21.0.0"
+  },
+  "devDependencies": {
+    "@tray-tecnologia/config-eslint": "*",
+    "@tsconfig/node22": "^22.0.0",
+    "@types/lodash.camelcase": "^4.3.9",
+    "@types/node": "^22.15.29",
+    "eslint": "^9.30.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.2",
+    "vite-node": "^3.2.4",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "imports": {
+    "#theme-sdk/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/*.ts",
+      "./src/*/index.ts"
+    ]
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "./dist"
+  ]
+}
