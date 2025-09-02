@@ -1,6 +1,12 @@
 <h1>CLI</h1>
 Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar desenvolvedores a criarem ótimos temas para Tray.
 
+> [!WARNING]
+> Essa é uma versão de pré lançamento e pode conter bugs.
+
+> [!NOTE]
+> Essa versão funciona somente com a nova versão do opencode.
+
 ### Índice
 
 -   [Instalação](#instalação)
@@ -27,10 +33,10 @@ Para usar esse programa basta instalar com os comandos abaixo. Recomendados faze
 
 ```sh
 # Instala globalmente no sistema (Recomendado)
-npm install @tray-tecnologia/tray-cli --global
+npm install @tray-tecnologia/cli --global
 
 # Instala na pasta local
-npm install @tray-tecnologia/tray-cli
+npm install @tray-tecnologia/cli
 ```
 
 Se desejar usar localmente, todos os comando abaixo precisaram ter acrescido `npx` antes para que ele seja executado corretamente.
@@ -91,10 +97,10 @@ O Tray Cli também expõe uma API para que você possa usar integrar os commando
 
 Todos os métodos dessa API retornam uma `Promise`. Você deverá observá-la para detectar quando ela foi resolvida ou rejeitada. Como algumas operações demoram a serem executadas, recomendamos sempre executá-las de modo assíncrono.
 
-Veja o exemplo abaixo de um uso simples para gerar a configuração do tema
+Veja o exemplo abaixo de um uso simples para gerar a configuração do tema.
 
 ```js
-const Tray = require('@tray-tecnologia/tray-cli').default;
+import Tray from '@tray-tecnologia/cli';
 
 const api = new Tray({
     token: 'SEU-TOKEN-AQUI',
@@ -106,6 +112,8 @@ api.configure()
     .then((success) => console.log(success))
     .catch((error) => console.error(error));
 ```
+
+Esse pacote é ESM (ECMAScript Modules). CommonJS não é suportado. Se desejar usar esse pacote atualize seu código para usar ESM.
 
 ## Erros
 

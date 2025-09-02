@@ -2,6 +2,12 @@
 
 Kit de desenvolvimento feito para interagir com as APIs do Opencode da Tray, facilitando as atualizações e suporte a novas versões. Criado utilizando NodeJs e Typescript.
 
+> [!WARNING]
+> Essa é uma versão de pré lançamento e pode conter bugs.
+
+> [!NOTE]
+> Essa versão funciona somente com a nova versão do opencode.
+
 ## Índice
 
 -   [Instalação](#instalação)
@@ -19,8 +25,10 @@ Kit de desenvolvimento feito para interagir com as APIs do Opencode da Tray, fac
 Rode o comando abaixo para fazer a instalação desse pacote.
 
 ```shell
-npm install @tray-tecnologia/opencode-sdk
+npm install @tray-tecnologia/theme-sdk
 ```
+
+Esse pacote é ESM (ECMAScript Modules). CommonJS não é suportado. Se desejar usar esse pacote atualize seu código para usar ESM.
 
 ## Estrutura dos temas
 
@@ -48,7 +56,7 @@ Todos os métodos disponíveis no SDK devolvem Promises. Ao serem resolvidas ela
 Abaixo um exemplo simples de uso do SDK.
 
 ```js
-const Sdk = require('@tray-tecnologia/opencode-sdk').default;
+import Sdk from '@tray-tecnologia/theme-sdk';
 
 const client = new Sdk({
     token: 'YOUR-TOKEN-HERE',
@@ -134,7 +142,7 @@ type SendAsset = {
 
 ## Erros
 
-O Opencode SDK pode retornar vários erros que indicam problemas diferentes durante a execução do programa. Verifique cada um deles abaixo.
+O Theme SDK pode retornar vários erros que indicam problemas diferentes durante a execução do programa. Verifique cada um deles abaixo.
 
 #### AuthenticationError (SDK::0001)
 
