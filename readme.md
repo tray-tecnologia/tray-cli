@@ -5,6 +5,9 @@
 
 Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar desenvolvedores a criarem ótimos temas para Tray.
 
+> [!WARNING] 
+> Você está visualizando uma versão legada. Utilize somente caso precisar acessar o Opencode antigo.
+
 ### Índice
 
 -   [Instalação](#instalação)
