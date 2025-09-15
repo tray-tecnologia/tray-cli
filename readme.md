@@ -16,22 +16,23 @@
 
 O repositório `tray-tecnologia/tray-cli` é um monorepo composto por pacotes NPM de modo a interagir com as APIs da Tray para a gestão dos temas.
 
-```
-tray-cli/
-├── config-eslint   # Configurações do eslint compartilhadas entre os outros pacotes
-├── sdk             # SDK que interage diretamente com a API da Tray
-└── cli             # Interface de linha de comando para gerenciar os temas
-```
+| Pacote        | Descrição                                               | Link                                      |
+| ------------- | ------------------------------------------------------- | ----------------------------------------- |
+| config-eslint | Configurações do eslint compartilhadas entre os pacotes | [Ver](./packages/config-eslint/readme.md) |
+| sdk           | SDK que interage diretamente com a API da Tray          | [Ver](./packages/theme-sdk/readme.md)     |
+| cli           | Interface de linha de comando para gerenciar os temas   | [Ver](./packages/cli/readme.md)           |
 
-## Instalação
+## Instalação para uso
+
+Para utilizar o Tray CLI para desenvolvimento para a plataforma Tray, verifique cada projeto na pasta [packages/cli](./packages/cli).
+
+## Instalação para Desenvolvimento
 
 Para instalar o Tray CLI para desenvolvimento do pacote use os seguintes comandos:
 
 ```sh
 npm install && npm run build
 ```
-
-Para utilizar o Tray CLI para desenvolvimento para a plataforma Tray, verifique cada projeto na pasta `packages`;
 
 ## Contribuições
 

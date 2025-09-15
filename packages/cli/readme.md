@@ -41,6 +41,18 @@ npm install @tray-tecnologia/cli
 
 Se desejar usar localmente, todos os comando abaixo precisaram ter acrescido `npx` antes para que ele seja executado corretamente.
 
+## Migração
+
+Apesar da nova versão ser muito similar com a anterior, alguns pontos importantes precisam de atenção:
+
+- Nessa versão o nome do pacote foi renomeado de `@tray-tecnologia/tray-cli` para `@tray-tecnologia/cli`;
+- Agora é necessário o Node 22 ou mais recente para rodar o projeto;
+- O binário continua com o mesmo nome `tray`;
+- O arquivo de configurações agora é armazenado em `.json`;
+- `key` e `password` da versão antiga não funcionam nessa versão;
+
+Caso rode o comando acima para instalar a nova versão e ainda seja apresentado com a versão antiga, recomendamos desinstalar todos os pacotes referente ao Tray CLI e reinstala-los novamente. Caso o problema persista, utilize o NVM [[Linux/Mac](https://github.com/nvm-sh/nvm)] [[Windows](https://github.com/coreybutler/nvm-windows)] para instalar o Node.
+
 ## Linha de comando
 
 Os comandos abaixo estão disponíveis no programa. Parâmetros obrigatórios são indicados entre sinais de menor `<` e maior `>` e parâmetros opcionais entre colchetes `[]`. Parâmetros opcionais são independentes de ordem, ou seja, podem ser passados no início ou no final do comando.
@@ -51,7 +63,7 @@ Mostra uma listagem de todos os comando disponíveis, bem como uma descrição s
 
 ### tray configure [options] [token] [theme_id]
 
-Cria o arquivo de configuração. Caso não passe os parâmetros acima o programa irá solicitá-los interativamente. A única opção disponível para esse comando é `--debug`. Isso fará com que arquivos de log sejam gerados na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa.
+Cria o arquivo de configuração. Caso não passe os parâmetros acima o programa irá solicitá-los interativamente. A única opção disponível para esse comando é `--debug`. Isso fará com que arquivos de log sejam gerados na pasta raiz onde o comando é executado. Esses arquivos começam com `.` e são ignorados pelo programa. Caso deseja passar os parâmetros no comando, o parâmetro `token` deve vir entre aspas `""`.
 
 ### tray list
 
