@@ -14,9 +14,6 @@ export default defineConfig({
           content,
         };
       },
-      // afterBuild: () => {
-      //   setTimeout(() => process.exit(0), 300);
-      // },
     }),
     setBinaryPermission(),
   ],
