@@ -37,7 +37,7 @@ export default function remove() {
           const loader = ora(`Deleting files...`).start();
 
           const response = await tray.remove(globbed);
-          
+
           if (response.fails.length) {
             const errorCount = response.fails.length;
             const errors = response.fails
@@ -49,9 +49,7 @@ export default function remove() {
                 `Unable to delete files correctly due to errors. Files affected listed bellow:`
               );
             } else {
-              loader.warn(
-                `Files deleted with ${errorCount} errors. Files affected listed bellow:`
-              );
+              loader.warn(`Files deleted with ${errorCount} errors. Files affected listed bellow:`);
             }
 
             console.log(errors);
@@ -59,7 +57,9 @@ export default function remove() {
             loader.succeed(`Files deleted.`);
           }
         } catch (error) {
-          ora().start().fail((error as Error).toString());
+          ora()
+            .start()
+            .fail((error as Error).toString());
         }
       } else {
         ora().fail('Operation aborted by user');

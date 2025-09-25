@@ -1,6 +1,6 @@
 {
   "name": "@tray-tecnologia/cli",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "type": "module",
   "description": "CLI designed to help developers create great themes for Tray E-commerce.",
   "license": "GPL-3.0-only",
@@ -16,7 +16,7 @@
     "lint": "eslint --cache",
     "type:check": "tsc --build --force",
     "build": "vite build",
-    "postbuild": "chmod +x dist/bin/cli.js",
+    "watch": "vite build --watch",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
