@@ -16,7 +16,7 @@
     "lint": "eslint --cache",
     "type:check": "tsc --build --force",
     "build": "vite build",
-    "postbuild": "chmod +x dist/bin/cli.js",
+    "watch": "vite build --watch",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

@@ -15,6 +15,9 @@ export default tseslint.config(
   {
     languageOptions: {
       globals: globals.browser,
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
   eslint.configs.recommended,
@@ -108,10 +111,6 @@ export default tseslint.config(
       ],
       'no-restricted-syntax': [
         'error',
-        {
-          selector: 'ExportDefaultDeclaration',
-          message: 'Prefer named exports',
-        }, // Block default exports
         {
           selector: 'ImportDeclaration[specifiers.length = 0]',
           message: 'Empty imports are not allowed',

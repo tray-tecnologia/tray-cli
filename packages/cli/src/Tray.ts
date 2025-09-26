@@ -253,15 +253,20 @@ export class Tray {
    * @return {Promise} Returns RemoveCommandResponse object if promises resolves, CliError or ApiError otherwise.
    */
   async remove(files: string[]): Promise<RemoveCommandResponse> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const errors: any[] = [];
 
-    const allFiles = await this.api.getThemeAssets();
+    const themeFiles = await this.api.getThemeAssets();
 
-    if (!allFiles?.data) {
+    if (!themeFiles?.data) {
       throw new ThemeFilesNotFoundError();
     }
 
-    const filesToRemove = allFiles.data.filter((file) => files.includes(file.path));
+    const filesToRemove = themeFiles.data.filter((file) => {
+      const normalizedPath = file.path.startsWith('/') ? file.path.substring(1) : file.path;
+
+      return files.includes(normalizedPath);
+    });
 
     const promises = filesToRemove.map((file) =>
       this.api.deleteThemeAsset(file.id).catch((error) => errors.push({ file, error }))
