@@ -7,6 +7,7 @@ export * from './AssetNotFoundError';
 export * from './AuthenticationError';
 export * from './FileExtensionNotAllowedError';
 export * from './FolderNotAllowedError';
+export * from './InvalidFilenameError';
 export * from './NotFoundError';
 export * from './ServerError';
 export * from './ThemeNotFoundError';

@@ -211,7 +211,7 @@ export class Tray {
         });
 
         if (existingFile) {
-          await this.api.updateThemeAsset(existingFile.id, contentBase64);
+          await this.api.updateThemeAsset(asset, existingFile.id, contentBase64);
         } else {
           await this.api.createThemeAsset(asset, contentBase64);
         }

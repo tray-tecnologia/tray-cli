@@ -255,26 +255,29 @@ export class Client {
    * @returns Promise ThemeInstallAsset.
    */
   async updateThemeAsset(
+    path: string,
     id: number,
     content: string
   ): Promise<void | ApiResponse<ThemeInstallAsset>> {
-    return this.adapter
-      .put<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets/${id}`, {
-        id,
-        content,
-      })
-      .then((response) => {
-        this.generateDebugFile({
-          type: 'Info',
-          operation: 'updateThemeAsset',
-          data: response,
-        });
+    return isFileAllowed(path).then(async () => {
+      return this.adapter
+        .put<ApiResponse<ThemeInstallAsset>>(`/theme-installs/${this.themeId}/assets/${id}`, {
+          id,
+          content,
+        })
+        .then((response) => {
+          this.generateDebugFile({
+            type: 'Info',
+            operation: 'updateThemeAsset',
+            data: response,
+          });
 
-        return response;
-      })
-      .catch((error) => {
-        this.handleErrors('updateThemeAsset', error);
-      });
+          return response;
+        })
+        .catch((error) => {
+          this.handleErrors('updateThemeAsset', error);
+        });
+    });
   }
 
   /**
