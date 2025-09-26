@@ -1,6 +1,6 @@
 {
   "name": "@tray-tecnologia/theme-sdk",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "type": "module",
   "description": "Theme SDK to interact with Studio API",
   "license": "GPL-3.0-only",

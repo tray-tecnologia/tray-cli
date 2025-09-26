@@ -49,7 +49,15 @@ function isExtensionValid(extension: string): Promise<boolean> {
  */
 function isFolderValid(directories: string): Promise<boolean> {
   const allowedFolders = ['configs', 'css', 'elements', 'img', 'js', 'layouts', 'pages'];
-  const rootFolder = directories.substring(1).split('/')[0];
+
+  if (!directories || directories === '') {
+    return Promise.resolve(true);
+  }
+
+  // Normalize directory separators BEFORE processing
+  const normalizedPath = directories.replace(/\\/g, '/');
+  const cleanPath = normalizedPath.startsWith('/') ? normalizedPath.substring(1) : normalizedPath;
+  const rootFolder = cleanPath.split('/')[0];
 
   return new Promise((resolve, reject) => {
     allowedFolders.includes(rootFolder)
@@ -66,7 +74,15 @@ function isFolderValid(directories: string): Promise<boolean> {
  */
 function isSubfoldersAllowed(directories: string): Promise<boolean> {
   const allowedSubFolders = ['css', 'elements', 'img', 'js'];
-  const folders = directories.substring(1).split('/');
+
+  if (!directories || directories === '') {
+    return Promise.resolve(true);
+  }
+
+  // Normalize directory separators BEFORE processing
+  const normalizedPath = directories.replace(/\\/g, '/');
+  const cleanPath = normalizedPath.startsWith('/') ? normalizedPath.substring(1) : normalizedPath;
+  const folders = cleanPath.split('/');
   const rootFolder = folders[0];
 
   return new Promise((resolve, reject) => {
