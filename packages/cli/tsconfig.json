@@ -1,5 +1,5 @@
 {
-  "include": ["vite.config.ts", "src/**/*"],
+  "include": ["vite.config.ts", "setBinaryPermission.ts", "src/**/*"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "module": "ESNext",

@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import setBinaryPermission from './setBinaryPermission';
 
 export default defineConfig({
   plugins: [
@@ -13,10 +14,8 @@ export default defineConfig({
           content,
         };
       },
-      afterBuild: () => {
-        setTimeout(() => process.exit(0), 300);
-      },
     }),
+    setBinaryPermission(),
   ],
   build: {
     target: 'node22',
