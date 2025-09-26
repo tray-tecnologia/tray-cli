@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosRetry from 'axios-retry';
+import axiosRetry, { isNetworkError, isRetryableError } from 'axios-retry';
 import { ResponseError, RequestError } from '#theme-sdk/errors';
 import type {
   AxiosError,
@@ -23,7 +23,10 @@ export class AxiosAdapter {
 
   private setupAxiosRetry() {
     axiosRetry(this.axios, {
-      retries: 30,
+      retries: 5,
+      retryCondition(error: AxiosError): boolean {
+        return isNetworkError(error) || isRetryableError(error);
+      },
     });
   }
 

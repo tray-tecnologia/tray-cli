@@ -1,10 +1,26 @@
 import { parse } from 'node:path';
 
-import { FileExtensionNotAllowedError, FolderNotAllowedError } from '#theme-sdk/errors';
+import {
+  FileExtensionNotAllowedError,
+  FolderNotAllowedError,
+  InvalidFilenameError,
+} from '#theme-sdk/errors';
 import { camelCase } from './camelCase';
 
 /**
- * Verify is extension is allowed.
+ * Verify if filename is allowed.
+ * @param {string} filename File name
+ * @return {promise} True if promises resolves, BaseError otherwise.
+ * @internal
+ */
+function isNameValid(filename: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    /^[A-Za-z0-9.-]+$/.test(filename) ? resolve(true) : reject(new InvalidFilenameError());
+  });
+}
+
+/**
+ * Verify if extension is allowed.
  * @param {string} extension File extension
  * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
@@ -36,14 +52,14 @@ function isExtensionValid(extension: string): Promise<boolean> {
   ];
 
   return new Promise((resolve, reject) => {
-    allowedExtensions.includes(extension)
+    allowedExtensions.includes(extension.toLowerCase())
       ? resolve(true)
       : reject(new FileExtensionNotAllowedError(allowedExtensions.join(', ')));
   });
 }
 
 /**
- * Verify folder is allowed.
+ * Verify if folder is allowed.
  * @param {string} directories Folders path
  * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
@@ -68,7 +84,7 @@ function isFolderValid(directories: string): Promise<boolean> {
 }
 
 /**
- * Verify path allow subfolders
+ * Verify if path allow subfolders
  * @param {string} directories Folders path
  * @return {promise} True if promises resolves, BaseError otherwise.
  * @internal
@@ -123,9 +139,10 @@ function isSubfoldersAllowed(directories: string): Promise<boolean> {
  * @return {promise} True if promises resolves, BaseError otherwise.
  */
 export function isFileAllowed(path: string): Promise<boolean> {
-  const { ext: extension, dir: directories } = parse(path);
+  const { name, ext: extension, dir: directories } = parse(path);
 
-  return isExtensionValid(extension)
+  return isNameValid(name)
+    .then(() => isExtensionValid(extension))
     .then(() => isFolderValid(directories))
     .then(() => isSubfoldersAllowed(directories));
 }
