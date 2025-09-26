@@ -1,6 +1,7 @@
 import { parse } from 'node:path';
 
 import { FileExtensionNotAllowedError, FolderNotAllowedError } from '#theme-sdk/errors';
+import { camelCase } from './camelCase';
 
 /**
  * Verify is extension is allowed.
@@ -9,7 +10,7 @@ import { FileExtensionNotAllowedError, FolderNotAllowedError } from '#theme-sdk/
  * @internal
  */
 function isExtensionValid(extension: string): Promise<boolean> {
-  const allowedEextensions = [
+  const allowedExtensions = [
     /* Fonts extensions */
     '.ttf',
     '.otf',
@@ -35,9 +36,9 @@ function isExtensionValid(extension: string): Promise<boolean> {
   ];
 
   return new Promise((resolve, reject) => {
-    allowedEextensions.includes(extension)
+    allowedExtensions.includes(extension)
       ? resolve(true)
-      : reject(new FileExtensionNotAllowedError(allowedEextensions.join(', ')));
+      : reject(new FileExtensionNotAllowedError(allowedExtensions.join(', ')));
   });
 }
 
@@ -54,7 +55,7 @@ function isFolderValid(directories: string): Promise<boolean> {
     return Promise.resolve(true);
   }
 
-  // Normalize directory separators BEFORE processing
+  // Normalize directory separators to support Windows and Unix
   const normalizedPath = directories.replace(/\\/g, '/');
   const cleanPath = normalizedPath.startsWith('/') ? normalizedPath.substring(1) : normalizedPath;
   const rootFolder = cleanPath.split('/')[0];
@@ -73,22 +74,45 @@ function isFolderValid(directories: string): Promise<boolean> {
  * @internal
  */
 function isSubfoldersAllowed(directories: string): Promise<boolean> {
-  const allowedSubFolders = ['css', 'elements', 'img', 'js'];
+  const allowedSubFolders = ['pages', 'elements', 'css', 'img', 'js'];
 
   if (!directories || directories === '') {
     return Promise.resolve(true);
   }
 
-  // Normalize directory separators BEFORE processing
+  // Normalize directory separators to support Windows and Unix
   const normalizedPath = directories.replace(/\\/g, '/');
   const cleanPath = normalizedPath.startsWith('/') ? normalizedPath.substring(1) : normalizedPath;
   const folders = cleanPath.split('/');
   const rootFolder = folders[0];
 
   return new Promise((resolve, reject) => {
-    folders.length > 1 && !allowedSubFolders.includes(rootFolder)
-      ? reject(new FolderNotAllowedError(allowedSubFolders.join(', ')))
-      : resolve(true);
+    if (folders.length > 1 && !allowedSubFolders.includes(rootFolder)) {
+      return reject(
+        new FolderNotAllowedError(
+          `${camelCase(rootFolder)} does not allow subfolders. Allowed with subfolders: ${allowedSubFolders.join(', ')}`
+        )
+      );
+    }
+
+    if (rootFolder === 'pages') {
+      if (folders.length > 2 || (folders.length === 2 && folders[1] !== 'lp')) {
+        return reject(
+          new FolderNotAllowedError('Pages only allows the lp subfolder with no additional levels')
+        );
+      }
+    }
+
+    if (rootFolder === 'elements') {
+      if (folders.length > 2 || (folders.length === 2 && folders[1] !== 'snippets')) {
+        return reject(
+          new FolderNotAllowedError(
+            'Elements only allows the snippets subfolder with no additional levels'
+          )
+        );
+      }
+    }
+    resolve(true);
   });
 }
 
@@ -102,6 +126,6 @@ export function isFileAllowed(path: string): Promise<boolean> {
   const { ext: extension, dir: directories } = parse(path);
 
   return isExtensionValid(extension)
-    .then((data) => isFolderValid(directories))
-    .then((data) => isSubfoldersAllowed(directories));
+    .then(() => isFolderValid(directories))
+    .then(() => isSubfoldersAllowed(directories));
 }

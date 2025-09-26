@@ -4,9 +4,11 @@ import { LoadThemeAssetError } from '#cli/errors';
 import type { FileUpload } from '#cli/types';
 
 export function prepareToUpload(filename: string): Promise<FileUpload> {
-  // Normalize all path separators to forward slashes (compatible with Windows and Unix)
+  // Normalize directory separators to support Windows and Unix
   const normalizedFilename = filename.replace(/\\/g, '/');
-  const correctFilename = normalizedFilename.startsWith('/') ? normalizedFilename : `/${normalizedFilename}`;
+  const correctFilename = normalizedFilename.startsWith('/')
+    ? normalizedFilename
+    : `/${normalizedFilename}`;
 
   return fsp
     .readFile(`.${correctFilename}`)
