@@ -1,6 +1,8 @@
 import Sdk from '@tray-tecnologia/theme-sdk';
 import { globSync } from 'glob';
 import axios from 'axios';
+import pLimit from 'p-limit';
+import type { LimitFunction } from 'p-limit';
 
 import {
   SaveConfigurationFileError,
@@ -27,6 +29,7 @@ export class Tray {
   previewUrl?: string;
   readonly debug: boolean;
   readonly api: Sdk;
+  readonly limit: LimitFunction;
 
   /**
    * Create new Tray instance
@@ -37,6 +40,7 @@ export class Tray {
     this.themeId = themeId;
     this.previewUrl = previewUrl;
     this.debug = debug;
+    this.limit = pLimit(100);
 
     this.api = new Sdk({
       token: this.token,
@@ -134,17 +138,19 @@ export class Tray {
 
     // Download paralelo de arquivos públicos
     const publicPromises = publicAssets.map(async (asset) => {
-      try {
-        const response = await axios.get(asset.uri as string, {
-          responseType: 'arraybuffer',
-          timeout: 30000,
-        });
+      return this.limit(async () => {
+        try {
+          const response = await axios.get(asset.uri as string, {
+            responseType: 'arraybuffer',
+            timeout: 120000,
+          });
 
-        const buffer = Buffer.from(response.data);
-        await saveThemeAssetFile(asset.path, buffer);
-      } catch (error) {
-        errors.push({ file: asset.path, error: new FileNotFoundError({ file: asset.path }) });
-      }
+          const buffer = Buffer.from(response.data);
+          await saveThemeAssetFile(asset.path, buffer);
+        } catch (error) {
+          errors.push({ file: asset.path, error: new FileNotFoundError({ file: asset.path }) });
+        }
+      });
     });
 
     // Download paralelo de arquivos dinâmicos
