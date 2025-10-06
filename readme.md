@@ -11,9 +11,6 @@
 
 ## Sobre esse repositório
 
-> [!WARNING]
-> Essa é uma versão de pré lançamento e pode conter bugs.
-
 O repositório `tray-tecnologia/tray-cli` é um monorepo composto por pacotes NPM de modo a interagir com as APIs da Tray para a gestão dos temas.
 
 | Pacote        | Descrição                                               | Link                                      |

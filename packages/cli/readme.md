@@ -1,11 +1,7 @@
-<h1>CLI</h1>
-Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar desenvolvedores a criarem ótimos temas para Tray.
+# CLI
 
-> [!WARNING]
-> Essa é uma versão de pré lançamento e pode conter bugs.
+Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar desenvolvedores a criarem ótimos temas para Tray. Essa versão funciona somente com o **Studio**.
 
-> [!NOTE]
-> Essa versão funciona somente com a nova versão do opencode.
 
 ### Índice
 
@@ -29,7 +25,7 @@ Interface de linha de comando desenvolvida em Node.js e TypeScript para ajudar d
 
 ## Instalação
 
-Para usar esse programa basta instalar com os comandos abaixo. Recomendados fazer a instalação global. No linux a instalação global necessita ser feita com administrador com o comando `sudo`.
+Para usar esse programa basta instalar com os comandos abaixo. Recomendados fazer a instalação global. No Linux a instalação global necessita ser feita com administrador com o comando `sudo`.
 
 ```sh
 # Instala globalmente no sistema (Recomendado)
@@ -52,6 +48,18 @@ Apesar da nova versão ser muito similar com a anterior, alguns pontos important
 - `key` e `password` da versão antiga não funcionam nessa versão;
 
 Caso rode o comando acima para instalar a nova versão e ainda seja apresentado com a versão antiga, recomendamos desinstalar todos os pacotes referente ao Tray CLI e reinstala-los novamente. Caso o problema persista, utilize o NVM [[Linux/Mac](https://github.com/nvm-sh/nvm)] [[Windows](https://github.com/coreybutler/nvm-windows)] para instalar o Node.
+
+## Linux vs Windows
+
+Todo o desenvolvimento do CLI foi feito exclusivamente no Linux. Testamos os comandos disponíveis no Windows, mas alguns podem não funcionar corretamente ou não ter a mesma eficiência se comparado com o Linux. Isso acontece devido a divergência entre como os sistemas operacionais lidam com os caminhos dos arquivos.
+
+O autocompletar de arquivos ao realizar comandos não é um recurso do CLI e sim do Shell usado no Linux em algumas demonstrações, ou do terminal do Windows. Esse item não funciona igual no **Linux** e **Windows** e não é coberto pelo CLI. É dever do usuário entender o sistema que está usando e como esse recurso funciona em cada um.
+
+No Linux, o CLI deve funcionar com qualquer terminal da sua distro. No Windows, recomendamos o uso junto ao WSL2 ou a um emulador de terminal Unix, como o mingw64 (disponível junto com a instalação do Git for Windows). 
+
+Nesse momento o MacOS não é suportado oficialmente!
+
+Caso achem problemas específicos de um sistema operacional, fiquem a vontade para [contribuir com o projeto](../../contributing.md) ou [abrir uma issue](https://github.com/tray-tecnologia/tray-cli/issues/new).
 
 ## Linha de comando
 
