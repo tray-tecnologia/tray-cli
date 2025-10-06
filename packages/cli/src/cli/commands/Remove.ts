@@ -7,6 +7,7 @@ import { EOL } from 'node:os';
 import { extname } from 'node:path';
 
 import { Tray } from '#cli/Tray';
+import { normalizedPath } from '#cli/utils/NormalizePath.ts';
 
 export default function remove() {
   program
@@ -26,7 +27,7 @@ export default function remove() {
 
           files.forEach((file) => {
             if (hasMagic(file) || extname(file)) {
-              globbed.push(...globSync(file, { nodir: true }));
+              globbed.push(...globSync(normalizedPath(file), { nodir: true }));
             }
           });
 

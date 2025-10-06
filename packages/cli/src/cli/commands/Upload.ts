@@ -7,6 +7,7 @@ import { extname } from 'node:path';
 
 import { Tray } from '#cli/Tray';
 import { FileNotFoundError } from '#cli/errors';
+import { normalizedPath } from '#cli/utils/NormalizePath.ts';
 
 /**
  * Upload theme files from store
@@ -34,7 +35,7 @@ export default function upload() {
 
             assets.forEach((asset) => {
               if (hasMagic(asset) || extname(asset)) {
-                globbed.push(...globSync(asset, { nodir: true }));
+                globbed.push(...globSync(normalizedPath(asset), { nodir: true }));
               }
             });
 
