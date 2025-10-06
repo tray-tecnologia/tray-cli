@@ -21,6 +21,7 @@ import { loadConfigurationFile } from './utils/LoadConfigurationFile';
 import { prepareToUpload } from './utils/PrepareToUpload';
 import { saveConfigurationFile } from './utils/SaveConfigurationFile';
 import { saveThemeAssetFile } from './utils/SaveThemeAssetFile';
+import { normalizedPath } from './utils/NormalizePath';
 import type { ThemeInstall, ThemeInstallAsset, GeneralResponse } from '@tray-tecnologia/theme-sdk';
 
 export class Tray {
@@ -268,10 +269,12 @@ export class Tray {
       throw new ThemeFilesNotFoundError();
     }
 
+    const normalizedFiles = files.map((file) => normalizedPath(file))
+
     const filesToRemove = themeFiles.data.filter((file) => {
       const normalizedPath = file.path.startsWith('/') ? file.path.substring(1) : file.path;
 
-      return files.includes(normalizedPath);
+      return normalizedFiles.includes(normalizedPath);
     });
 
     const promises = filesToRemove.map((file) =>

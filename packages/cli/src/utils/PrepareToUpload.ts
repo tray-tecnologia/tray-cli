@@ -2,10 +2,11 @@ import { promises as fsp } from 'node:fs';
 
 import { LoadThemeAssetError } from '#cli/errors';
 import type { FileUpload } from '#cli/types';
+import { normalizedPath } from './NormalizePath';
 
 export function prepareToUpload(filename: string): Promise<FileUpload> {
   // Normalize directory separators to support Windows and Unix
-  const normalizedFilename = filename.replace(/\\/g, '/');
+  const normalizedFilename = normalizedPath(filename);
   const correctFilename = normalizedFilename.startsWith('/')
     ? normalizedFilename
     : `/${normalizedFilename}`;
