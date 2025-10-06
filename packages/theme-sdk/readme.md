@@ -1,12 +1,6 @@
 # Theme SDK
 
-Kit de desenvolvimento feito para interagir com as APIs do Opencode da Tray, facilitando as atualizações e suporte a novas versões. Criado utilizando NodeJs e Typescript.
-
-> [!WARNING]
-> Essa é uma versão de pré lançamento e pode conter bugs.
-
-> [!NOTE]
-> Essa versão funciona somente com a nova versão do opencode.
+Kit de desenvolvimento feito para interagir com as APIs do Opencode da Tray, facilitando as atualizações e suporte a novas versões. Criado utilizando NodeJs e Typescript. Essa versão funciona somente com o **Studio**.
 
 ## Índice
 
@@ -38,16 +32,18 @@ Os temas precisam seguir uma estrutura bem determinada, caso contrário os arqui
 ├── configs
 ├── css
 ├── elements
-│   ├── snippets
+│   └── snippets
 ├── img
 ├── js
 ├── layouts
 ├── pages
+│   └── lp
 ```
 
-Somente as pastas `css`, `img`, `elements` e `js` suportam subpastas. Tentar criar pastas nas outras pastas irá gerar o erro [FolderNotAllowedError](#foldernotallowederror-sdk0009).
-
-Fique atento tambem aos formatos permitidos para os arquivos. Eles são: `.ttf`, `.otf`, `.eot`, `.woff`, `.woff2`, `.jpg`, `.jpeg`, `.gif`, `.png`, `.svg`, `.css`, `.scss`, `.html`, `.js`, `.json`
+Se atente também as seguintes regras:
+- Somente as pastas `css`, `img`, `elements` e `js` suportam subpastas livremente. Tentar criar pastas nas outras pastas irá gerar o erro [FolderNotAllowedError](#foldernotallowederror-sdk0009);
+- Somente os seguintes formatos são permitidos: `.ttf`, `.otf`, `.eot`, `.woff`, `.woff2`, `.jpg`, `.jpeg`, `.gif`, `.png`, `.svg`, `.css`, `.scss`, `.html`, `.js`, `.json`;
+- Os nome dos arquivos devem possuir somente letras, números, ponto `.` e traços `-`. Qualquer outro caractere irá resultar no erro [InvalidFilenameError](#invalidfilenameerror-sdk0010);
 
 ## Uso
 
@@ -82,7 +78,7 @@ Valida se os dados passados na criação do objeto estão corretos. Retorna obje
 
 #### .getThemes(): Promise\<ApiListThemesResponse\>
 
-Obtem a lista de todos os temas disponíveis na loja. Retorna objeto `ApiListThemesResponse` se promise for resolvida, ou uma instância de `ApiError` caso contrário.
+Obtém a lista de todos os temas disponíveis na loja. Retorna objeto `ApiListThemesResponse` se promise for resolvida, ou uma instância de `ApiError` caso contrário.
 
 #### .createTheme(name: string, base: string = 'default'): Promise\<ApiCreateThemeResponse\>
 
@@ -98,7 +94,7 @@ Lista todos os arquivos do tema configurado. Retorna objeto `ApiAssetsResponse` 
 
 #### .getAsset(asset: string): Promise\<ApiAssetContentResponse\>
 
-Obtem o conteúdo do arquivo solicitado. Retorna objeto `ApiAssetContentResponse` se a promise for resolvida, ou uma instância de `ApiError` caso contrário.
+Obtém o conteúdo do arquivo solicitado. Retorna objeto `ApiAssetContentResponse` se a promise for resolvida, ou uma instância de `ApiError` caso contrário.
 
 #### .sendAsset({ asset, data, isBinary }: SendAsset): Promise\<boolean\>
 
@@ -179,6 +175,10 @@ Retornado ao tentar enviar um arquivo com extensão não suportada.
 #### FolderNotAllowedError (SDK::0009)
 
 Retornado ao tentar enviar um arquivo fora das pastas padrões permitidas.
+
+#### InvalidFilenameError (SDK::0010)
+
+Retornado ao tentar enviar um arquivo com nome fora dos padrões permitidos.
 
 #### RequestError (SDK::9001)
 
