@@ -43,7 +43,7 @@ Os temas precisam seguir uma estrutura bem determinada, caso contrário os arqui
 Se atente também as seguintes regras:
 - Somente as pastas `css`, `img`, `elements` e `js` suportam subpastas livremente. Tentar criar pastas nas outras pastas irá gerar o erro [FolderNotAllowedError](#foldernotallowederror-sdk0009);
 - Somente os seguintes formatos são permitidos: `.ttf`, `.otf`, `.eot`, `.woff`, `.woff2`, `.jpg`, `.jpeg`, `.gif`, `.png`, `.svg`, `.css`, `.scss`, `.html`, `.js`, `.json`;
-- Os nome dos arquivos devem possuir somente letras, números, ponto `.` e traços `-`. Qualquer outro caractere irá resultar no erro [InvalidFilenameError](#invalidfilenameerror-sdk0010);
+- Os nome dos arquivos devem possuir somente letras, números, ponto `.`, underline `_` e traços `-`. Qualquer outro caractere irá resultar no erro [InvalidFilenameError](#invalidfilenameerror-sdk0010);
 
 ## Uso
 
