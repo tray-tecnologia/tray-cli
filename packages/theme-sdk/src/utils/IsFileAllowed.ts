@@ -15,7 +15,7 @@ import { camelCase } from './camelCase';
  */
 function isNameValid(filename: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    /^[A-Za-z0-9.-]+$/.test(filename) ? resolve(true) : reject(new InvalidFilenameError());
+    /^[A-Za-z0-9._-]+$/.test(filename) ? resolve(true) : reject(new InvalidFilenameError());
   });
 }
 
