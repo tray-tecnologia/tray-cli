@@ -9,6 +9,7 @@ import {
   ParameterNotDefinedError,
   ThemeFilesNotFoundError,
   FileNotFoundError,
+  ThemeBlockedError,
 } from '#cli/errors';
 import type {
   ConfigurationFile,
@@ -65,11 +66,15 @@ export class Tray {
    * @return {Promise} Return string if promise resolves, ApiError or CliError otherwise
    */
   async configure(): Promise<string> {
-    return await this.api.getTheme().then((data) => {
+    return await this.api.getTheme().then((response) => {
+      if (response?.data?.original_theme_id === 1897) {
+        throw new ThemeBlockedError();
+      }
+
       const fileData: ConfigurationFile = {
         token: this.token,
         themeId: this.themeId,
-        previewUrl: data?.data?.preview ?? '',
+        previewUrl: response?.data?.preview ?? '',
         debug: this.debug,
       };
 
@@ -269,7 +274,7 @@ export class Tray {
       throw new ThemeFilesNotFoundError();
     }
 
-    const normalizedFiles = files.map((file) => normalizedPath(file))
+    const normalizedFiles = files.map((file) => normalizedPath(file));
 
     const filesToRemove = themeFiles.data.filter((file) => {
       const normalizedPath = file.path.startsWith('/') ? file.path.substring(1) : file.path;

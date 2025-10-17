@@ -4,5 +4,6 @@ export * from './LoadThemeAssetError';
 export * from './ParameterNotDefinedError';
 export * from './SaveConfigurationFileError';
 export * from './SaveThemeAssetError';
+export * from './ThemeBlockedError';
 export * from './ThemeFilesNotFoundError';
 export * from './UnknownError';
