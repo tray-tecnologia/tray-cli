@@ -163,6 +163,10 @@ Retornado quando o programa não consegue carregar os dados do arquivo do tema a
 
 Retornado quando o programa não consegue listar automaticamente os arquivos a serem enviado para a loja.
 
+#### ThemeBlockedError (CLI::0006)
+
+Retornado quando o tema que deseja trabalhar está bloqueado.
+
 #### UnknownError (CLI::9999)
 
 Retornando quando um erro acontecer, mas que o programa não consegue identificar qual foi a causa.
