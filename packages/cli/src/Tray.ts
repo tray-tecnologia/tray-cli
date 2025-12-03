@@ -67,9 +67,6 @@ export class Tray {
    */
   async configure(): Promise<string> {
     return await this.api.getTheme().then((response) => {
-      if (response?.data?.original_theme_id === 1897) {
-        throw new ThemeBlockedError();
-      }
 
       const fileData: ConfigurationFile = {
         token: this.token,
