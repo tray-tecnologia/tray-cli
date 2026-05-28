@@ -1,5 +1,4 @@
 import eslint from '@eslint/js';
-import vitest from '@vitest/eslint-plugin';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -118,19 +117,4 @@ export default tseslint.config(
       ],
     },
   },
-  {
-    files: ['__tests__/**/*.{js,mjs,cjs,ts}'],
-    plugins: {
-      vitest,
-    },
-    name: 'cli/vitest',
-    rules: {
-      ...vitest.configs.recommended.rules,
-      'vitest/consistent-test-filename': 'error',
-      'vitest/consistent-test-it': ['error', { fn: 'test' }],
-      'vitest/valid-title': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/naming-convention': 'off',
-    },
-  }
 );
