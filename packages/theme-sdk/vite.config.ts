@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     dts({
       tsconfigPath: './tsconfig.build.json',
-      outDir: './dist/types',
+      outDirs: './dist/types',
       beforeWriteFile: (filePath: string, content: string) => {
         return {
           filePath: filePath.replace('dist/types/src', 'dist/types'),

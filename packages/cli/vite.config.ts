@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     dts({
       tsconfigPath: './tsconfig.build.json',
-      outDir: './dist/types',
+      outDirs: './dist/types',
       beforeWriteFile: (filePath: string, content: string) => {
         return {
           filePath: filePath.replace('dist/types/src', 'dist/types'),
@@ -29,37 +29,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: [
-        'node:async_hooks',
-        'node:buffer',
-        'node:child_process',
-        'node:events',
-        'node:fs',
-        'node:fs/promises',
-        'node:module',
-        'node:os',
-        'node:path',
-        'node:process',
-        'node:readline',
-        'node:stream',
-        'node:string_decoder',
-        'node:tty',
-        'node:url',
-        'node:util',
-        'node:crypto',
-        'buffer',
-        'child_process',
-        'crypto',
-        'events',
-        'fs',
-        'fs/promises',
-        'os',
-        'path',
-        'stream',
-        'string_decoder',
-        'tty',
-        'util',
-      ],
+      external: (id: string) => !id.startsWith('.') && !id.startsWith('/') && !id.startsWith('#'),
     },
   },
 });
