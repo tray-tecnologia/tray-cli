@@ -1,0 +1,64 @@
+name: Send dependabot Alert to Slack
+
+on:
+  dependabot_alert:
+    types: [created, reopened]
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ALERT_URL: ${{ github.event.dependabot_alert.html_url }}
+          PACKAGE: ${{ github.event.dependabot_alert.dependency.package.name }}
+          SEVERITY: ${{ github.event.dependabot_alert.security_advisory.severity }}
+          SUMMARY: ${{ github.event.dependabot_alert.security_advisory.summary }}
+          REPO: ${{ github.repository }}
+        run: |
+          JSON_PAYLOAD=$(cat <<EOF
+          {
+            "attachments": [
+              {
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "⚠️ *Novo Alerta do Dependabot no repositório* \`$REPO\`"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "fields": [
+                      { "type": "mrkdwn", "text": "*Pacote:*\n\`$PACKAGE\`" },
+                      { "type": "mrkdwn", "text": "*Severidade:*\n*${SEVERITY^^}*" }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*Vulnerabilidade:*\n$SUMMARY"
+                    }
+                  },
+                  {
+                    "type": "actions",
+                    "elements": [
+                      {
+                        "type": "button",
+                        "text": { "type": "plain_text", "text": "Ver Alerta no GitHub" },
+                        "url": "$ALERT_URL",
+                        "style": "danger"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+
+          curl -X POST -H 'Content-type: application/json' --data "$JSON_PAYLOAD" "$SLACK_WEBHOOK_URL"
