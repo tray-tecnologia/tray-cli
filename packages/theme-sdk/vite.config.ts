@@ -25,7 +25,7 @@ export default defineConfig({
       name: '@tray-tecnologia/theme-sdk',
       formats: ['es'],
       entry: {
-        index: resolve(__dirname, 'src/index.ts'),
+        index: resolve(import.meta.dirname, 'src/index.ts'),
       },
     },
     rollupOptions: {
