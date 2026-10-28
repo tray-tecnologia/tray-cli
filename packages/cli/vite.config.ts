@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import setBinaryPermission from './setBinaryPermission';
+import setBinaryPermission from './setBinaryPermission.ts';
 
 export default defineConfig({
   plugins: [
@@ -24,8 +24,8 @@ export default defineConfig({
       name: '@tray-tecnologia/cli',
       formats: ['es'],
       entry: {
-        index: resolve(__dirname, 'src/index.ts'),
-        'bin/cli': resolve(__dirname, 'src/bin.ts'),
+        index: resolve(import.meta.dirname, 'src/index.ts'),
+        'bin/cli': resolve(import.meta.dirname, 'src/bin.ts'),
       },
     },
     rollupOptions: {
